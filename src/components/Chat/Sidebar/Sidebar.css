@@ -1,0 +1,95 @@
+.sidebar-container {
+  width: 25%;
+  height: 100%;
+  border-right: 1px solid #eeeeee;
+}
+
+.row-1 {
+  display: flex;
+  padding: 20px 40px;
+  background-color: #f8f8f8;
+  justify-content: space-between;
+}
+
+.profile-photo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.btn-start-convo {
+  background-color: #f76e11;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 15px;
+  cursor: pointer;
+}
+
+.btn-start-convo:hover {
+  opacity: 0.7;
+}
+
+.plus-circle-icon {
+  margin-left: 10px;
+  height: 20px;
+  width: 20px;
+  color: #fff;
+}
+
+.row-2 {
+  display: flex;
+  padding: 5px 40px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+}
+
+.messages-title {
+  color: #f76e11;
+  font-size: 1.1rem;
+  margin-right: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.bookmark-icon {
+  height: 17px;
+  width: 17px;
+}
+
+.search-row {
+  margin: 5px 40px;
+  height: 35px;
+  display: flex;
+  background-color: #f7f7f7;
+  align-items: center;
+  border-radius: 7px;
+}
+
+.search-icon {
+  height: 15px;
+  width: 15px;
+  margin-left: 5px;
+}
+
+.search-input {
+  width: calc(100% - 15px);
+  height: 100%;
+  background-color: #f7f7f7;
+  border: none;
+  font-size: 0.9rem;
+  padding: 0 10px;
+}
+
+.search-input:focus {
+  border: none;
+}
