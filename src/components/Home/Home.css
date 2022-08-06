@@ -1,0 +1,84 @@
+.container {
+  height: 100vh;
+  display: flex;
+}
+
+.col {
+  width: 50%;
+}
+
+.col-1 {
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-bg {
+  height: 60%;
+}
+
+.quick-chat-heading {
+  font-size: 1.8rem;
+  color: #f76e11;
+  font-weight: 700;
+  font-family: Arial;
+}
+
+.col-2 {
+  background: #f76e11;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  flex-direction: column;
+}
+
+.welcome-heading {
+  font-size: 2rem;
+  margin-bottom: 70px;
+}
+
+.quick-chat-info {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-family: Arial;
+  margin-bottom: 40px;
+}
+
+.quick-chat-emphasis {
+  font-size: 1.8rem;
+  color: #2f2e41;
+  margin-right: 15px;
+}
+
+.quick-chat-features {
+  font-size: 1.1rem;
+  margin-bottom: 80px;
+  font-family: Arial;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.btn-start-now {
+  border: none;
+  height: 60px;
+  width: 50%;
+  font-size: 16px;
+  background: #2f2e41;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.btn-start-now:hover {
+  background: #fff;
+  color: #f76e11;
+}
