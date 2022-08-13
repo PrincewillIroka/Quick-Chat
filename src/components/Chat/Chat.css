@@ -2,3 +2,9 @@
   height: 100vh;
   display: flex;
 }
+
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
