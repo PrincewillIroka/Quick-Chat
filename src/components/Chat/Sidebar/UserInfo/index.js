@@ -1,15 +1,19 @@
 import React from "react";
 import "./UserInfo.css";
+import { generateInitials } from "../../../../utils";
 
-export default function UserInfo({ user, selectUser }) {
-  const generateInitials = () => {};
-
+export default function UserInfo({ user, selectedUser, selectUser }) {
   return (
-    <div className="user-info-wrapper" onClick={() => selectUser(user)}>
+    <div
+      className={`user-info-wrapper ${
+        selectedUser._id === user._id && "user-info-wrapper-selected"
+      }`}
+      onClick={() => selectUser(user)}
+    >
       {user?.photo ? (
         <img src={user.photo} className="user-info-photo" />
       ) : (
-        <span>{generateInitials()}</span>
+        <span className="user-info-initial">{generateInitials(user.name)}</span>
       )}
       <div className="user-info-col">
         <div className="user-info-row-1">
