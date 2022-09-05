@@ -1,14 +1,12 @@
 import React from "react";
 import "./UserInfo.css";
-import { generateInitials } from "../../../../utils";
+import { generateInitials, isSelectedUser } from "../../../../utils";
 
 export default function UserInfo({ user, selectedUser, selectUser }) {
-  const isSelectedUser = selectedUser._id === user._id;
-
   return (
     <div
       className={`user-info-wrapper ${
-        isSelectedUser && "user-info-wrapper-selected"
+        isSelectedUser(user, selectedUser) && "user-info-wrapper-selected"
       }`}
       onClick={() => selectUser(user)}
     >
@@ -17,7 +15,7 @@ export default function UserInfo({ user, selectedUser, selectUser }) {
       ) : (
         <span
           className={`user-info-initial ${
-            isSelectedUser && "user-info-initial-selected"
+            isSelectedUser(user, selectedUser) && "user-info-initial-selected"
           }`}
         >
           {generateInitials(user.name)}
