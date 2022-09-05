@@ -3,17 +3,25 @@ import "./UserInfo.css";
 import { generateInitials } from "../../../../utils";
 
 export default function UserInfo({ user, selectedUser, selectUser }) {
+  const isSelectedUser = selectedUser._id === user._id;
+
   return (
     <div
       className={`user-info-wrapper ${
-        selectedUser._id === user._id && "user-info-wrapper-selected"
+        isSelectedUser && "user-info-wrapper-selected"
       }`}
       onClick={() => selectUser(user)}
     >
       {user?.photo ? (
         <img src={user.photo} className="user-info-photo" />
       ) : (
-        <span className="user-info-initial">{generateInitials(user.name)}</span>
+        <span
+          className={`user-info-initial ${
+            isSelectedUser && "user-info-initial-selected"
+          }`}
+        >
+          {generateInitials(user.name)}
+        </span>
       )}
       <div className="user-info-col">
         <div className="user-info-row-1">

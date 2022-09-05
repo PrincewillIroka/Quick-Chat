@@ -11,12 +11,6 @@
   background-color: #f7f7f7;
 }
 
-.user-info-col {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .user-info-photo {
   height: 50px;
   width: 50px;
@@ -30,10 +24,19 @@
   width: 50px;
   border-radius: 50%;
   margin-right: 15px;
-  background-color: #f7f7f7;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.user-info-initial-selected {
+  background-color: #fff !important;
+}
+
+.user-info-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .user-info-row-1 {
