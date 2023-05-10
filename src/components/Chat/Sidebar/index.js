@@ -12,6 +12,7 @@ export default function Sidebar({ users, selectedUser, selectUser }) {
         <img
           className="profile-photo"
           src="https://media.istockphoto.com/photos/pleasant-young-indian-woman-freelancer-consult-client-via-video-call-picture-id1300972573?b=1&k=20&m=1300972573&s=170667a&w=0&h=xuAsEkMkoBbc5Nh-nButyq3DU297V_tnak-60VarrR0="
+          alt=""
         />
         <button className="btn-start-convo">
           <span>Start new conversation</span>

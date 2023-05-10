@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="container">
       <div className="col col-1">
-        <img src={BeginChatSvg} className="svg-bg" />
+        <img src={BeginChatSvg} className="svg-bg" alt=""/>
         <h1 className="quick-chat-heading">Quick Chat</h1>
       </div>
       <div className="col col-2">

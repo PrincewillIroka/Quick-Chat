@@ -11,7 +11,7 @@ export default function UserInfo({ user, selectedUser, selectUser }) {
       onClick={() => selectUser(user)}
     >
       {user?.photo ? (
-        <img src={user.photo} className="user-info-photo" />
+        <img src={user.photo} className="user-info-photo" alt="" />
       ) : (
         <span
           className={`user-info-initial ${

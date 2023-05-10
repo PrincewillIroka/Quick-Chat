@@ -8,14 +8,14 @@ import "./MainLayout.css";
 import { generateInitials } from "../../../utils";
 
 export default function MainLayout({ selectedUser }) {
-  const [messages, setMessages] = useState([{}, {}, {}]);
+  const [messages] = useState([{}, {}, {}]);
 
   return (
     <section className="mainlayout-container">
       <div className="top-section">
         <div className="row">
           {selectedUser?.photo ? (
-            <img src={selectedUser.photo} className="user-info-photo" />
+            <img src={selectedUser.photo} className="user-info-photo" alt=""/>
           ) : (
             <span className="user-info-initial">
               {generateInitials(selectedUser.name)}

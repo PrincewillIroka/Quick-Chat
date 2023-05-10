@@ -5,7 +5,7 @@ import "./Chat.css";
 
 export default function Chat() {
   const [selectedUser, setSelectedUser] = useState({});
-  const users = [
+  const users =  [
     {
       _id: "1",
       name: "Percy Jackson",
@@ -39,7 +39,7 @@ export default function Chat() {
 
   useEffect(() => {
     setSelectedUser(users[0]);
-  }, []);
+  }, [users]);
 
   return (
     <div className="chat-container">
