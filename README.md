@@ -1,5 +1,5 @@
 # Quick Chat
-An app that helps you start a quick chat with another user.
+An app that helps you start a quick chat with anyone instantly.
 You don't have to create an account. Just create a chat and send the link to others, they join your chat instantly.
 Chat history can be deleted by the creator.
 
