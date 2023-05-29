@@ -4,8 +4,16 @@ import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import UserInfo from "./UserInfo";
 import "./Sidebar.css";
+import { useStateValue } from "../../../store/stateProvider";
 
-export default function Sidebar({ users, selectedUser, selectUser }) {
+export default function Sidebar() {
+  const [state, dispatch] = useStateValue();
+  const { chats, selectedChat } = state;
+
+  const selectChat = (chat) => {
+    dispatch({ type: "toggleSelectedChat", payload: chat });
+  };
+
   return (
     <section className="sidebar-container">
       <div className="row-1">
@@ -31,11 +39,11 @@ export default function Sidebar({ users, selectedUser, selectUser }) {
         <input placeholder="Search here..." className="search-input" />
       </div>
       <div className="user-info-container">
-        {users.map((user) => (
+        {chats.map((user) => (
           <UserInfo
             user={user}
-            selectUser={(user) => selectUser(user)}
-            selectedUser={selectedUser}
+            selectChat={(user) => selectChat(user)}
+            selectedChat={selectedChat}
           />
         ))}
       </div>

@@ -6,23 +6,26 @@ import { RiSendPlaneFill } from "react-icons/ri";
 import Message from "./Message";
 import "./MainLayout.css";
 import { generateInitials } from "../../../utils";
+import { useStateValue } from "../../../store/stateProvider";
 
-export default function MainLayout({ selectedUser }) {
+export default function MainLayout() {
+  const [state,] = useStateValue();
+  const { selectedChat } = state;
   const [messages] = useState([{}, {}, {}]);
 
   return (
     <section className="mainlayout-container">
       <div className="top-section">
         <div className="row">
-          {selectedUser?.photo ? (
-            <img src={selectedUser.photo} className="user-info-photo" alt=""/>
+          {selectedChat?.photo ? (
+            <img src={selectedChat.photo} className="user-info-photo" alt="" />
           ) : (
             <span className="user-info-initial">
-              {generateInitials(selectedUser.name)}
+              {generateInitials(selectedChat.name)}
             </span>
           )}
           <div className="user-info-col-1">
-            <span className="user-info-name">{selectedUser.name}</span>
+            <span className="user-info-name">{selectedChat.name}</span>
             <span className="user-info-chat-participants">
               Abel, Genea, Vanessa, Monalisa ...+5
             </span>
