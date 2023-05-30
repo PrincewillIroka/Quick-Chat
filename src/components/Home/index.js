@@ -1,22 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 import "./Home.css";
 import BeginChatSvg from "../../assets/Begin-chat.svg";
 
-const APP_HOST = process.env.REACT_APP_HOST;
-
 export default function Home() {
   const navigate = useNavigate();
-  const bs_token = Cookies.get("bs_token");
-
-
-  const getResponse = async () => {
-    const response = await fetch(`${APP_HOST}/users/myChats?bs_token=${bs_token}`);
-
-    console.log(response);
-  };
 
   const handleNavigation = (route) => {
     navigate(route);

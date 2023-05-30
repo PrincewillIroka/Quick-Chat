@@ -1,15 +1,15 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { sockets } from "./services";
+import { socketHandler } from "./services";
 
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-sockets();
+socketHandler();
 
 const container = document.getElementById("root");
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container);
 root.render(<App tab="home" />);
 
 // If you want to start measuring performance in your app, pass a function

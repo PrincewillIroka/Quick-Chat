@@ -9,7 +9,7 @@ import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
 
 export default function MainLayout() {
-  const [state,] = useStateValue();
+  const [state] = useStateValue();
   const { selectedChat } = state;
   const [messages] = useState([{}, {}, {}]);
 
@@ -43,8 +43,8 @@ export default function MainLayout() {
         </div>
       </div>
       <div className="body-section">
-        {messages.map((message) => (
-          <Message message={message} />
+        {messages.map((message, index) => (
+          <Message message={message} key={index} />
         ))}
         <div className="type-message-section">
           <div className="message-input-container">

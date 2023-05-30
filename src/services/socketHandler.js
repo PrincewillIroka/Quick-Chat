@@ -9,7 +9,7 @@ export const socket = socketIOClient(appHost, {
   jsonp: false,
 });
 
-const sockets = () => {
+const socketHandler = () => {
   socket.connect();
 
   socket.on("connect", () => {
@@ -21,7 +21,7 @@ const sockets = () => {
       Cookies.set("bs_token", bs_token, { expires: 2147483647 });
     }
 
-    console.log({ bs_token });
+    // console.log({ bs_token });
 
     console.log("connected to server.", socket);
 
@@ -44,4 +44,4 @@ const sockets = () => {
   });
 };
 
-export { sockets };
+export { socketHandler };
