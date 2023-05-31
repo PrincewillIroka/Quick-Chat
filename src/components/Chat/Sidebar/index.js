@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
-import UserInfo from "./UserInfo";
+import ChatInfo from "./ChatInfo";
 import "./Sidebar.css";
 import { useStateValue } from "../../../store/stateProvider";
 import { createChat } from "../../../services/chatServices";
+import { getChats } from "../../../services/userServices";
 
 export default function Sidebar() {
   const [state, dispatch] = useStateValue();
   const { chats, selectedChat } = state;
+
+  useEffect(() => {
+    handleGetChats();
+  }, []);
+
+  const handleGetChats = async () => {
+    await getChats()
+      .then(async (response) => {
+        const chatResponse = response?.chats || [];
+        if (chatResponse) {
+          dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
+          dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chatResponse[0] });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const handleCreateChat = async () => {
     await createChat()
@@ -21,8 +40,8 @@ export default function Sidebar() {
       });
   };
 
-  const selectChat = (chat) => {
-    dispatch({ type: "toggleSelectedChat", payload: chat });
+  const handleSselectChat = (chat) => {
+    dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
   };
 
   return (
@@ -50,10 +69,10 @@ export default function Sidebar() {
         <input placeholder="Search here..." className="search-input" />
       </div>
       <div className="user-info-container">
-        {chats.map((user, index) => (
-          <UserInfo
-            user={user}
-            selectChat={(user) => selectChat(user)}
+        {chats.map((chat, index) => (
+          <ChatInfo
+            chat={chat}
+            selectChat={(chat) => handleSselectChat(chat)}
             selectedChat={selectedChat}
             key={index}
           />

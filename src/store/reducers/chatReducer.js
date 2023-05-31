@@ -1,15 +1,21 @@
 const chatReducer = (state, action) => {
   switch (action.type) {
-    case "createNew": {
+    case "CREATE_CHAT_SUCCESS": {
       return {
         ...state,
-        chats: action.payload,
+        chats: [...state, action.payload],
       };
     }
-    case "toggleSelectedChat": {
+    case "TOGGLE_SELECTED_CHAT": {
       return {
         ...state,
         selectedChat: action.payload,
+      };
+    }
+    case "GET_CHATS_SUCCESS": {
+      return {
+        ...state,
+        chats: action.payload,
       };
     }
     default:

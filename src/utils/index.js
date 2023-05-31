@@ -8,6 +8,6 @@ export const generateInitials = (name) => {
   return "";
 };
 
-export const isSelectedChat = (user, selectedChat) => {
-  return selectedChat?._id === user?._id;
+export const isSelectedChat = (chat, selectedChat) => {
+  return selectedChat?._id === chat?._id;
 };
