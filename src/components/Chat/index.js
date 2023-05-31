@@ -1,6 +1,7 @@
 import React from "react";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
+import ChatDetails from "./ChatDetails";
 import "./Chat.css";
 
 import { StateProvider } from "../../store/stateProvider";
@@ -12,6 +13,7 @@ export default function Chat() {
       <div className="chat-container">
         <ChatList />
         <MainLayout />
+        <ChatDetails />
       </div>
     </StateProvider>
   );
