@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Sidebar from "./Sidebar";
+import React from "react";
+import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
 import "./Chat.css";
 
@@ -10,7 +10,7 @@ export default function Chat() {
   return (
     <StateProvider {...chatStore}>
       <div className="chat-container">
-        <Sidebar />
+        <ChatList />
         <MainLayout />
       </div>
     </StateProvider>
