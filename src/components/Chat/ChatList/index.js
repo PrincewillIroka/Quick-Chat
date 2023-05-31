@@ -3,12 +3,12 @@ import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import ChatInfo from "./ChatInfo";
-import "./Sidebar.css";
+import "./ChatList.css";
 import { useStateValue } from "../../../store/stateProvider";
 import { createChat } from "../../../services/chatServices";
 import { getChats } from "../../../services/userServices";
 
-export default function Sidebar() {
+export default function ChatList() {
   const [state, dispatch] = useStateValue();
   const { chats, selectedChat } = state;
 
