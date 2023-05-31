@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
@@ -9,9 +9,9 @@ import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
 
 export default function MainLayout() {
-  const [state] = useStateValue();
+  const [state, dispatch] = useStateValue();
   const { selectedChat } = state;
-  const [messages] = useState([{}, {}, {}]);
+  const { messages = [] } = selectedChat || {};
 
   return (
     <section className="mainlayout-container">
