@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { socketHandler } from "./services";
+import { socketHandler } from "./sockets";
 
 import "./index.css";
 import App from "./App";

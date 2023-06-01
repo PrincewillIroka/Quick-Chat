@@ -1,6 +1,7 @@
 import socketIOClient from "socket.io-client";
 import Cookies from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
+import chatSockets from "./chatSockets";
 
 const appHost = process.env.REACT_APP_HOST;
 
@@ -9,7 +10,7 @@ export const socket = socketIOClient(appHost, {
   jsonp: false,
 });
 
-const socketHandler = () => {
+export const socketHandler = () => {
   socket.connect();
 
   socket.on("connect", () => {
@@ -41,7 +42,7 @@ const socketHandler = () => {
     //       }
     //     });
     // });
+
+    chatSockets(socket);
   });
 };
-
-export { socketHandler };
