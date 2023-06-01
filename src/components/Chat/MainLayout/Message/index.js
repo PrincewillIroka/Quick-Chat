@@ -1,9 +1,12 @@
 import React from "react";
 import "./Message.css";
+import { generateInitials } from "../../../../utils";
 
 export default function Message({ message }) {
+  const { sender = {}, content = "" } = message;
+
   const isSameSender = (message) => {
-    return message.sender._id === "631535b15cd9aab7ef9a37a3"; //Todo: remove this
+    return sender?._id === "631535b15cd9aab7ef9a37a3"; //Todo: remove this
   };
 
   return (
@@ -12,16 +15,19 @@ export default function Message({ message }) {
         isSameSender(message) && "message-container-align-right"
       }`}
     >
-      <img
-        className="message-sender-photo"
-        src="https://media.istockphoto.com/photos/pleasant-young-indian-woman-freelancer-consult-client-via-video-call-picture-id1300972573?b=1&k=20&m=1300972573&s=170667a&w=0&h=xuAsEkMkoBbc5Nh-nButyq3DU297V_tnak-60VarrR0="
-      />
+      {sender?.photo ? (
+        <img className="message-sender-photo" src={sender?.photo} />
+      ) : (
+        <span className="message-sender-photo message-sender-initial">
+          {generateInitials(sender?.name)}
+        </span>
+      )}
       <div className="message-details">
         <div className="message-info">
-          <span className="message-owner">{message.sender.name}</span>
+          <span className="message-owner">{sender?.name}</span>
           <span className="message-time">10:05 AM</span>
         </div>
-        <span className="message-original">{message.message}</span>
+        <span className="message-original">{content}</span>
       </div>
     </div>
   );

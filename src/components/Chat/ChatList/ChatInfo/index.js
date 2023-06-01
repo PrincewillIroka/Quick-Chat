@@ -3,7 +3,7 @@ import "./ChatInfo.css";
 import { generateInitials, isSelectedChat } from "../../../../utils";
 
 export default function ChatInfo({ chat, selectedChat, selectChat }) {
-  const participants = chat?.participants;
+  const participants = chat?.participants || [];
 
   return (
     <div
@@ -33,7 +33,10 @@ export default function ChatInfo({ chat, selectedChat, selectChat }) {
       )}
       <div className="chat-info-col">
         {participants.slice(0, 3).map((participant, index) => (
-          <span className="chat-info-name" key={index}>{participant.name}{index < participants.length - 1 && ", "}</span>
+          <span className="chat-info-name" key={index}>
+            {participant.name}
+            {index < participants.length - 1 && ", "}
+          </span>
         ))}
       </div>
     </div>
