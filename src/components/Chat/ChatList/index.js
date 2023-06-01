@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
@@ -7,28 +7,31 @@ import "./ChatList.css";
 import { useStateValue } from "../../../store/stateProvider";
 import { createChat } from "../../../services/chatServices";
 import { getChats } from "../../../services/userServices";
+import { socket } from "../../../sockets/socketHandler";
 
 export default function ChatList() {
   const [state, dispatch] = useStateValue();
   const { chats, selectedChat } = state;
 
-  useEffect(() => {
-    handleGetChats();
-  }, []);
-
-  const handleGetChats = async () => {
+  const handleGetChats = useCallback(async () => {
     await getChats()
       .then(async (response) => {
         const chatResponse = response?.chats || [];
         if (chatResponse) {
+          const firstChat = chatResponse[0];
           dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
-          dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chatResponse[0] });
+          dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
+          socket.emit("join", { chat_url: firstChat?.chat_url });
         }
       })
       .catch((err) => {
         console.error(err);
       });
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    handleGetChats();
+  }, [handleGetChats]);
 
   const handleCreateChat = async () => {
     await createChat()
@@ -40,8 +43,9 @@ export default function ChatList() {
       });
   };
 
-  const handleSselectChat = (chat) => {
+  const handleSelectChat = (chat) => {
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
+    socket.emit("join", { chat_url: chat?.chat_url });
   };
 
   return (
@@ -72,7 +76,7 @@ export default function ChatList() {
         {chats.map((chat, index) => (
           <ChatInfo
             chat={chat}
-            selectChat={(chat) => handleSselectChat(chat)}
+            selectChat={(chat) => handleSelectChat(chat)}
             selectedChat={selectedChat}
             key={index}
           />
