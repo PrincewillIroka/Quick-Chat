@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
@@ -7,11 +7,33 @@ import Message from "./Message";
 import "./MainLayout.css";
 import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
+import { socket } from "../../../sockets/socketHandler";
 
 export default function MainLayout() {
+  const [content, setContent] = useState("");
   const [state, dispatch] = useStateValue();
   const { selectedChat } = state;
   const { messages = [] } = selectedChat || {};
+
+  const handleTyping = (e) => {
+    e.preventDefault();
+    setContent(e.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (!content) return;
+    const { _id, chat_url } = selectedChat;
+    socket.emit(
+      "newMessageSent",
+      { content, chat_url, chat_id: _id },
+      (ack) => {
+        if (ack?.messageSent) {
+          setContent("");
+          dispatch({ type: "" });
+        }
+      }
+    );
+  };
 
   return (
     <section className="mainlayout-container">
@@ -48,10 +70,17 @@ export default function MainLayout() {
         ))}
         <div className="type-message-section">
           <div className="message-input-container">
-            <input placeholder="Type a message" className="input-field" />
+            <input
+              type="text"
+              placeholder="Type a message"
+              className="input-field"
+              onChange={handleTyping}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+              value={content}
+            />
             <span className="right-divider"></span>
           </div>
-          <div className="send-button-container">
+          <div className="send-button-container" onClick={handleSendMessage}>
             <RiSendPlaneFill className="send-icon" />
           </div>
         </div>

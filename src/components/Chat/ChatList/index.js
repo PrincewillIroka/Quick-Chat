@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
+
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
 import { useStateValue } from "../../../store/stateProvider";

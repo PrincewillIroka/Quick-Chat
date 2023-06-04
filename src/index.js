@@ -1,11 +1,13 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { socketHandler } from "./sockets";
-
-import "./index.css";
 import App from "./App";
+import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
+import { socketHandler } from "./sockets";
+import { authenticateUser } from "./services";
+
+authenticateUser();
 socketHandler();
 
 const container = document.getElementById("root");
