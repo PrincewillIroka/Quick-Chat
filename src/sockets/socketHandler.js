@@ -4,16 +4,15 @@ import chatSockets from "./chatSockets";
 const appHost = process.env.REACT_APP_HOST;
 
 export const socket = io(appHost, {
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   jsonp: false,
-  secure: true,
 });
 
 export const socketHandler = () => {
   socket.connect();
 
   socket.on("connect", () => {
-    console.log("connected to server.");
+    console.log("socket connection to server successful.");
 
     // socket.io.on("open", () => {
     //   socket.io.engine.transport.on("pollComplete", () => {
