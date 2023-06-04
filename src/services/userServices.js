@@ -4,7 +4,7 @@ const APP_HOST = process.env.REACT_APP_HOST;
 
 const getChats = () => {
   return new Promise((resolve, reject) => {
-    const url = `${APP_HOST}/users/getChats`;
+    const url = `${APP_HOST}/api/users/getChats`;
 
     fetch(url, { credentials: "include" })
       .then((response) => response.json())
@@ -19,7 +19,7 @@ const getChats = () => {
 const authenticateUser = () => {
   const bs_token = Cookies.get("bs_token");
   return new Promise((resolve, reject) => {
-    const url = `${APP_HOST}/users/authenticateUser`;
+    const url = `${APP_HOST}/api/users/authenticateUser`;
 
     fetch(url, {
       method: "POST",

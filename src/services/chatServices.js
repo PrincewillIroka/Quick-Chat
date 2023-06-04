@@ -6,7 +6,7 @@ const createChat = () => {
   const bs_token = Cookies.get("bs_token");
 
   return new Promise((resolve, reject) => {
-    const url = `${APP_HOST}/chats/create`;
+    const url = `${APP_HOST}/api/chats/create`;
 
     fetch(url, {
       method: "POST",
