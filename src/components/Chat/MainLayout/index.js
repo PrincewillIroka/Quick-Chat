@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
-import { RiSendPlaneFill } from "react-icons/ri";
+import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
+import { BiMicrophone } from "react-icons/bi";
 import Message from "./Message";
 import "./MainLayout.css";
 import { generateInitials } from "../../../utils";
@@ -38,7 +39,7 @@ export default function MainLayout() {
   };
 
   return (
-    <section className="mainlayout-container">
+    <section className="main-layout-container">
       <div className="top-section">
         <div className="row">
           {selectedChat.photo ? (
@@ -81,6 +82,10 @@ export default function MainLayout() {
               value={content}
             />
             <span className="right-divider"></span>
+            <div className="emoji-container">
+              <BiMicrophone className="microphone-icon" />
+              <RiAttachment2 className="attachment-icon" />
+            </div>
           </div>
           <div className="send-button-container" onClick={handleSendMessage}>
             <RiSendPlaneFill className="send-icon" />

@@ -1,7 +1,8 @@
-.mainlayout-container {
+.main-layout-container {
   width: 55%;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #eeeeee;
 }
 
 .top-section {
@@ -96,6 +97,7 @@
 }
 
 .message-input-container {
+  display: flex;
   width: 90%;
   border: 1px solid #ccc;
   height: 36px;
@@ -104,7 +106,7 @@
 }
 
 .input-field {
-  width: 80%;
+  width: 85%;
   height: 100%;
   border: none;
   outline: none;
@@ -113,7 +115,7 @@
 
 .right-divider {
   height: 100%;
-  border-right: 2px solid #ccc;
+  border-right: 1px solid #ccc;
 }
 
 .send-button-container {
@@ -124,10 +126,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+
+.emoji-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.microphone-icon {
+  margin-right: 15px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.attachment-icon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }
 
 .send-icon {
   height: 20px;
   width: 20px;
+  cursor: pointer;
   color: #f76e11;
 }
