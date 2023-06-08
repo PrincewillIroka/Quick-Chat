@@ -1,0 +1,17 @@
+.chat-details-container {
+  flex: 1;
+}
+
+.chat-details-header {
+  height: 12%;
+  display: flex;
+  background-color: #f8f8f8;
+  align-items: center;
+  padding-left: 40px;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.chat-details-body {
+  height: 100%;
+}
