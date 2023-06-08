@@ -42,11 +42,6 @@
   align-items: center;
 }
 
-.body-section {
-  flex: 1;
-  background-color: #fffdfd;
-}
-
 .user-info-col-1 {
   display: flex;
   flex-direction: column;
@@ -82,35 +77,40 @@
 }
 
 .body-section {
-  margin: 30px;
-  position: relative;
+  flex: 1;
+  background-color: #fffdfd;
+  padding: 30px 30px 100px 30px;
+  overflow-y: auto;
 }
 
 .type-message-section {
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  padding-top: 5px;
-  width: 100%;
+  width: 55%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #fff;
+  height: 55px;
 }
 
 .message-input-container {
   display: flex;
-  width: 90%;
+  flex: 1;
   border: 1px solid #ccc;
   height: 36px;
   border-radius: 20px;
-  padding: 3px 15px;
+  margin: 0 15px;
 }
 
 .input-field {
   width: 85%;
-  height: 100%;
   border: none;
   outline: none;
-  font-size: 15px;
+  font-size: 16px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 0 10px;
 }
 
 .right-divider {
@@ -127,6 +127,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-right: 15px;
 }
 
 .emoji-container {

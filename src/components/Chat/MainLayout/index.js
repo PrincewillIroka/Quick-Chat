@@ -71,25 +71,25 @@ export default function MainLayout() {
         {messages.map((message, index) => (
           <Message message={message} key={index} />
         ))}
-        <div className="type-message-section">
-          <div className="message-input-container">
-            <input
-              type="text"
-              placeholder="Type a message"
-              className="input-field"
-              onChange={handleTyping}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
-              value={content}
-            />
-            <span className="right-divider"></span>
-            <div className="emoji-container">
-              <BiMicrophone className="microphone-icon" />
-              <RiAttachment2 className="attachment-icon" />
-            </div>
+      </div>
+      <div className="type-message-section">
+        <div className="message-input-container">
+          <input
+            type="text"
+            placeholder="Type a message"
+            className="input-field"
+            onChange={handleTyping}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+            value={content}
+          />
+          <span className="right-divider"></span>
+          <div className="emoji-container">
+            <BiMicrophone className="microphone-icon" />
+            <RiAttachment2 className="attachment-icon" />
           </div>
-          <div className="send-button-container" onClick={handleSendMessage}>
-            <RiSendPlaneFill className="send-icon" />
-          </div>
+        </div>
+        <div className="send-button-container" onClick={handleSendMessage}>
+          <RiSendPlaneFill className="send-icon" />
         </div>
       </div>
     </section>
