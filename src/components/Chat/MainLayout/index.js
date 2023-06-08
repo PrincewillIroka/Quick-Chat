@@ -8,7 +8,7 @@ import { socket } from "../../../sockets/socketHandler";
 import TopSection from "./TopSection";
 
 export default function MainLayout() {
-  const [state, dispatch] = useStateValue();
+  const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const { selectedChat = {}, user = {} } = state;
   const { messages = [] } = selectedChat;

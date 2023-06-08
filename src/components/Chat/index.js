@@ -6,10 +6,9 @@ import "./Chat.css";
 
 import { useStateValue } from "../../store/stateProvider";
 import { authenticateUser } from "../../services";
-import { socketHandler } from "../../sockets";
 
 export default function Chat() {
-  const [state, dispatch] = useStateValue();
+  const { state, dispatch } = useStateValue();
 
   useEffect(() => {
     authenticateUser().then((response) => {
@@ -19,10 +18,6 @@ export default function Chat() {
       }
     });
   }, [dispatch]);
-
-  useEffect(() => {
-    socketHandler(state, dispatch);
-  }, [state, dispatch]);
 
   return (
     <div className="chat-container">

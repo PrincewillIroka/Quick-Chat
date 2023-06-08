@@ -4,7 +4,7 @@ import { generateInitials } from "../../../../utils";
 import { useStateValue } from "../../../../store/stateProvider";
 
 export default function Message({ message }) {
-  const [state] = useStateValue();
+  const { state } = useStateValue();
   const { user = {} } = state;
   const { sender = {}, content = "" } = message;
 
@@ -19,7 +19,11 @@ export default function Message({ message }) {
       }`}
     >
       {sender.photo ? (
-        <img className="message-sender-photo" src={sender?.photo} alt="Sender"/>
+        <img
+          className="message-sender-photo"
+          src={sender.photo}
+          alt="Sender"
+        />
       ) : (
         <span className="message-sender-photo message-sender-initial">
           {generateInitials(sender.name)}

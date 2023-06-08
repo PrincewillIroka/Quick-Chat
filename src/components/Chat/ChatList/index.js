@@ -12,7 +12,7 @@ import { socket } from "../../../sockets/socketHandler";
 import { generateInitials } from "../../../utils";
 
 export default function ChatList() {
-  const [state, dispatch] = useStateValue();
+  const { state, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
   const { chats = [], selectedChat = {}, user = {} } = state;
 
@@ -79,7 +79,7 @@ export default function ChatList() {
           <GoChevronDown />
         </div>
         <div className="centered-container">
-          <BsStar className="bookmark-icon" />
+          <BsStar className="bookmark-icon" title="Bookmarked Chats" />
         </div>
       </div>
       <div className="search-row">
