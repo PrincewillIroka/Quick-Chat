@@ -1,14 +1,11 @@
 import React, { useState } from "react";
-import { AiOutlineVideoCamera } from "react-icons/ai";
-import { TbPhoneCall } from "react-icons/tb";
-import { CgSearch, CgMore } from "react-icons/cg";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import Message from "./Message";
 import "./MainLayout.css";
-import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
+import TopSection from "./TopSection";
 
 export default function MainLayout() {
   const [state, dispatch] = useStateValue();
@@ -40,33 +37,7 @@ export default function MainLayout() {
 
   return (
     <section className="main-layout-container">
-      <div className="top-section">
-        <div className="row">
-          {selectedChat.photo ? (
-            <img src={selectedChat.photo} className="user-info-photo" alt="" />
-          ) : (
-            <span className="user-info-initial">
-              {generateInitials(selectedChat.name)}
-            </span>
-          )}
-          <div className="user-info-col-1">
-            <span className="user-info-name">{selectedChat.name}</span>
-            <span className="user-info-chat-participants">
-              Abel, Genea, Vanessa, Monalisa ...+5
-            </span>
-          </div>
-        </div>
-
-        <div className="icons-container">
-          <AiOutlineVideoCamera className="media-icon" />
-          <TbPhoneCall className="media-icon" />
-        </div>
-
-        <div className="icons-container">
-          <CgSearch className="control-icon" />
-          <CgMore className="control-icon" />
-        </div>
-      </div>
+      <TopSection selectedChat={selectedChat} />
       <div className="body-section">
         {messages.map((message, index) => (
           <Message message={message} key={index} />
