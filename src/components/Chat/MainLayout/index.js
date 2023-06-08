@@ -9,10 +9,10 @@ import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 
-export default function MainLayout({ user }) {
+export default function MainLayout() {
   const [state, dispatch] = useStateValue();
   const [content, setContent] = useState("");
-  const { selectedChat = {} } = state;
+  const { selectedChat = {}, user = {} } = state;
   const { messages = [] } = selectedChat;
 
   const handleTyping = (e) => {

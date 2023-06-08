@@ -1,7 +1,6 @@
 const chatSockets = (socket, state, dispatch) => {
-  socket.on("newMessageReceived", (arg) => {
-    let updatedChat = arg.updatedChat;
-    dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
+  socket.on("newMessageReceived", ({ updatedChat }) => {
+    if (updatedChat) dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
   });
 };
 
