@@ -20,6 +20,13 @@
   object-fit: cover;
 }
 
+.profile-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e1e0e0;
+}
+
 .btn-start-convo {
   background-color: #f76e11;
   color: #fff;

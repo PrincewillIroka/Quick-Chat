@@ -9,10 +9,11 @@ import { useStateValue } from "../../../store/stateProvider";
 import { createChat } from "../../../services/chatServices";
 import { getChats } from "../../../services/userServices";
 import { socket } from "../../../sockets/socketHandler";
+import { generateInitials } from "../../../utils";
 
 export default function ChatList() {
   const [state, dispatch] = useStateValue();
-  const { chats = [], selectedChat = {} } = state;
+  const { chats = [], selectedChat = {}, user = {} } = state;
 
   const handleGetChats = useCallback(async () => {
     await getChats()
@@ -52,11 +53,13 @@ export default function ChatList() {
   return (
     <section className="sidebar-container">
       <div className="row-1">
-        <img
-          className="profile-photo"
-          src="https://media.istockphoto.com/photos/pleasant-young-indian-woman-freelancer-consult-client-via-video-call-picture-id1300972573?b=1&k=20&m=1300972573&s=170667a&w=0&h=xuAsEkMkoBbc5Nh-nButyq3DU297V_tnak-60VarrR0="
-          alt=""
-        />
+        {user.photo ? (
+          <img className="profile-photo" src={user.photo} alt="" />
+        ) : (
+          <span className="profile-photo profile-initial">
+            {generateInitials(user.name)}
+          </span>
+        )}
         <button className="btn-start-convo" onClick={handleCreateChat}>
           <span>Start new conversation</span>
           <BsPlusCircle className="plus-circle-icon" />
