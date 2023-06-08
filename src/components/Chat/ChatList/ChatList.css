@@ -6,7 +6,7 @@
 
 .row-1 {
   display: flex;
-  padding: 0 40px;
+  padding: 0 30px;
   background-color: #f8f8f8;
   justify-content: space-between;
   height: 12%;
@@ -53,12 +53,12 @@
 
 .row-2 {
   display: flex;
-  padding: 5px 40px;
   justify-content: space-between;
   align-items: center;
+  padding: 5px 30px;
 }
 
-.message-container {
+.centered-container {
   display: flex;
   align-items: center;
 }

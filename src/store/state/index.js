@@ -1,5 +1,6 @@
 const initialState = {
   chats: [],
+  chatsClone: [],
   selectedChat: {},
   user: {},
 };

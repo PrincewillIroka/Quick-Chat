@@ -12,25 +12,24 @@ export default function ChatInfo({ chat, selectedChat, selectChat }) {
       }`}
       onClick={() => selectChat(chat)}
     >
-      {chat.photo ? (
+      {/* {chat.photo ? (
         <div className="chat-info-photo-or-initial-wrapper">
           <img src={chat.photo} className="chat-info-photo" alt="" />
         </div>
-      ) : (
-        <div className="chat-info-photo-or-initial-wrapper">
-          {participants.slice(0, 3).map((participant, index) => (
-            <span
-              className={`chat-info-initial ${
-                isSelectedChat(chat, selectedChat) &&
-                "chat-info-initial-selected"
-              }`}
-              key={index}
-            >
-              {generateInitials(participant.name)}
-            </span>
-          ))}
-        </div>
-      )}
+      ) : ( */}
+      <div className="chat-info-photo-or-initial-wrapper">
+        {participants.slice(0, 3).map((participant, index) => (
+          <span
+            className={`chat-info-initial ${
+              isSelectedChat(chat, selectedChat) && "chat-info-initial-selected"
+            }`}
+            key={index}
+          >
+            {generateInitials(participant.name)}
+          </span>
+        ))}
+      </div>
+      {/* )} */}
       <div className="chat-info-col">
         {participants.slice(0, 3).map((participant, index) => (
           <span className="chat-info-name" key={index}>

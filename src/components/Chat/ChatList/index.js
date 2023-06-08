@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
@@ -13,6 +13,7 @@ import { generateInitials } from "../../../utils";
 
 export default function ChatList() {
   const [state, dispatch] = useStateValue();
+  const [searchText, setSearchText] = useState("");
   const { chats = [], selectedChat = {}, user = {} } = state;
 
   const handleGetChats = useCallback(async () => {
@@ -50,6 +51,13 @@ export default function ChatList() {
     socket.emit("join", { chat_url: chat?.chat_url });
   };
 
+  const handleSearchChats = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setSearchText(value);
+    dispatch({ type: "SEARCH_CHATS", payload: value });
+  };
+
   return (
     <section className="sidebar-container">
       <div className="row-1">
@@ -66,15 +74,21 @@ export default function ChatList() {
         </button>
       </div>
       <div className="row-2">
-        <div className="message-container">
+        <div className="centered-container">
           <h4 className="messages-title">Messages</h4>
           <GoChevronDown />
         </div>
-        <BsStar className="bookmark-icon" />
+        <div className="centered-container">
+          <BsStar className="bookmark-icon" />
+        </div>
       </div>
       <div className="search-row">
-        <FiSearch className="search-icon" />
-        <input placeholder="Search here..." className="search-input" />
+        {!searchText && <FiSearch className="search-icon" />}
+        <input
+          placeholder="Search here..."
+          className="search-input"
+          onChange={handleSearchChats}
+        />
       </div>
       <div className="user-info-container">
         {chats.map((chat, index) => (

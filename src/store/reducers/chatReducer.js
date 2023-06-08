@@ -1,9 +1,11 @@
 const chatReducer = (state, action) => {
   switch (action.type) {
     case "CREATE_CHAT_SUCCESS": {
+      const chats = [...state.chats, action.payload];
       return {
         ...state,
-        chats: [...state, action.payload],
+        chats,
+        chatsClone: chats,
       };
     }
     case "TOGGLE_SELECTED_CHAT": {
@@ -13,9 +15,11 @@ const chatReducer = (state, action) => {
       };
     }
     case "GET_CHATS_SUCCESS": {
+      const chats = action.payload;
       return {
         ...state,
-        chats: action.payload,
+        chats,
+        chatsClone: chats,
       };
     }
     case "UPDATE_CHAT": {
@@ -30,7 +34,28 @@ const chatReducer = (state, action) => {
       return {
         ...state,
         chats,
+        chatsClone: chats,
         selectedChat,
+      };
+    }
+    case "SEARCH_CHATS": {
+      const chatsClone = state.chatsClone;
+      let searchText = action.payload;
+      searchText = searchText.replace(/[^a-zA-Z0-9 ]/g, "");
+
+      let chats = chatsClone.filter((chat) => {
+        const { participants = [] } = chat;
+        const participantsFound = participants.filter((participant) =>
+          participant.name.toLowerCase().includes(searchText)
+        );
+        if (participantsFound.length) return chat;
+      });
+      const selectedChat = chats[0];
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
       };
     }
     default:
