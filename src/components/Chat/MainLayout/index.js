@@ -41,15 +41,15 @@ export default function MainLayout() {
     <section className="mainlayout-container">
       <div className="top-section">
         <div className="row">
-          {selectedChat?.photo ? (
-            <img src={selectedChat?.photo} className="user-info-photo" alt="" />
+          {selectedChat.photo ? (
+            <img src={selectedChat.photo} className="user-info-photo" alt="" />
           ) : (
             <span className="user-info-initial">
-              {generateInitials(selectedChat?.name)}
+              {generateInitials(selectedChat.name)}
             </span>
           )}
           <div className="user-info-col-1">
-            <span className="user-info-name">{selectedChat?.name}</span>
+            <span className="user-info-name">{selectedChat.name}</span>
             <span className="user-info-chat-participants">
               Abel, Genea, Vanessa, Monalisa ...+5
             </span>

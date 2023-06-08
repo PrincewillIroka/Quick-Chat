@@ -3,7 +3,7 @@ import "./ChatInfo.css";
 import { generateInitials, isSelectedChat } from "../../../../utils";
 
 export default function ChatInfo({ chat, selectedChat, selectChat }) {
-  const participants = chat?.participants || [];
+  const { participants = [] } = chat;
 
   return (
     <div
@@ -12,7 +12,7 @@ export default function ChatInfo({ chat, selectedChat, selectChat }) {
       }`}
       onClick={() => selectChat(chat)}
     >
-      {chat?.photo ? (
+      {chat.photo ? (
         <div className="chat-info-photo-or-initial-wrapper">
           <img src={chat.photo} className="chat-info-photo" alt="" />
         </div>

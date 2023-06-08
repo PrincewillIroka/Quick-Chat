@@ -20,7 +20,7 @@ const chatReducer = (state, action) => {
     }
     case "UPDATE_CHAT": {
       let updatedChat = action.payload;
-      let { chats, selectedChat } = state;
+      let { chats = [], selectedChat = {} } = state;
       chats = chats.map((chat) =>
         chat._id === updatedChat._id ? updatedChat : chat
       );
