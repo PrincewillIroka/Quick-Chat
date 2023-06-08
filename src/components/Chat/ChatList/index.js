@@ -12,7 +12,7 @@ import { socket } from "../../../sockets/socketHandler";
 
 export default function ChatList() {
   const [state, dispatch] = useStateValue();
-  const { chats, selectedChat } = state;
+  const { chats = [], selectedChat = {} } = state;
 
   const handleGetChats = useCallback(async () => {
     await getChats()

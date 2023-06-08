@@ -9,11 +9,11 @@ import { generateInitials } from "../../../utils";
 import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 
-export default function MainLayout() {
-  const [content, setContent] = useState("");
+export default function MainLayout({ user }) {
   const [state, dispatch] = useStateValue();
-  const { selectedChat } = state;
-  const { messages = [] } = selectedChat || {};
+  const [content, setContent] = useState("");
+  const { selectedChat = {} } = state;
+  const { messages = [] } = selectedChat;
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -23,13 +23,15 @@ export default function MainLayout() {
   const handleSendMessage = () => {
     if (!content) return;
     const { _id, chat_url } = selectedChat;
+    const sender_id = user._id;
     socket.emit(
       "newMessageSent",
-      { content, chat_url, chat_id: _id },
+      { content, chat_url, chat_id: _id, sender_id },
       (ack) => {
-        if (ack?.messageSent) {
+        const { messageSent, updatedChat } = ack;
+        if (messageSent && updatedChat) {
           setContent("");
-          dispatch({ type: "" });
+          dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
         }
       }
     );

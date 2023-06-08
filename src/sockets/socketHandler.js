@@ -8,7 +8,7 @@ export const socket = io(appHost, {
   jsonp: false,
 });
 
-export const socketHandler = () => {
+export const socketHandler = (state, dispatch) => {
   socket.connect();
 
   socket.on("connect", () => {
@@ -26,6 +26,6 @@ export const socketHandler = () => {
     //   }
     // });
 
-    chatSockets(socket);
+    chatSockets(socket, state, dispatch);
   });
 };

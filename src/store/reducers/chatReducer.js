@@ -18,9 +18,24 @@ const chatReducer = (state, action) => {
         chats: action.payload,
       };
     }
+    case "UPDATE_CHAT": {
+      let updatedChat = action.payload;
+      let { chats, selectedChat } = state;
+      chats = chats.map((chat) =>
+        chat._id === updatedChat._id ? updatedChat : chat
+      );
+      selectedChat =
+        selectedChat._id === updatedChat._id ? updatedChat : selectedChat;
+
+      return {
+        ...state,
+        chats,
+        selectedChat,
+      };
+    }
     default:
       return state;
   }
 };
 
-export { chatReducer };
+export default chatReducer;

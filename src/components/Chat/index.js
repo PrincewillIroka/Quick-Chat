@@ -1,20 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
 import ChatDetails from "./ChatDetails";
 import "./Chat.css";
 
-import { StateProvider } from "../../store/stateProvider";
-import { chatStore } from "../../store/chatStore";
+import { useStateValue } from "../../store/stateProvider";
+import { authenticateUser } from "../../services";
+import { socketHandler } from "../../sockets";
 
 export default function Chat() {
+  const [state, dispatch] = useStateValue();
+
+  useEffect(() => {
+    authenticateUser().then((response) => {
+      const user = response?.user;
+      if (user) {
+        dispatch({ type: "GET_USER_SUCCESS", payload: user });
+      }
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    socketHandler(state, dispatch);
+  }, [state, dispatch]);
+
   return (
-    <StateProvider {...chatStore}>
-      <div className="chat-container">
-        <ChatList />
-        <MainLayout />
-        <ChatDetails />
-      </div>
-    </StateProvider>
+    <div className="chat-container">
+      <ChatList />
+      <MainLayout />
+      <ChatDetails />
+    </div>
   );
 }

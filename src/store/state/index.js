@@ -1,2 +1,7 @@
-export * from "./chatState";
-export * from "./userState";
+const initialState = {
+  chats: [],
+  selectedChat: {},
+  user: {},
+};
+
+export default initialState;
