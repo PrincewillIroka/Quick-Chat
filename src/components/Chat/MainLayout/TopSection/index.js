@@ -9,7 +9,7 @@ import "./TopSection.css";
 export default function TopSection({ selectedChat }) {
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
-  const { participants = [], chat_came } = selectedChat;
+  const { participants = [], chat_came } = selectedChat || {};
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;

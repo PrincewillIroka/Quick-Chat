@@ -11,7 +11,7 @@ export default function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const { selectedChat = {}, user = {} } = state;
-  const { messages = [] } = selectedChat;
+  const { messages = [] } = selectedChat || {};
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -20,7 +20,7 @@ export default function MainLayout() {
 
   const handleSendMessage = () => {
     if (!content) return;
-    const { _id, chat_url } = selectedChat;
+    const { _id, chat_url } = selectedChat || {};
     const sender_id = user._id;
     socket.emit(
       "newMessageSent",
