@@ -8,7 +8,7 @@ import { useStateValue } from "../../store/stateProvider";
 import { authenticateUser } from "../../services";
 
 export default function Chat() {
-  const { state, dispatch } = useStateValue();
+  const { dispatch } = useStateValue();
 
   useEffect(() => {
     authenticateUser().then((response) => {

@@ -7,18 +7,18 @@ import initialState from "./store/state";
 import reducers from "./store/reducers";
 
 function App() {
+  const ChatComponent = () => (
+    <StateProvider reducers={reducers} initialState={initialState}>
+      <Chat />
+    </StateProvider>
+  );
+
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route
-          path="/chat"
-          element={
-            <StateProvider reducers={reducers} initialState={initialState}>
-              <Chat />
-            </StateProvider>
-          }
-        />
+        <Route path="/chat" element={<ChatComponent />} />
+        <Route path="/chat/:chatUrlParam" element={<ChatComponent />} />
       </Routes>
     </Router>
   );
