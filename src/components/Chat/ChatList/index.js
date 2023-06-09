@@ -42,7 +42,7 @@ export default function ChatList() {
       .catch((err) => {
         console.error(err);
       });
-  }, [chatUrlParam]);
+  }, [dispatch, chatUrlParam]);
 
   useEffect(() => {
     handleGetChats();

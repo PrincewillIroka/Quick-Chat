@@ -2,8 +2,12 @@ import React from "react";
 import "./ChatInfo.css";
 import { generateInitials, isSelectedChat } from "../../../../utils";
 
-export default function ChatInfo({ chat, selectedChat, selectChat }) {
-  const { participants = [] } = chat;
+export default function ChatInfo({
+  chat,
+  selectedChat = {},
+  selectChat = () => {},
+}) {
+  const { participants = [] } = chat || {};
 
   return (
     <div
