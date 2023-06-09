@@ -1,7 +1,9 @@
 import React, { useEffect, useCallback, useState } from "react";
+import { useParams } from "react-router-dom";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
 import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
+import { BiMessageEdit } from "react-icons/bi";
 
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
@@ -14,14 +16,24 @@ import { generateInitials } from "../../../utils";
 export default function ChatList() {
   const { state, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
+  const { chatUrlParam } = useParams();
   const { chats = [], selectedChat = {}, user = {} } = state;
 
   const handleGetChats = useCallback(async () => {
-    await getChats()
+    await getChats(chatUrlParam)
       .then(async (response) => {
         const chatResponse = response?.chats || [];
         if (chatResponse) {
-          const firstChat = chatResponse[0];
+          let firstChat;
+
+          if (chatUrlParam) {
+            firstChat = chatResponse.find(
+              (chat) => chat.chat_url === chatUrlParam
+            );
+          } else {
+            firstChat = chatResponse[0];
+          }
+
           dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
           dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
           socket.emit("join", { chat_url: firstChat?.chat_url });
@@ -30,7 +42,7 @@ export default function ChatList() {
       .catch((err) => {
         console.error(err);
       });
-  }, [dispatch]);
+  }, [chatUrlParam]);
 
   useEffect(() => {
     handleGetChats();
@@ -62,9 +74,14 @@ export default function ChatList() {
     <section className="sidebar-container">
       <div className="row-1">
         {user.photo ? (
-          <img className="profile-photo" src={user.photo} alt="" />
+          <img
+            className="profile-photo"
+            src={user.photo}
+            alt={user.name}
+            title={user.name}
+          />
         ) : (
-          <span className="profile-photo profile-initial">
+          <span className="profile-photo profile-initial" title={user.name}>
             {generateInitials(user.name)}
           </span>
         )}
@@ -79,7 +96,8 @@ export default function ChatList() {
           <GoChevronDown />
         </div>
         <div className="centered-container">
-          <BsStar className="bookmark-icon" title="Bookmarked Chats" />
+          <BiMessageEdit className="bookmark-icon" title="All chats" />
+          <BsStar className="bookmark-icon" title="Bookmarked chats" />
         </div>
       </div>
       <div className="search-row">

@@ -45,9 +45,39 @@
   font-size: 1.1rem;
 }
 
-.user-info-chat-participants {
+.user-info-photo-or-initial-wrapper {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+}
+
+.user-info-photo {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info-initial {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+}
+
+.user-info-initial:nth-child(2) {
+  left: 35px;
+  position: absolute;
+}
+
+.user-info-others {
   font-size: 0.9rem;
   opacity: 0.7;
+  margin-left: 20px;
 }
 
 .icons-container {

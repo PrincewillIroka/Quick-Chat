@@ -9,6 +9,7 @@ import "./TopSection.css";
 export default function TopSection({ selectedChat }) {
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
+  const { participants = [], chat_came } = selectedChat;
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
@@ -18,18 +19,20 @@ export default function TopSection({ selectedChat }) {
   return (
     <div className="top-section">
       <div className="row">
-        {selectedChat.photo ? (
-          <img src={selectedChat.photo} className="user-info-photo" alt="" />
-        ) : (
-          <span className="user-info-initial">
-            {generateInitials(selectedChat.name)}
-          </span>
-        )}
         <div className="user-info-col-1">
-          <span className="user-info-name">{selectedChat.name}</span>
-          <span className="user-info-chat-participants">
-            Abel, Genea, Vanessa, Monalisa ...+5
-          </span>
+          <span className="user-info-name">{chat_came}</span>
+          <div className="user-info-photo-or-initial-wrapper">
+            {participants.slice(0, 3).map((participant, index) => (
+              <span className={`user-info-initial`} key={index}>
+                {generateInitials(participant.name)}
+              </span>
+            ))}
+            {participants.length > 3 && (
+              <span className="user-info-others">
+                ...+{participants.length - 3} others
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -50,6 +53,10 @@ export default function TopSection({ selectedChat }) {
           <div className="more-items-dropdown">
             <div className="more-items-row" onClick={handleGetChatLink}>
               <span>Get chat link</span>
+              <MdOutlineContentCopy />
+            </div>
+            <div className="more-items-row" onClick={handleGetChatLink}>
+              <span>Bookmark chat</span>
               <MdOutlineContentCopy />
             </div>
           </div>

@@ -7,10 +7,7 @@ export const StateContext = createContext();
 // Build a provider
 export const StateProvider = ({ reducers, initialState, children }) => {
   const [state, dispatch] = useReducer(reducers, initialState);
-  useEffect(
-    () => socketHandler(state, dispatch),
-    [socketHandler, dispatch, state]
-  );
+  useEffect(() => socketHandler(state, dispatch), [dispatch, state]);
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>

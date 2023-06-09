@@ -41,14 +41,14 @@ const chatReducer = (state, action) => {
     case "SEARCH_CHATS": {
       const chatsClone = state.chatsClone;
       let searchText = action.payload;
-      searchText = searchText.replace(/[^a-zA-Z0-9 ]/g, "");
+      searchText = searchText.trim();
 
       let chats = chatsClone.filter((chat) => {
         const { participants = [] } = chat;
         const participantsFound = participants.filter((participant) =>
           participant.name.toLowerCase().includes(searchText)
         );
-        if (participantsFound.length) return chat;
+        return participantsFound.length;
       });
       const selectedChat = chats[0];
 

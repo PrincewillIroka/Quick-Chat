@@ -18,6 +18,7 @@
   width: 40px;
   border-radius: 50%;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .profile-initial {
@@ -25,6 +26,7 @@
   align-items: center;
   justify-content: center;
   background-color: #ececec;
+  cursor: pointer;
 }
 
 .btn-start-convo {
@@ -73,6 +75,8 @@
 .bookmark-icon {
   height: 17px;
   width: 17px;
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 .search-row {
