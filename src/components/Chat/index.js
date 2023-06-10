@@ -15,6 +15,8 @@ export default function Chat() {
     authenticateUser().then((response) => {
       const user = response?.user;
       if (user) {
+        const { bs_token = "" } = user;
+        localStorage.setItem("bs_token", bs_token);
         dispatch({ type: "GET_USER_SUCCESS", payload: user });
       }
     });

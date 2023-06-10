@@ -20,7 +20,8 @@ export default function ChatList() {
   const { chats = [], selectedChat = {}, user = {} } = state;
 
   const handleGetChats = useCallback(async () => {
-    await getChats(chatUrlParam)
+    const bs_token = localStorage.getItem("bs_token");
+    await getChats({ bs_token, chatUrlParam })
       .then(async (response) => {
         const chatResponse = response?.chats || [];
         if (chatResponse) {
