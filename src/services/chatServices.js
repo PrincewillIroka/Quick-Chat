@@ -1,10 +1,6 @@
-import Cookies from "js-cookie";
-
 const APP_HOST = process.env.REACT_APP_HOST;
 
-const createChat = () => {
-  const bs_token = Cookies.get("bs_token");
-
+const createChat = (params) => {
   return new Promise((resolve, reject) => {
     const url = `${APP_HOST}/api/chats/create`;
 
@@ -14,7 +10,7 @@ const createChat = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ bs_token }),
+      body: JSON.stringify(params),
     })
       .then((response) => response.json())
       .then((response) => resolve(response))

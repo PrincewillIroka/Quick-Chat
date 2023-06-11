@@ -24,8 +24,11 @@ const chatReducer = (state, action) => {
     }
     case "UPDATE_CHAT": {
       let updatedChat = action.payload;
-      let { chats = [], selectedChat = {} } = state;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
       chats = chats.map((chat) =>
+        chat._id === updatedChat._id ? updatedChat : chat
+      );
+      chatsClone = chatsClone.map((chat) =>
         chat._id === updatedChat._id ? updatedChat : chat
       );
       selectedChat =
@@ -34,7 +37,7 @@ const chatReducer = (state, action) => {
       return {
         ...state,
         chats,
-        chatsClone: chats,
+        chatsClone,
         selectedChat,
       };
     }
@@ -56,6 +59,18 @@ const chatReducer = (state, action) => {
         ...state,
         selectedChat,
         chats,
+      };
+    }
+    case "ADD_NEW_CHAT": {
+      let newChat = action.payload;
+      let { chatsClone = [], selectedChat = {} } = state;
+      chatsClone = chatsClone.unshift(newChat);
+      selectedChat = newChat;
+
+      return {
+        ...state,
+        chatsClone: chatsClone,
+        selectedChat,
       };
     }
     default:

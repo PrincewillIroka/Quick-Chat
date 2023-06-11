@@ -8,12 +8,11 @@ import { BiMessageEdit } from "react-icons/bi";
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
 import { useStateValue } from "../../../store/stateProvider";
-import { createChat } from "../../../services/chatServices";
 import { getChats } from "../../../services/userServices";
 import { socket } from "../../../sockets/socketHandler";
 import { generateInitials } from "../../../utils";
 
-export default function ChatList() {
+export default function ChatList({ handleToggleModal }) {
   const { state, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
   const { chatUrlParam } = useParams();
@@ -49,16 +48,6 @@ export default function ChatList() {
     handleGetChats();
   }, [handleGetChats]);
 
-  const handleCreateChat = async () => {
-    await createChat()
-      .then(async (response) => {
-        console.log("createChat", response);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   const handleSelectChat = (chat) => {
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     socket.emit("join", { chat_url: chat?.chat_url });
@@ -86,7 +75,7 @@ export default function ChatList() {
             {generateInitials(user.name)}
           </span>
         )}
-        <button className="btn-start-convo" onClick={handleCreateChat}>
+        <button className="btn-start-convo" onClick={handleToggleModal}>
           <span>Start new conversation</span>
           <BsPlusCircle className="plus-circle-icon" />
         </button>
