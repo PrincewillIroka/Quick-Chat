@@ -46,7 +46,7 @@ export default function ChatList({ handleToggleModal }) {
 
   useEffect(() => {
     handleGetChats();
-  }, [handleGetChats]);
+  }, [handleGetChats, user]);
 
   const handleSelectChat = (chat) => {
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });

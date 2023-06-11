@@ -23,7 +23,11 @@ export default function TopSection({ selectedChat }) {
           <span className="user-info-name">{chat_came}</span>
           <div className="user-info-photo-or-initial-wrapper">
             {participants.slice(0, 3).map((participant, index) => (
-              <span className={`user-info-initial`} key={index}>
+              <span
+                className={`user-info-initial`}
+                key={index}
+                title={participant.name}
+              >
                 {generateInitials(participant.name)}
               </span>
             ))}
