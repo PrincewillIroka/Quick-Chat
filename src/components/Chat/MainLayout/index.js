@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import Message from "./Message";
@@ -6,12 +6,14 @@ import "./MainLayout.css";
 import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 import TopSection from "./TopSection";
+import NoChat from "../../../assets/NoChat.svg";
 
 export default function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const { selectedChat = {}, user = {} } = state;
   const { messages = [] } = selectedChat || {};
+  const selectFile = useRef();
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -35,14 +37,27 @@ export default function MainLayout() {
     );
   };
 
+  const handleSelectAttachment = () => {
+    selectFile.current.click();
+  };
+
+  const handleRecordAudioMessage = () => {};
+
   return (
     <section className="main-layout-container">
       <TopSection selectedChat={selectedChat} />
-      <div className="body-section">
-        {messages.map((message, index) => (
-          <Message message={message} key={index} />
-        ))}
-      </div>
+      {!messages.length ? (
+        <div className="no-chat-section">
+          <img src={NoChat} className="no-chat-svg" alt="" />
+          <span>Messages here</span>
+        </div>
+      ) : (
+        <div className="body-section">
+          {messages.map((message, index) => (
+            <Message message={message} key={index} />
+          ))}
+        </div>
+      )}
       <div className="type-message-section">
         <div className="message-input-container">
           <input
@@ -55,8 +70,15 @@ export default function MainLayout() {
           />
           <span className="right-divider"></span>
           <div className="emoji-container">
-            <BiMicrophone className="microphone-icon" />
-            <RiAttachment2 className="attachment-icon" />
+            <BiMicrophone
+              className="microphone-icon"
+              onClick={handleRecordAudioMessage}
+            />
+            <RiAttachment2
+              className="attachment-icon"
+              onClick={handleSelectAttachment}
+            />
+            <input type="file" hidden ref={selectFile} />
           </div>
         </div>
         <div className="send-button-container" onClick={handleSendMessage}>

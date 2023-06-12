@@ -12,6 +12,19 @@
   overflow-y: auto;
 }
 
+.no-chat-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.no-chat-svg {
+  height: 250px;
+  width: 250px;
+}
+
 .type-message-section {
   position: fixed;
   bottom: 0;

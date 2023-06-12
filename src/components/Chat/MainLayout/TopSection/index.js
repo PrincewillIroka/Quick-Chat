@@ -3,6 +3,7 @@ import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
+import { BsStar } from "react-icons/bs";
 import { generateInitials } from "../../../../utils";
 import "./TopSection.css";
 
@@ -61,7 +62,7 @@ export default function TopSection({ selectedChat }) {
             </div>
             <div className="more-items-row" onClick={handleGetChatLink}>
               <span>Bookmark chat</span>
-              <MdOutlineContentCopy />
+              <BsStar />
             </div>
           </div>
         )}
