@@ -10,7 +10,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isChatCreated, setIsChatCreated] = useState(false);
   const [chatName, setChatName] = useState("");
-  const href = window.location.href;
+  const [chatLink, setChatLink] = useState("");
   const { user = {} } = state;
 
   const handleCreateChat = async () => {
@@ -24,6 +24,8 @@ export default function CreateConversationModal({ handleToggleModal }) {
         const { newChat } = response;
         if (newChat) {
           dispatch({ type: "ADD_NEW_CHAT", payload: newChat });
+          const str = `${window.location.href}/${newChat.chat_url}`;
+          setChatLink(str);
         }
         setIsLoading(false);
         setIsChatCreated(true);
@@ -53,7 +55,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
             <b className="chat-link-title">Chat link:</b>
             <div className="chat-link-row">
               <span className="chat-link-text">
-                <i>{`${href}/generatedParam/passcode`}</i>
+                <i>{chatLink}</i>
               </span>
               <MdOutlineContentCopy title="Copy Link" className="copy-link" />
             </div>

@@ -150,7 +150,7 @@ input:checked + .slider:before {
 }
 
 .chat-link-text {
-  width: 60%;
+  width: 90%;
   word-wrap: break-word;
 }
 
