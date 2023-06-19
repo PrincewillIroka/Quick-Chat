@@ -47,9 +47,11 @@ const chatReducer = (state, action) => {
       searchText = searchText.trim();
 
       let chats = chatsClone.filter((chat) => {
-        const { participants = [] } = chat;
-        const participantsFound = participants.filter((participant) =>
-          participant.name.toLowerCase().includes(searchText)
+        const { participants = [], chat_name = "" } = chat;
+        const participantsFound = participants.filter(
+          (participant) =>
+            participant.name.toLowerCase().includes(searchText) ||
+            chat_name.toLowerCase().includes(searchText)
         );
         return participantsFound.length;
       });
