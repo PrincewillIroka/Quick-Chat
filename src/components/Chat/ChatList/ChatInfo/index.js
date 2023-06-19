@@ -7,7 +7,7 @@ export default function ChatInfo({
   selectedChat = {},
   selectChat = () => {},
 }) {
-  const { participants = [] } = chat || {};
+  const { participants = [], chat_name = "" } = chat || {};
 
   return (
     <div
@@ -29,12 +29,16 @@ export default function ChatInfo({
         ))}
       </div>
       <div className="chat-info-col">
-        {participants.slice(0, 3).map((participant, index) => (
-          <span className="chat-info-name" key={index}>
-            {participant.name}
-            {index < participants.length - 1 && ", "}
-          </span>
-        ))}
+        {chat_name ? (
+          <span className="chat-info-name">{chat_name}</span>
+        ) : (
+          participants.slice(0, 3).map((participant, index) => (
+            <span className="chat-info-name" key={index}>
+              {participant.name}
+              {index < participants.length - 1 && ", "}
+            </span>
+          ))
+        )}
       </div>
     </div>
   );

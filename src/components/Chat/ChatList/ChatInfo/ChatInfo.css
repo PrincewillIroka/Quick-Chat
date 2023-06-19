@@ -13,7 +13,7 @@
   background-color: #f7f7f7;
 }
 
-.chat-info-photo-or-initial-wrapper{
+.chat-info-photo-or-initial-wrapper {
   display: flex;
   flex-direction: row;
   position: relative;
@@ -39,15 +39,14 @@
   background-color: #f7f7f7;
 }
 
-.chat-info-initial:nth-child(1){
+.chat-info-initial:nth-child(1) {
   /* left: -20px; */
 }
 
-.chat-info-initial:nth-child(2){
+.chat-info-initial:nth-child(2) {
   left: 35px;
   /* z-index: 100; */
   position: absolute;
-
 }
 
 .chat-info-initial-selected {
@@ -55,11 +54,10 @@
 }
 
 .chat-info-col {
-  display: flex;
-  flex-direction: row;
+  flex: 1;
 }
 
 .chat-info-name {
   font-weight: 600;
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
