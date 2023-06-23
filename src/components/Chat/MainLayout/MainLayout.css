@@ -12,6 +12,71 @@
   overflow-y: auto;
 }
 
+.files-list-container {
+  position: fixed;
+  bottom: 25px;
+  width: calc(55% - 60px);
+  height: 140px;
+  background-color: #eee;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.files-list-close-button {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.files-list-close-button:hover {
+  opacity: 0.5;
+}
+
+.files-list-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+}
+
+.file-list-item {
+  height: 80px;
+  width: 100px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.file-item-name {
+  font-size: 12px;
+  width: 100%;
+  max-height: 60px;
+  /* word-wrap: break-word; */
+  overflow: hidden;
+  /* white-space: nowrap; */
+  text-overflow: ellipsis;
+}
+
+.file-item-size {
+  font-size: 12px;
+  /* text-align: center; */
+  margin-top: auto;
+}
+
+.file-item-close-button {
+  margin-left: auto;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}
+
 .no-chat-section {
   display: flex;
   flex-direction: column;

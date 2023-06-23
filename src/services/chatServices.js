@@ -21,4 +21,20 @@ const createChat = (params) => {
   });
 };
 
-export { createChat };
+const uploadFile = (payload) => {
+  return new Promise((resolve, reject) => {
+    const url = `${APP_HOST}/api/chats/upload`;
+
+    fetch(url, {
+      method: "POST",
+      body: payload,
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        return reject(error);
+      });
+  });
+};
+export { createChat, uploadFile };
