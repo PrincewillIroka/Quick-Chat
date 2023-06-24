@@ -19,22 +19,24 @@ export default function Home({ user }) {
       </div>
       <div className="col col-2">
         <h4 className="welcome-heading">Hi, Welcome</h4>
-        <span className="quick-chat-info">
-          <b className="quick-chat-emphasis">Quick Chat</b> let's you start an
-          instant chat with other users.
-        </span>
+        <div className="quick-chat-info">
+          <span className="quick-chat-emphasis">Quick Chat</span>
+          <span className="quick-chat-text">
+            let's you start an instant chat with other users.
+          </span>
+        </div>
         <ul className="quick-chat-features">
-          <li>No need to create an account.</li>
+          <li>&#10003; No need to create an account.</li>
           <li>
-            Just start a chat, and share the link to those you want to chat
-            with.
+            &#10003; Just create a conversation, and share the link to anyone you want to
+            chat with.
           </li>
         </ul>
         <button
           className="btn-start-now"
           onClick={() => handleNavigation("chat")}
         >
-          Start Now &nbsp; &#8594;
+          Start Now &#8594;
         </button>
       </div>
     </div>
