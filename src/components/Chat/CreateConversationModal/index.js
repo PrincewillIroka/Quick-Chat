@@ -6,7 +6,7 @@ import { useStateValue } from "../../../store/stateProvider";
 
 export default function CreateConversationModal({ handleToggleModal }) {
   const { state, dispatch } = useStateValue();
-  const [isPasscode, setIsPasscode] = useState(false);
+  const [passcode, setPasscode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChatCreated, setIsChatCreated] = useState(false);
   const [chatName, setChatName] = useState("");
@@ -15,10 +15,6 @@ export default function CreateConversationModal({ handleToggleModal }) {
 
   const handleCreateChat = async () => {
     setIsLoading(true);
-    let passcode;
-    if (isPasscode) {
-      passcode = "";
-    }
     await createChat({ creator_id: user._id, passcode, chat_name: chatName })
       .then(async (response) => {
         const { newChat } = response;
@@ -36,6 +32,19 @@ export default function CreateConversationModal({ handleToggleModal }) {
       });
   };
 
+  const handleSetPasscode = () => {
+    let num;
+    if (passcode) {
+      num = "";
+    } else {
+      num = Array(4)
+        .fill(0)
+        .map(() => Math.floor(Math.random() * 10))
+        .join("");
+    }
+    setPasscode(num);
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -51,14 +60,30 @@ export default function CreateConversationModal({ handleToggleModal }) {
             <div className="loader"></div>
           </div>
         ) : isChatCreated ? (
-          <div className="success-container">
-            <b className="chat-link-title">Chat link:</b>
-            <div className="chat-link-row">
-              <span className="chat-link-text">
-                <i>{chatLink}</i>
-              </span>
-              <MdOutlineContentCopy title="Copy Link" className="copy-link" />
+          <div>
+            <div className="chat-link-container">
+              <b className="chat-link-title">Chat link:</b>
+              <div className="chat-link-row">
+                <span className="chat-link-text">
+                  <i>{chatLink}</i>
+                </span>
+                <MdOutlineContentCopy title="Copy link" className="copy-link" />
+              </div>
             </div>
+            {passcode && (
+              <div className="chat-link-container">
+                <b className="chat-link-title">Passcode:</b>
+                <div className="chat-link-row">
+                  <span className="chat-link-text">
+                    <i>{passcode}</i>
+                  </span>
+                  <MdOutlineContentCopy
+                    title="Copy passcode"
+                    className="copy-link"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="modal-body">
@@ -76,8 +101,8 @@ export default function CreateConversationModal({ handleToggleModal }) {
               <label className="switch">
                 <input
                   type="checkbox"
-                  checked={isPasscode}
-                  onChange={() => setIsPasscode(!isPasscode)}
+                  checked={passcode}
+                  onChange={() => handleSetPasscode()}
                 />
                 <span className="slider round"></span>
               </label>
