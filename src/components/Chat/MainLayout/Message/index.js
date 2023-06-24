@@ -6,11 +6,13 @@ import { useStateValue } from "../../../../store/stateProvider";
 export default function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
-  const { sender = {}, content = "" } = message;
+  const { sender = {}, content = "", attachments = [] } = message;
 
   const isSameSender = (sender) => {
     return sender._id === user._id;
   };
+
+  const handleViewFile = (file_url) => {};
 
   return (
     <div
@@ -19,11 +21,7 @@ export default function Message({ message }) {
       }`}
     >
       {sender.photo ? (
-        <img
-          className="message-sender-photo"
-          src={sender.photo}
-          alt="Sender"
-        />
+        <img className="message-sender-photo" src={sender.photo} alt="Sender" />
       ) : (
         <span className="message-sender-photo message-sender-initial">
           {generateInitials(sender.name)}
@@ -34,7 +32,32 @@ export default function Message({ message }) {
           <span className="message-owner">{sender.name}</span>
           <span className="message-time">10:05 AM</span>
         </div>
-        <span className="message-original">{content}</span>
+        {content || attachments.length ? (
+          <div className="message-original">
+            {attachments.length ? (
+              <div className="attachments-container">
+                {attachments.map(({ file_details }, index) => {
+                  const { file_name, file_url } = file_details;
+                  return (
+                    <div
+                      key={index}
+                      className="attachement-name"
+                      title={file_name}
+                      onClick={() => handleViewFile(file_url)}
+                    >
+                      {file_name}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              ""
+            )}
+            {content && <span>{content}</span>}
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

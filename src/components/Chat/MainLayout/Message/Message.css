@@ -49,4 +49,27 @@
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
+  width: 100%;
+}
+
+.attachments-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.attachement-name {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 7px;
+  margin-bottom: 10px;
+  width: 42%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 5px;
+  font-size: 13px;
+  height: 60px;
+  cursor: pointer;
+  color: #0430b2;
 }

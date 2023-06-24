@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
@@ -20,38 +20,49 @@ export default function MainLayout() {
   const { _id: sender_id } = user;
   const selectFile = useRef();
   const [filesUploading, setFilesUploading] = useState([]);
-  const [formData] = useState(new FormData());
+  const [formData, setFormData] = useState(new FormData());
+
+  useEffect(() => {
+    handleRemoveAllFiles();
+    setContent("");
+  }, [selectedChat]);
 
   const handleTyping = (e) => {
     e.preventDefault();
     setContent(e.target.value);
   };
 
-  const handleSendMessage = async () => {
-    if (!content) return;
-
+  const handleSendMessage = () => {
     setContent("");
     setIsFileContainerOpen(false);
     setFilesUploading([]);
 
-    socket.emit(
-      "newMessageSent",
-      { content, chat_url, chat_id, sender_id },
-      (ack) => {
-        const { messageSent, updatedChat } = ack;
-        if (messageSent && updatedChat) {
-          dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
-        }
-      }
-    );
+    //Check if there is any file to be uploaded
+    const hasFiles = formData.has("0");
 
-    await uploadFile(formData)
-      .then((response) => {
-        console.log({ response });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    if (content || hasFiles) {
+      socket.emit(
+        "newMessageSent",
+        { content, chat_url, chat_id, sender_id },
+        async (ack) => {
+          const { messageSent, updatedChat, messageId } = ack;
+          if (messageSent && updatedChat) {
+            dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
+          }
+
+          if (hasFiles) {
+            formData.append("messageId", messageId);
+            await uploadFile(formData)
+              .then((response) => {
+                setFormData(new FormData());
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      );
+    }
   };
 
   const handleCheckPasscode = () => {
@@ -85,6 +96,7 @@ export default function MainLayout() {
   const handleRemoveAllFiles = () => {
     setIsFileContainerOpen(false);
     setFilesUploading([]);
+    setFormData(new FormData());
   };
 
   const handleRemoveFile = (fileName) => {
