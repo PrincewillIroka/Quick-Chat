@@ -26,10 +26,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
         }
         setIsLoading(false);
         setIsChatCreated(true);
-        dispatch({
-          type: "TOGGLE_ALERT",
-          payload: { isVisible: true, content: "Chat created!" },
-        });
+        handleToggleAlert({ isVisible: true, content: "Chat created!" });
       })
       .catch((err) => {
         console.error(err);
@@ -45,6 +42,18 @@ export default function CreateConversationModal({ handleToggleModal }) {
       num = generatePasscode();
     }
     setPasscode(num);
+  };
+
+  const handleCopyChatLink = () => {
+    navigator.clipboard.writeText(chatLink);
+    handleToggleAlert({ isVisible: true, content: "Chat link copied!" });
+  };
+
+  const handleToggleAlert = (payload) => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload,
+    });
   };
 
   return (
@@ -69,7 +78,11 @@ export default function CreateConversationModal({ handleToggleModal }) {
                 <span className="chat-link-text">
                   <i>{chatLink}</i>
                 </span>
-                <MdOutlineContentCopy title="Copy link" className="copy-link" />
+                <MdOutlineContentCopy
+                  title="Copy link"
+                  className="copy-link"
+                  onClick={handleCopyChatLink}
+                />
               </div>
             </div>
             {passcode && (
@@ -86,6 +99,10 @@ export default function CreateConversationModal({ handleToggleModal }) {
                 </div>
               </div>
             )}
+            <div className="chat-info-wrapper">
+              Copy this link, send it to anyone you want to chat with. Once they
+              join, you'll be able to chat with them.
+            </div>
           </div>
         ) : (
           <div className="modal-body">

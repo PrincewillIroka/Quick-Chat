@@ -29,7 +29,7 @@ export default function Chat() {
     if (alert.isVisible) {
       alertTimeout = setTimeout(() => {
         handleToggleAlert("close");
-      }, 5000);
+      }, 3000);
     }
     return () => clearTimeout(alertTimeout);
   }, [dispatch, alert]);

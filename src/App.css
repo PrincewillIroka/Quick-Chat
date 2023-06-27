@@ -1,3 +1,12 @@
 body {
   overflow-y: hidden;
 }
+
+:root {
+  --primary: #0676ed;
+  --background: #222b45;
+  --warning: #f2a600;
+  --success: #049d20;
+  --error: #e41749;
+  --dark: #151a30;
+}
