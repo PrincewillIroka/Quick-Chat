@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import "./Message.css";
 import { generateInitials } from "../../../../utils";
 import { useStateValue } from "../../../../store/stateProvider";
 
-export default function Message({ message }) {
+function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
   const { sender = {}, content = "", attachments = [] } = message;
@@ -62,3 +62,5 @@ export default function Message({ message }) {
     </div>
   );
 }
+
+export default memo(Message);

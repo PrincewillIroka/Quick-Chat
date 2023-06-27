@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
@@ -7,7 +7,7 @@ import { BsStar } from "react-icons/bs";
 import { generateInitials } from "../../../../utils";
 import "./TopSection.css";
 
-export default function TopSection({ selectedChat }) {
+function TopSection({ selectedChat }) {
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], chat_came } = selectedChat || {};
@@ -70,3 +70,5 @@ export default function TopSection({ selectedChat }) {
     </div>
   );
 }
+
+export default memo(TopSection);
