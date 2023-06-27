@@ -99,7 +99,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
                 </div>
               </div>
             )}
-            <div className="chat-info-wrapper">
+            <div className="chat-copy-info-wrapper">
               Copy this link, send it to anyone you want to chat with. Once they
               join, you'll be able to chat with them.
             </div>

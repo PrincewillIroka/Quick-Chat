@@ -4,12 +4,6 @@
   overflow: hidden;
 }
 
-.user-info-container {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
 .alert {
   position: fixed;
   bottom: 10px;

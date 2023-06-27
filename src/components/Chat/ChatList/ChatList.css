@@ -104,3 +104,9 @@
   font-size: 1rem;
   padding: 0 10px;
 }
+
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
