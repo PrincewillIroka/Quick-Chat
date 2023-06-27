@@ -7,6 +7,7 @@ const initialState = {
     isVisible: false,
     content: "",
   },
+  filesUploading: {},
 };
 
 export default initialState;

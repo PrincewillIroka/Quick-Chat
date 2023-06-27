@@ -12,6 +12,12 @@ const userReducer = (state, action) => {
         alert: action.payload,
       };
     }
+    case "SET_FILES_UPLOADING": {
+      return {
+        ...state,
+        filesUploading: action.payload,
+      };
+    }
     default:
       return state;
   }

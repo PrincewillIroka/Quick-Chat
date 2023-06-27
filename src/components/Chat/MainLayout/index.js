@@ -10,22 +10,33 @@ import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 import { uploadFile } from "../../../services";
 import { formatBytes } from "../../../utils";
+import { useAudioRecorder } from "../../../hooks";
 
 export default function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
-  const { selectedChat = {}, user = {} } = state;
+  const { selectedChat = {}, user = {}, filesUploading = [] } = state;
   const { messages = [], passcode = "", _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id } = user;
   const selectFile = useRef();
-  const [filesUploading, setFilesUploading] = useState([]);
   const [formData, setFormData] = useState(new FormData());
+  const { permission, stream, getMicrophonePermission } = useAudioRecorder();
+
+  const handleRemoveAllFiles = () => {
+    setIsFileContainerOpen(false);
+    setFormData(new FormData());
+    filesUploading[chat_id] = [];
+    dispatch({
+      type: "SET_FILES_UPLOADING",
+      payload: filesUploading,
+    });
+  };
 
   useEffect(() => {
     handleRemoveAllFiles();
     setContent("");
-  }, [selectedChat]);
+  }, [chat_id, handleRemoveAllFiles]);
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -35,7 +46,7 @@ export default function MainLayout() {
   const handleSendMessage = () => {
     setContent("");
     setIsFileContainerOpen(false);
-    setFilesUploading([]);
+    dispatch({ type: "SET_FILES_UPLOADING", payload: [] });
 
     //Check if there is any file to be uploaded
     const hasFiles = formData.has("0");
@@ -51,14 +62,20 @@ export default function MainLayout() {
           }
 
           if (hasFiles) {
+            formData.append("chat_id", chat_id);
+            formData.append("sender_id", sender_id);
             formData.append("messageId", messageId);
+
             await uploadFile(formData)
               .then((response) => {
-                setFormData(new FormData());
+                console.log("uploadFile", response);
               })
               .catch((err) => {
                 console.error(err);
               });
+
+            //Reset form data
+            setFormData(new FormData());
           }
         }
       );
@@ -81,32 +98,46 @@ export default function MainLayout() {
       return { attachment, isUploading: true };
     });
 
-    setIsFileContainerOpen(true);
-    setFilesUploading(attachments);
-
     for (var [key, value] of Object.entries(attachments)) {
       const { attachment } = value;
       formData.append(key, attachment);
     }
 
-    formData.append("chat_id", chat_id);
-    formData.append("sender_id", sender_id);
-  };
+    filesUploading[chat_id] = attachments;
 
-  const handleRemoveAllFiles = () => {
-    setIsFileContainerOpen(false);
-    setFilesUploading([]);
-    setFormData(new FormData());
+    setIsFileContainerOpen(true);
+    dispatch({
+      type: "SET_FILES_UPLOADING",
+      payload: filesUploading,
+    });
   };
 
   const handleRemoveFile = (fileName) => {
-    const result = filesUploading.filter(
+    const attachments = filesUploading[chat_id]?.filter(
       ({ attachment }) => attachment.name !== fileName
     );
-    setFilesUploading(result);
+    for (var [key] of Object.entries(attachments)) {
+      formData.delete(key);
+    }
+    filesUploading[chat_id] = attachments;
+
+    if (!attachments.length) {
+      setIsFileContainerOpen(false);
+      setFormData(new FormData());
+    }
+    dispatch({
+      type: "SET_FILES_UPLOADING",
+      payload: filesUploading,
+    });
   };
 
-  const handleRecordAudioMessage = () => {};
+  const handleRecordAudioMessage = () => {
+    if (!permission) {
+      getMicrophonePermission();
+    } else {
+      console.log({ stream });
+    }
+  };
 
   return (
     <section className="main-layout-container">
@@ -121,17 +152,17 @@ export default function MainLayout() {
           {messages.map((message, index) => (
             <Message message={message} key={index} />
           ))}
-          {isFileContainerOpen && (
+          {filesUploading[chat_id] && isFileContainerOpen && (
             <div className="files-list-container">
               <IoMdClose
                 className="files-list-close-button"
                 onClick={() => handleRemoveAllFiles(false)}
               />
               <div className="files-list-content">
-                {filesUploading.map(({ attachment }, index) => {
+                {filesUploading[chat_id].map(({ attachment }, index) => {
                   const { name = "", size = 0 } = attachment;
                   return (
-                    <div className="file-list-item" key={index}>
+                    <div className="file-list-item" key={index} title={name}>
                       <IoMdClose
                         className="file-item-close-button"
                         title={name}
