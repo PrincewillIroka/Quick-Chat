@@ -28,8 +28,8 @@ export default function Home({ user }) {
         <ul className="quick-chat-features">
           <li>&#10003; No need to create an account.</li>
           <li>
-            &#10003; Just create a conversation, and share the link to anyone you want to
-            chat with.
+            &#10003; Just create a conversation, and share the link to anyone
+            you want to chat with.
           </li>
         </ul>
         <button
