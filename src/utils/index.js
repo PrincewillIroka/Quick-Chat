@@ -23,3 +23,10 @@ export const formatBytes = (bytes) => {
   }
   return `${parseFloat(r.toFixed(2))} ${SIZES[i]}`;
 };
+
+export const generatePasscode = () => {
+  return Array(4)
+    .fill(0)
+    .map(() => Math.floor(Math.random() * 10))
+    .join("");
+};

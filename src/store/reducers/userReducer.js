@@ -6,6 +6,12 @@ const userReducer = (state, action) => {
         user: action.payload,
       };
     }
+    case "TOGGLE_ALERT": {
+      return {
+        ...state,
+        alert: action.payload,
+      };
+    }
     default:
       return state;
   }

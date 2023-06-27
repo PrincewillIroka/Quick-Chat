@@ -9,3 +9,45 @@
   flex-direction: column;
   overflow-y: auto;
 }
+
+:root {
+  --primary: #0676ed;
+  --background: #222b45;
+  --warning: #f2a600;
+  --success: #049d20;
+  --error: #e41749;
+  --dark: #151a30;
+}
+
+.alert {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 10px;
+  padding: 7px;
+  width: 20rem;
+  height: 3rem;
+  z-index: 2;
+}
+
+.alert-success {
+  background-color: var(--success);
+}
+
+.alert-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-content {
+  color: #fff;
+  text-align: center;
+}
+
+.alert-close {
+  height: 18px;
+  width: 18px;
+  margin-left: auto;
+  color: #fff;
+  cursor: pointer;
+}

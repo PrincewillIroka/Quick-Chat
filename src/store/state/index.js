@@ -3,6 +3,10 @@ const initialState = {
   chatsClone: [],
   selectedChat: {},
   user: {},
+  alert: {
+    isVisible: false,
+    content: "",
+  },
 };
 
 export default initialState;

@@ -3,6 +3,7 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { createChat } from "../../../services";
 import "./CreateConversationModal.css";
 import { useStateValue } from "../../../store/stateProvider";
+import { generatePasscode } from "../../../utils";
 
 export default function CreateConversationModal({ handleToggleModal }) {
   const { state, dispatch } = useStateValue();
@@ -25,6 +26,10 @@ export default function CreateConversationModal({ handleToggleModal }) {
         }
         setIsLoading(false);
         setIsChatCreated(true);
+        dispatch({
+          type: "TOGGLE_ALERT",
+          payload: { isVisible: true, content: "Chat created!" },
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -37,10 +42,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
     if (passcode) {
       num = "";
     } else {
-      num = Array(4)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 10))
-        .join("");
+      num = generatePasscode();
     }
     setPasscode(num);
   };
