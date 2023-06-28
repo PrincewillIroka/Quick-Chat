@@ -12,7 +12,9 @@ function Message({ message }) {
     return sender._id === user._id;
   };
 
-  const handleViewFile = (file_url) => {};
+  const handleViewFile = (file_url) => {
+    window.open(file_url);
+  };
 
   return (
     <div
