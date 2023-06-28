@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
@@ -24,6 +24,18 @@ export default function Chat() {
     });
   }, [dispatch]);
 
+  const handleToggleAlert = useCallback(
+    (value) => {
+      if (value === "close") {
+        dispatch({
+          type: "TOGGLE_ALERT",
+          payload: { isVisible: false, content: "" },
+        });
+      }
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     let alertTimeout;
     if (alert.isVisible) {
@@ -32,16 +44,7 @@ export default function Chat() {
       }, 3000);
     }
     return () => clearTimeout(alertTimeout);
-  }, [dispatch, alert]);
-
-  const handleToggleAlert = (value) => {
-    if (value === "close") {
-      dispatch({
-        type: "TOGGLE_ALERT",
-        payload: { isVisible: false, content: "" },
-      });
-    }
-  };
+  }, [dispatch, handleToggleAlert, alert]);
 
   return (
     <div className="chat-container">
