@@ -6,8 +6,10 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
 import { generateInitials } from "../../../../utils";
 import "./TopSection.css";
+import { useStateValue } from "../../../../store/stateProvider";
 
 function TopSection({ selectedChat }) {
+  const { dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], chat_came } = selectedChat || {};
@@ -15,6 +17,10 @@ function TopSection({ selectedChat }) {
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
     navigator.clipboard.writeText(chatLink);
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload: { isVisible: true, content: "Link Copied!" },
+    });
   };
 
   return (

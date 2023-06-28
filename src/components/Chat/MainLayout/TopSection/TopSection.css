@@ -120,8 +120,13 @@
   cursor: pointer;
   padding: 10px;
   font-size: 14px;
+  z-index: 2;
 }
 
 .more-items-row:nth-child(1) {
   border-bottom: 1px solid #e6e6e6;
+}
+
+.more-items-row:hover {
+  opacity: 0.7;
 }
