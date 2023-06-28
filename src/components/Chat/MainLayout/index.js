@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, memo } from "react";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
@@ -12,31 +12,20 @@ import { uploadFile } from "../../../services";
 import { formatBytes } from "../../../utils";
 import { useAudioRecorder } from "../../../hooks";
 
-export default function MainLayout() {
+function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
-  const { selectedChat = {}, user = {}, filesUploading = [] } = state;
+  const { selectedChat = {}, user = {}, filesUploading = {} } = state;
   const { messages = [], passcode = "", _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id } = user;
   const selectFile = useRef();
   const [formData, setFormData] = useState(new FormData());
   const { permission, stream, getMicrophonePermission } = useAudioRecorder();
 
-  const handleRemoveAllFiles = () => {
-    setIsFileContainerOpen(false);
-    setFormData(new FormData());
-    filesUploading[chat_id] = [];
-    dispatch({
-      type: "SET_FILES_UPLOADING",
-      payload: filesUploading,
-    });
-  };
-
   useEffect(() => {
-    handleRemoveAllFiles();
-    setContent("");
-  }, [chat_id, handleRemoveAllFiles]);
+    handleResetValues();
+  }, [chat_id]);
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -56,20 +45,32 @@ export default function MainLayout() {
         "newMessageSent",
         { content, chat_url, chat_id, sender_id },
         async (ack) => {
-          const { messageSent, updatedChat, messageId } = ack;
+          let { messageSent, updatedChat, message_id } = ack;
           if (messageSent && updatedChat) {
+            if (hasFiles) {
+              const attachments = filesUploading[chat_id];
+              let { messages = [] } = updatedChat;
+
+              messages = messages.map((message) => {
+                const { _id } = message;
+                if (_id === message_id) {
+                  message["attachments"] = attachments;
+                }
+                return message;
+              });
+
+              updatedChat["messages"] = messages;
+            }
             dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
           }
 
           if (hasFiles) {
             formData.append("chat_id", chat_id);
             formData.append("sender_id", sender_id);
-            formData.append("messageId", messageId);
+            formData.append("message_id", message_id);
 
             await uploadFile(formData)
-              .then((response) => {
-                console.log("uploadFile", response);
-              })
+              .then(() => {})
               .catch((err) => {
                 console.error(err);
               });
@@ -93,17 +94,16 @@ export default function MainLayout() {
 
   const handleSelectAttachment = async (e) => {
     let attachments = [...e.target.files];
-
-    attachments = attachments.map((attachment) => {
-      return { attachment, isUploading: true };
-    });
+    let arr = [];
 
     for (var [key, value] of Object.entries(attachments)) {
-      const { attachment } = value;
-      formData.append(key, attachment);
+      const { name = "", size = 0 } = value;
+      const attachment = { key, name, size, isUploading: "In Progress" };
+      formData.append(key, value);
+      arr = arr.concat({ attachment });
     }
 
-    filesUploading[chat_id] = attachments;
+    filesUploading[chat_id] = arr;
 
     setIsFileContainerOpen(true);
     dispatch({
@@ -139,6 +139,21 @@ export default function MainLayout() {
     }
   };
 
+  const handleRemoveAllFiles = () => {
+    handleResetValues();
+    filesUploading[chat_id] = [];
+    dispatch({
+      type: "SET_FILES_UPLOADING",
+      payload: filesUploading,
+    });
+  };
+
+  const handleResetValues = () => {
+    setContent("");
+    setIsFileContainerOpen(false);
+    setFormData(new FormData());
+  };
+
   return (
     <section className="main-layout-container">
       <TopSection selectedChat={selectedChat} />
@@ -148,10 +163,13 @@ export default function MainLayout() {
           <span>Messages here</span>
         </div>
       ) : (
-        <div className="body-section">
-          {messages.map((message, index) => (
-            <Message message={message} key={index} />
-          ))}
+        <>
+          <div className="body-section">
+            {messages.map((message, index) => (
+              <Message message={message} key={index} />
+            ))}
+          </div>
+
           {filesUploading[chat_id] && isFileContainerOpen && (
             <div className="files-list-container">
               <IoMdClose
@@ -178,7 +196,7 @@ export default function MainLayout() {
               </div>
             </div>
           )}
-        </div>
+        </>
       )}
       {handleCheckPasscode() ? (
         <div className="type-message-section">
@@ -220,3 +238,5 @@ export default function MainLayout() {
     </section>
   );
 }
+
+export default memo(MainLayout);

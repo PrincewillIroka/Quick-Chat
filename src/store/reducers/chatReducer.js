@@ -12,6 +12,7 @@ const chatReducer = (state, action) => {
       return {
         ...state,
         selectedChat: action.payload,
+        filesUploading: [],
       };
     }
     case "GET_CHATS_SUCCESS": {

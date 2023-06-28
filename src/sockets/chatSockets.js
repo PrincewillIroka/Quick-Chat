@@ -3,18 +3,9 @@ const chatSockets = (socket, state, dispatch) => {
     if (updatedChat) dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
   });
 
-  socket.on(
-    "uploadedFileSuccess",
-    ({ chat_id, sender_id, messageId, attachmentKey: key, file_url }) => {
-      console.log({
-        chat_id,
-        sender_id,
-        messageId,
-        attachmentKey: key,
-        file_url,
-      });
-    }
-  );
+  socket.on("uploadedFileSuccess", (data) => {
+    dispatch({ type: "UPDATE_FILE_UPLOADING_STATUS", payload: data });
+  });
 };
 
 export default chatSockets;

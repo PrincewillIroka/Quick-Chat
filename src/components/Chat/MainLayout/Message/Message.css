@@ -6,6 +6,7 @@
 
 .message-container-align-right {
   margin-left: auto;
+  /* margin-right: 10px; */
 }
 
 .message-sender-photo {
@@ -45,11 +46,18 @@
 
 .message-original {
   border: 1px solid #ccc;
-  padding: 10px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.message-original-wrapper {
+  width: 90%;
 }
 
 .attachments-container {
@@ -59,12 +67,16 @@
   width: 100%;
 }
 
-.attachement-name {
+.attachment-name-wrapper {
+  margin-bottom: 10px;
+  width: 40%;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding: 7px;
-  margin-bottom: 10px;
-  width: 42%;
+  position: relative;
+}
+
+.attachment-name {
   overflow: hidden;
   text-overflow: ellipsis;
   border-radius: 5px;
@@ -72,4 +84,40 @@
   height: 60px;
   cursor: pointer;
   color: #0430b2;
+}
+
+.attachment-progress-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.attachment-progress-loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.attachment-progress-text{
+  font-size: 11px;
 }

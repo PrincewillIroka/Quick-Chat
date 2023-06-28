@@ -34,26 +34,37 @@ function Message({ message }) {
         </div>
         {content || attachments.length ? (
           <div className="message-original">
-            {attachments.length ? (
-              <div className="attachments-container">
-                {attachments.map(({ file_details }, index) => {
-                  const { file_name, file_url } = file_details;
-                  return (
-                    <div
-                      key={index}
-                      className="attachement-name"
-                      title={file_name}
-                      onClick={() => handleViewFile(file_url)}
-                    >
-                      {file_name}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              ""
-            )}
-            {content && <span>{content}</span>}
+            <div className="message-original-wrapper">
+              {attachments.length ? (
+                <div className="attachments-container">
+                  {attachments.map(({ attachment = {} }, index) => {
+                    const { name, file_url, isUploading } = attachment;
+                    return (
+                      <div className="attachment-name-wrapper" key={index}>
+                        <div
+                          className="attachment-name"
+                          title={name}
+                          onClick={() => handleViewFile(file_url)}
+                        >
+                          {name}
+                        </div>
+                        {isUploading === "In Progress" && (
+                          <div className="attachment-progress-container">
+                            <span className="attachment-progress-loader"></span>
+                            <span className="attachment-progress-text">
+                              Uploading file...
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
+              {content && <span className="message-content">{content}</span>}
+            </div>
           </div>
         ) : (
           ""
