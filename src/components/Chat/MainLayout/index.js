@@ -21,7 +21,7 @@ function MainLayout() {
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
   const { selectedChat = {}, user = {}, filesUploading = {} } = state;
-  const { messages = [], passcode = "", _id: chat_id, chat_url } = selectedChat;
+  const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id } = user;
   const selectFile = useRef();
   const [formData, setFormData] = useState(new FormData());
@@ -118,10 +118,10 @@ function MainLayout() {
     }
   };
 
-  const handleCheckPasscode = () => {
-    const value = !passcode ? true : false;
-    return value;
-  };
+  // const handleCheckPasscode = () => {
+  //   const value = !passcode ? true : false;
+  //   return value;
+  // };
 
   const handleClickAttachmentIcon = () => {
     selectFile.current.click();
@@ -152,6 +152,7 @@ function MainLayout() {
           type: "error",
         },
       });
+      handleRemoveAllFiles();
       return;
     }
 
@@ -215,78 +216,69 @@ function MainLayout() {
           <span>Messages here</span>
         </div>
       ) : (
-        <>
-          <div className="body-section">
-            {messages.map((message, index) => (
-              <Message message={message} key={index} />
-            ))}
-          </div>
-
-          {filesUploading[chat_id] && isFileContainerOpen && (
-            <div className="files-list-container">
-              <IoMdClose
-                className="files-list-close-button"
-                onClick={() => handleRemoveAllFiles(false)}
-              />
-              <div className="files-list-content">
-                {filesUploading[chat_id].map(({ attachment }, index) => {
-                  const { name = "", size = 0 } = attachment;
-                  return (
-                    <div className="file-list-item" key={index} title={name}>
-                      <IoMdClose
-                        className="file-item-close-button"
-                        title={name}
-                        onClick={() => handleRemoveFile(name)}
-                      />
-                      <span className="file-item-name">{name}</span>
-                      <span className="file-item-size">
-                        {formatBytes(size)}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </>
+        <div className="body-section">
+          {messages.map((message, index) => (
+            <Message message={message} key={index} />
+          ))}
+        </div>
       )}
-      {handleCheckPasscode() ? (
-        <div className="type-message-section">
-          <div className="message-input-container">
-            <input
-              type="text"
-              placeholder="Type a message"
-              className="input-field"
-              onChange={handleTyping}
-              onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
-              value={content}
-            />
-            <span className="right-divider"></span>
-            <div className="emoji-container">
-              <BiMicrophone
-                className="microphone-icon"
-                onClick={handleRecordAudioMessage}
-              />
-              <RiAttachment2
-                className="attachment-icon"
-                onClick={handleClickAttachmentIcon}
-              />
-              <input
-                type="file"
-                hidden
-                ref={selectFile}
-                onInput={handleSelectAttachment}
-                multiple
-              />
-            </div>
-          </div>
-          <div className="send-button-container" onClick={handleSendMessage}>
-            <RiSendPlaneFill className="send-icon" />
+      {filesUploading[chat_id] && isFileContainerOpen && (
+        <div className="files-list-container">
+          <IoMdClose
+            className="files-list-close-button"
+            onClick={() => handleRemoveAllFiles(false)}
+          />
+          <div className="files-list-content">
+            {filesUploading[chat_id].map(({ attachment }, index) => {
+              const { name = "", size = 0 } = attachment;
+              return (
+                <div className="file-list-item" key={index} title={name}>
+                  <IoMdClose
+                    className="file-item-close-button"
+                    title={name}
+                    onClick={() => handleRemoveFile(name)}
+                  />
+                  <span className="file-item-name">{name}</span>
+                  <span className="file-item-size">{formatBytes(size)}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
-      ) : (
-        <div></div>
       )}
+      <div className="type-message-section">
+        <div className="message-input-container">
+          <input
+            type="text"
+            placeholder="Type a message"
+            className="input-field"
+            onChange={handleTyping}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+            value={content}
+          />
+          <span className="right-divider"></span>
+          <div className="emoji-container">
+            <BiMicrophone
+              className="microphone-icon"
+              onClick={handleRecordAudioMessage}
+            />
+            <RiAttachment2
+              className="attachment-icon"
+              onClick={handleClickAttachmentIcon}
+            />
+            <input
+              type="file"
+              hidden
+              ref={selectFile}
+              onInput={handleSelectAttachment}
+              multiple
+            />
+          </div>
+        </div>
+        <div className="send-button-container" onClick={handleSendMessage}>
+          <RiSendPlaneFill className="send-icon" />
+        </div>
+      </div>
     </section>
   );
 }
