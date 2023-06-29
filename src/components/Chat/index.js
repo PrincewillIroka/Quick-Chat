@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
@@ -40,31 +40,22 @@ export default function Chat() {
     });
   }, [dispatch]);
 
-  const handleToggleAlert = useCallback(
-    (value) => {
-      if (value === "close") {
-        closeAlert();
-      }
-    },
-    [dispatch]
-  );
+  const closeAlert = useCallback(() => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload: { isAlertVisible: false, content: "" },
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     let alertTimeout;
     if (isAlertVisible && alertType !== "info") {
       alertTimeout = setTimeout(() => {
-        handleToggleAlert("close");
+        closeAlert();
       }, 3000);
     }
     return () => clearTimeout(alertTimeout);
-  }, [dispatch, handleToggleAlert, isAlertVisible, alertType]);
-
-  const closeAlert = () => {
-    dispatch({
-      type: "TOGGLE_ALERT",
-      payload: { isAlertVisible: false, content: "" },
-    });
-  };
+  }, [closeAlert, isAlertVisible, alertType]);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -92,10 +83,7 @@ export default function Chat() {
               dangerouslySetInnerHTML={{ __html: alertContent }}
               onClick={handleClick}
             ></div>
-            <IoMdClose
-              className="alert-close"
-              onClick={() => handleToggleAlert("close")}
-            />
+            <IoMdClose className="alert-close" onClick={() => closeAlert()} />
           </div>
         </div>
       )}

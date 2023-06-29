@@ -10,11 +10,11 @@ import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 import { uploadFile } from "../../../services";
 import { formatBytes } from "../../../utils";
-import {
-  useAudioRecorder,
-  startRecording,
-  stopRecording,
-} from "../../../hooks";
+// import {
+//   useAudioRecorder,
+//   startRecording,
+//   stopRecording,
+// } from "../../../hooks";
 
 function MainLayout() {
   const { state, dispatch } = useStateValue();
@@ -26,18 +26,18 @@ function MainLayout() {
   const selectFile = useRef();
   const [formData, setFormData] = useState(new FormData());
 
-  const [permission, setPermission] = useState(false);
-  const [stream, setStream] = useState(null);
-  const mediaRecorder = useRef(null);
-  const [recordingStatus, setRecordingStatus] = useState("inactive");
-  const [audioChunks, setAudioChunks] = useState([]);
-  const [audio, setAudio] = useState(null);
-  const mimeType = "audio/webm";
+  // const [permission, setPermission] = useState(false);
+  // const [stream, setStream] = useState(null);
+  // const mediaRecorder = useRef(null);
+  // const [recordingStatus, setRecordingStatus] = useState("inactive");
+  // const [audioChunks, setAudioChunks] = useState([]);
+  // const [audio, setAudio] = useState(null);
+  // const mimeType = "audio/webm";
 
-  const { getMicrophonePermission } = useAudioRecorder({
-    setPermission,
-    setStream,
-  });
+  // const { getMicrophonePermission } = useAudioRecorder({
+  //   setPermission,
+  //   setStream,
+  // });
   // const {} = startRecording({
   //   setRecordingStatus,
   //   setAudioChunks,
@@ -58,9 +58,9 @@ function MainLayout() {
     handleResetValues();
   }, [chat_id]);
 
-  useEffect(() => {
-    console.log({ recordingStatus });
-  }, [recordingStatus]);
+  // useEffect(() => {
+  //   console.log({ recordingStatus });
+  // }, [recordingStatus]);
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -184,11 +184,11 @@ function MainLayout() {
   };
 
   const handleRecordAudioMessage = () => {
-    if (!permission) {
-      getMicrophonePermission();
-    } else {
-      startRecording({ stream });
-    }
+    // if (!permission) {
+    //   getMicrophonePermission();
+    // } else {
+    //   startRecording({ stream });
+    // }
   };
 
   const handleRemoveAllFiles = () => {
