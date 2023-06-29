@@ -46,7 +46,11 @@ export default function CreateConversationModal({ handleToggleModal }) {
 
   const handleCopyChatLink = () => {
     navigator.clipboard.writeText(chatLink);
-    handleToggleAlert({ isVisible: true, content: "Chat link copied!" });
+    handleToggleAlert({
+      isVisible: true,
+      content: "Chat link copied!",
+      type: "success",
+    });
   };
 
   const handleToggleAlert = (payload) => {

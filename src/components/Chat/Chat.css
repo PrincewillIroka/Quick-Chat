@@ -19,14 +19,25 @@
   background-color: var(--success);
 }
 
+.alert-info {
+  background-color: var(--info);
+}
+
 .alert-container {
   display: flex;
-  flex-direction: column;
+  height: 100%;
 }
 
 .alert-content {
   color: #fff;
+  width: 90%;
+  height: 100%;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  font-weight: 500;
 }
 
 .alert-close {

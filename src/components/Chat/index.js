@@ -12,14 +12,25 @@ export default function Chat() {
   const { state, dispatch } = useStateValue();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { alert = {} } = state;
+  const { isVisible = false, content: alertContent, type: alertType } = alert;
 
   useEffect(() => {
     authenticateUser().then((response) => {
       const user = response?.user;
       if (user) {
-        const { bs_token = "" } = user;
+        const { bs_token = "", hasUpdatedUsername = false, name = "" } = user;
         localStorage.setItem("bs_token", bs_token);
         dispatch({ type: "GET_USER_SUCCESS", payload: user });
+        if (!hasUpdatedUsername) {
+          dispatch({
+            type: "TOGGLE_ALERT",
+            payload: {
+              isVisible: true,
+              content: `Your default name is ${name}. Click here to update it.`,
+              type: "info",
+            },
+          });
+        }
       }
     });
   }, [dispatch]);
@@ -38,13 +49,13 @@ export default function Chat() {
 
   useEffect(() => {
     let alertTimeout;
-    if (alert.isVisible) {
+    if (isVisible && alertType !== "info") {
       alertTimeout = setTimeout(() => {
         handleToggleAlert("close");
       }, 3000);
     }
     return () => clearTimeout(alertTimeout);
-  }, [dispatch, handleToggleAlert, alert]);
+  }, [dispatch, handleToggleAlert, isVisible, alertType]);
 
   return (
     <div className="chat-container">
@@ -56,14 +67,16 @@ export default function Chat() {
           handleToggleModal={() => setIsModalVisible(!isModalVisible)}
         />
       )}
-      {alert.isVisible && (
-        <div className="alert alert-success">
+      {isVisible && (
+        <div className={`alert alert-${alertType}`}>
           <div className="alert-container">
+            <div className="alert-content">
+              <span>{alertContent}</span>
+            </div>
             <IoMdClose
               className="alert-close"
               onClick={() => handleToggleAlert("close")}
             />
-            <span className="alert-content">{alert.content}</span>
           </div>
         </div>
       )}
