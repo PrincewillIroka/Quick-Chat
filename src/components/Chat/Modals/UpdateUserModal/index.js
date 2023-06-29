@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { updateUser } from "../../../../services";
-import "./UpdateUsernameModal.css";
+import "./UpdateUserModal.css";
 import { useStateValue } from "../../../../store/stateProvider";
 
-export default function UpdateUsernameModal() {
+export default function UpdateUserModal() {
   const { state, dispatch } = useStateValue();
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUserName] = useState("");
@@ -52,7 +52,7 @@ export default function UpdateUsernameModal() {
     <div className="modal">
       <div className="modal-content">
         <div className="modal-top-row">
-          <span className="modal-title">Update Username</span>
+          <span className="modal-title">Update User</span>
           <span className="close" onClick={handleToggleModal}>
             &times;
           </span>
@@ -65,7 +65,7 @@ export default function UpdateUsernameModal() {
         ) : (
           <div className="modal-body">
             <div className="conversation-title-container">
-              <span>Username:</span>
+              <span>Name:</span>
               <input
                 type="text"
                 placeholder={`Your current username is ${name}`}

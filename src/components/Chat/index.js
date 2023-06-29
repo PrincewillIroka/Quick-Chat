@@ -1,10 +1,10 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
 import ChatDetails from "./ChatDetails";
 import CreateConversationModal from "./Modals/CreateConversationModal";
-import UpdateUsernameModal from "./Modals/UpdateUsernameModal";
+import UpdateUserModal from "./Modals/UpdateUserModal";
 import "./Chat.css";
 import { useStateValue } from "../../store/stateProvider";
 import { authenticateUser } from "../../services";
@@ -30,7 +30,8 @@ export default function Chat() {
             type: "TOGGLE_ALERT",
             payload: {
               isAlertVisible: true,
-              content: `Your default name is ${name}. Click here to update it.`,
+              content: `<div class="alert-nested-wrapper"><span>Your default name is ${name}.</span>
+              <span class="alert-click-here-btn" id="alert-click-here-btn">Click here to update it.</span></div>`,
               type: "info",
             },
           });
@@ -42,10 +43,7 @@ export default function Chat() {
   const handleToggleAlert = useCallback(
     (value) => {
       if (value === "close") {
-        dispatch({
-          type: "TOGGLE_ALERT",
-          payload: { isAlertVisible: false, content: "" },
-        });
+        closeAlert();
       }
     },
     [dispatch]
@@ -61,6 +59,21 @@ export default function Chat() {
     return () => clearTimeout(alertTimeout);
   }, [dispatch, handleToggleAlert, isAlertVisible, alertType]);
 
+  const closeAlert = () => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload: { isAlertVisible: false, content: "" },
+    });
+  };
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    if (event.target.id === "alert-click-here-btn") {
+      closeAlert();
+      dispatch({ type: "TOGGLE_MODAL", payload: "UpdateUserModal" });
+    }
+  };
+
   return (
     <div className="chat-container">
       <ChatList />
@@ -69,14 +82,16 @@ export default function Chat() {
       {visibleModal === "CreateConversation" ? (
         <CreateConversationModal />
       ) : (
-        visibleModal === "UpdateUsernameModal" && <UpdateUsernameModal />
+        visibleModal === "UpdateUserModal" && <UpdateUserModal />
       )}
       {isAlertVisible && (
         <div className={`alert alert-${alertType}`}>
           <div className="alert-container">
-            <div className="alert-content">
-              <span>{alertContent}</span>
-            </div>
+            <div
+              className="alert-content"
+              dangerouslySetInnerHTML={{ __html: alertContent }}
+              onClick={handleClick}
+            ></div>
             <IoMdClose
               className="alert-close"
               onClick={() => handleToggleAlert("close")}
