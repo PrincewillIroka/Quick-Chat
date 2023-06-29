@@ -3,8 +3,8 @@ const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 export const generateInitials = (name) => {
   const arr = name?.split(" ");
   if (arr) {
-    const fText = arr[0].charAt(0);
-    const sText = arr[1].charAt(0);
+    const fText = arr[0]?.charAt(0);
+    const sText = arr[1]?.charAt(0);
     return `${fText}${sText}`;
   }
   return "";

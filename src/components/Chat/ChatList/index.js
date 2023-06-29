@@ -60,8 +60,8 @@ export default function ChatList() {
     dispatch({ type: "SEARCH_CHATS", payload: value });
   };
 
-  const handleToggleModal = () => {
-    dispatch({ type: "TOGGLE_MODAL", payload: "CreateConversation" });
+  const handleToggleModal = (value) => {
+    dispatch({ type: "TOGGLE_MODAL", payload: value });
   };
 
   return (
@@ -73,13 +73,21 @@ export default function ChatList() {
             src={user.photo}
             alt={user.name}
             title={user.name}
+            onClick={() => handleToggleModal("UpdateUsernameModal")}
           />
         ) : (
-          <span className="profile-photo profile-initial" title={user.name}>
+          <span
+            className="profile-photo profile-initial"
+            title={user.name}
+            onClick={() => handleToggleModal("UpdateUsernameModal")}
+          >
             {generateInitials(user.name)}
           </span>
         )}
-        <button className="btn-start-convo" onClick={handleToggleModal}>
+        <button
+          className="btn-start-convo"
+          onClick={() => handleToggleModal("CreateConversation")}
+        >
           <span>Start new conversation</span>
           <BsPlusCircle className="plus-circle-icon" />
         </button>

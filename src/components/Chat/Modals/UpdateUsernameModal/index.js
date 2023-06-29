@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createChat } from "../../../../services";
+import { updateUser } from "../../../../services";
 import "./UpdateUsernameModal.css";
 import { useStateValue } from "../../../../store/stateProvider";
 
@@ -8,17 +8,23 @@ export default function UpdateUsernameModal() {
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUserName] = useState("");
   const { user = {} } = state;
+  const { _id: user_id, name = "" } = user;
 
   const handleUpdateUsername = async () => {
     setIsLoading(true);
-    await createChat({ creator_id: user._id, username })
+    await updateUser({ user_id, username })
       .then(async (response) => {
-        const { newChat } = response;
+        const { user } = response;
+        if (user) {
+          dispatch({ type: "GET_USER_SUCCESS", payload: user });
+          handleToggleModal();
+          handleToggleAlert({
+            isAlertVisible: true,
+            content: "Username updated!",
+            type: "success",
+          });
+        }
         setIsLoading(false);
-        handleToggleAlert({
-          isAlertVisible: true,
-          content: "Username updated!",
-        });
       })
       .catch((err) => {
         console.error(err);
@@ -62,9 +68,9 @@ export default function UpdateUsernameModal() {
               <span>Username:</span>
               <input
                 type="text"
-                placeholder="Default name is New User"
+                placeholder={`Your current username is ${name}`}
                 className="conversation-title-input"
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => setUserName(e.target.value.trim())}
               />
             </div>
             <div className="action-buttons">
