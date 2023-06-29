@@ -10,7 +10,11 @@ import { useStateValue } from "../../../store/stateProvider";
 import { socket } from "../../../sockets/socketHandler";
 import { uploadFile } from "../../../services";
 import { formatBytes } from "../../../utils";
-import { useAudioRecorder } from "../../../hooks";
+import {
+  useAudioRecorder,
+  startRecording,
+  stopRecording,
+} from "../../../hooks";
 
 function MainLayout() {
   const { state, dispatch } = useStateValue();
@@ -21,11 +25,42 @@ function MainLayout() {
   const { _id: sender_id } = user;
   const selectFile = useRef();
   const [formData, setFormData] = useState(new FormData());
-  const { permission, stream, getMicrophonePermission } = useAudioRecorder();
+
+  const [permission, setPermission] = useState(false);
+  const [stream, setStream] = useState(null);
+  const mediaRecorder = useRef(null);
+  const [recordingStatus, setRecordingStatus] = useState("inactive");
+  const [audioChunks, setAudioChunks] = useState([]);
+  const [audio, setAudio] = useState(null);
+  const mimeType = "audio/webm";
+
+  const { getMicrophonePermission } = useAudioRecorder({
+    setPermission,
+    setStream,
+  });
+  // const {} = startRecording({
+  //   setRecordingStatus,
+  //   setAudioChunks,
+  //   mediaRecorder,
+  //   stream,
+  //   mimeType,
+  // });
+  // const {} = stopRecording({
+  //   setRecordingStatus,
+  //   setAudioChunks,
+  //   setAudio,
+  //   mediaRecorder,
+  //   audioChunks,
+  //   mimeType,
+  // });
 
   useEffect(() => {
     handleResetValues();
   }, [chat_id]);
+
+  useEffect(() => {
+    console.log({ recordingStatus });
+  }, [recordingStatus]);
 
   const handleTyping = (e) => {
     e.preventDefault();
@@ -103,6 +138,23 @@ function MainLayout() {
       arr = arr.concat({ attachment });
     }
 
+    const totalFileSize = arr.reduce(
+      (acc, { attachment }) => acc + attachment.size,
+      0
+    );
+
+    if (totalFileSize > 5000000) {
+      dispatch({
+        type: "TOGGLE_ALERT",
+        payload: {
+          isVisible: true,
+          content: `Maximum size for files is 5MB.`,
+          type: "error",
+        },
+      });
+      return;
+    }
+
     filesUploading[chat_id] = arr;
 
     setIsFileContainerOpen(true);
@@ -135,7 +187,7 @@ function MainLayout() {
     if (!permission) {
       getMicrophonePermission();
     } else {
-      console.log({ stream });
+      startRecording({ stream });
     }
   };
 

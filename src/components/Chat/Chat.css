@@ -23,6 +23,10 @@
   background-color: var(--info);
 }
 
+.alert-error {
+  background-color: var(--error);
+}
+
 .alert-container {
   display: flex;
   height: 100%;
