@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { createChat } from "../../../../services";
+import { createChat } from "services";
 import "./CreateConversationModal.css";
-import { useStateValue } from "../../../../store/stateProvider";
-import { generatePasscode } from "../../../../utils";
+import { useStateValue } from "store/stateProvider";
+import { generatePasscode } from "utils";
 
 export default function CreateConversationModal() {
   const { state, dispatch } = useStateValue();

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
-import BeginChatSvg from "../../assets/Begin-chat.svg";
+import BeginChatSvg from "assets/Begin-chat.svg";
 
 export default function Home({ user }) {
   const navigate = useNavigate();

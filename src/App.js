@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
-import Chat from "./components/Chat";
-import { StateProvider } from "./store/stateProvider";
-import initialState from "./store/state";
-import reducers from "./store/reducers";
+import Home from "components/Home";
+import Chat from "components/Chat";
+import { StateProvider } from "store/stateProvider";
+import initialState from "store/state";
+import reducers from "store/reducers";
 import "./App.css";
 
 function App() {

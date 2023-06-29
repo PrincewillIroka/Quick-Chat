@@ -1,6 +1,6 @@
 import React from "react";
 import "./ChatInfo.css";
-import { generateInitials, isSelectedChat } from "../../../../utils";
+import { generateInitials, isSelectedChat } from "utils";
 
 export default function ChatInfo({
   chat,

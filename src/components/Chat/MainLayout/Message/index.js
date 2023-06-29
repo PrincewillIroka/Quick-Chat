@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import "./Message.css";
-import { generateInitials } from "../../../../utils";
-import { useStateValue } from "../../../../store/stateProvider";
+import { generateInitials } from "utils";
+import { useStateValue } from "store/stateProvider";
 
 function Message({ message }) {
   const { state } = useStateValue();

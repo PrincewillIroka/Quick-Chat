@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
-import ChatList from "./ChatList";
-import MainLayout from "./MainLayout";
-import ChatDetails from "./ChatDetails";
-import CreateConversationModal from "./Modals/CreateConversationModal";
-import UpdateUserModal from "./Modals/UpdateUserModal";
+import ChatList from "components/Chat/ChatList";
+import MainLayout from "components/Chat/MainLayout";
+import ChatDetails from "components/Chat/ChatDetails";
+import CreateConversationModal from "components/Chat/Modals/CreateConversationModal";
+import UpdateUserModal from "components/Chat/Modals/UpdateUserModal";
 import "./Chat.css";
-import { useStateValue } from "../../store/stateProvider";
-import { authenticateUser } from "../../services";
+import { useStateValue } from "store/stateProvider";
+import { authenticateUser } from "services";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();

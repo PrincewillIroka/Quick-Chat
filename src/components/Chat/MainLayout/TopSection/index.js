@@ -4,9 +4,9 @@ import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
-import { generateInitials } from "../../../../utils";
+import { generateInitials } from "utils";
 import "./TopSection.css";
-import { useStateValue } from "../../../../store/stateProvider";
+import { useStateValue } from "store/stateProvider";
 
 function TopSection({ selectedChat }) {
   const { dispatch } = useStateValue();

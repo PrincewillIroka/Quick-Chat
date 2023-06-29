@@ -2,19 +2,19 @@ import React, { useState, useRef, useEffect, memo } from "react";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
-import Message from "./Message";
+import Message from "components/Chat/MainLayout/Message";
 import "./MainLayout.css";
-import TopSection from "./TopSection";
-import NoChat from "../../../assets/NoChat.svg";
-import { useStateValue } from "../../../store/stateProvider";
-import { socket } from "../../../sockets/socketHandler";
-import { uploadFile } from "../../../services";
-import { formatBytes } from "../../../utils";
+import TopSection from "components/Chat/MainLayout/TopSection";
+import NoChat from "assets/NoChat.svg";
+import { useStateValue } from "store/stateProvider";
+import { socket } from "sockets/socketHandler";
+import { uploadFile } from "services";
+import { formatBytes } from "utils";
 // import {
 //   useAudioRecorder,
 //   startRecording,
 //   stopRecording,
-// } from "../../../hooks";
+// } from "hooks";
 
 function MainLayout() {
   const { state, dispatch } = useStateValue();

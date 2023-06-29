@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { updateUser } from "../../../../services";
+import { updateUser } from "services";
 import "./UpdateUserModal.css";
-import { useStateValue } from "../../../../store/stateProvider";
+import { useStateValue } from "store/stateProvider";
 
 export default function UpdateUserModal() {
   const { state, dispatch } = useStateValue();

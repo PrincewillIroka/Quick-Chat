@@ -7,10 +7,10 @@ import { BiMessageEdit } from "react-icons/bi";
 
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
-import { useStateValue } from "../../../store/stateProvider";
-import { getChats } from "../../../services/userServices";
-import { socket } from "../../../sockets/socketHandler";
-import { generateInitials } from "../../../utils";
+import { useStateValue } from "store/stateProvider";
+import { getChats } from "services/userServices";
+import { socket } from "sockets/socketHandler";
+import { generateInitials } from "utils";
 
 export default function ChatList() {
   const { state, dispatch } = useStateValue();

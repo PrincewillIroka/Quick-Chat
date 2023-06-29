@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsPeople, BsInfoCircle } from "react-icons/bs";
 import "./ChatDetails.css";
-import Photos from "../../../assets/Photos.svg";
-import Video from "../../../assets/Video.svg";
-import Links from "../../../assets/Links.svg";
+import Photos from "assets/Photos.svg";
+import Video from "assets/Video.svg";
+import Links from "assets/Links.svg";
 
 export default function ChatDetails() {
   const [activeDetail, setActiveDetail] = useState("info");
