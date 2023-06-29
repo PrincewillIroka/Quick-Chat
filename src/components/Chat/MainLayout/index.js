@@ -129,9 +129,11 @@ function MainLayout() {
 
   const handleSelectAttachment = async (e) => {
     let attachments = [...e.target.files];
+
+    if (!attachments.length) return;
     let arr = [];
 
-    for (var [key, value] of Object.entries(attachments)) {
+    for (let [key, value] of Object.entries(attachments)) {
       const { name = "", size = 0 } = value;
       const attachment = { key, name, size, isUploading: "In Progress" };
       formData.append(key, value);
@@ -272,6 +274,7 @@ function MainLayout() {
               ref={selectFile}
               onInput={handleSelectAttachment}
               multiple
+              onReset={() => console.log({ reset: "shhhs" })}
             />
           </div>
         </div>
