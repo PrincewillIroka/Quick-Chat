@@ -12,7 +12,7 @@ import { getChats } from "../../../services/userServices";
 import { socket } from "../../../sockets/socketHandler";
 import { generateInitials } from "../../../utils";
 
-export default function ChatList({ handleToggleModal }) {
+export default function ChatList() {
   const { state, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
   const { chatUrlParam } = useParams();
@@ -58,6 +58,10 @@ export default function ChatList({ handleToggleModal }) {
     const value = e.target.value;
     setSearchText(value);
     dispatch({ type: "SEARCH_CHATS", payload: value });
+  };
+
+  const handleToggleModal = () => {
+    dispatch({ type: "TOGGLE_MODAL", payload: "CreateConversation" });
   };
 
   return (

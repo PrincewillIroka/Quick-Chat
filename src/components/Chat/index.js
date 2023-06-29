@@ -1,18 +1,22 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 import ChatList from "./ChatList";
 import MainLayout from "./MainLayout";
 import ChatDetails from "./ChatDetails";
-import CreateConversationModal from "../Chat/CreateConversationModal";
+import CreateConversationModal from "./Modals/CreateConversationModal";
+import UpdateUsernameModal from "./Modals/UpdateUsernameModal";
 import "./Chat.css";
 import { useStateValue } from "../../store/stateProvider";
 import { authenticateUser } from "../../services";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const { alert = {} } = state;
-  const { isVisible = false, content: alertContent, type: alertType } = alert;
+  const { alert = {}, visibleModal = "" } = state;
+  const {
+    isAlertVisible = false,
+    content: alertContent,
+    type: alertType,
+  } = alert;
 
   useEffect(() => {
     authenticateUser().then((response) => {
@@ -25,7 +29,7 @@ export default function Chat() {
           dispatch({
             type: "TOGGLE_ALERT",
             payload: {
-              isVisible: true,
+              isAlertVisible: true,
               content: `Your default name is ${name}. Click here to update it.`,
               type: "info",
             },
@@ -40,7 +44,7 @@ export default function Chat() {
       if (value === "close") {
         dispatch({
           type: "TOGGLE_ALERT",
-          payload: { isVisible: false, content: "" },
+          payload: { isAlertVisible: false, content: "" },
         });
       }
     },
@@ -49,25 +53,25 @@ export default function Chat() {
 
   useEffect(() => {
     let alertTimeout;
-    if (isVisible && alertType !== "info") {
+    if (isAlertVisible && alertType !== "info") {
       alertTimeout = setTimeout(() => {
         handleToggleAlert("close");
       }, 3000);
     }
     return () => clearTimeout(alertTimeout);
-  }, [dispatch, handleToggleAlert, isVisible, alertType]);
+  }, [dispatch, handleToggleAlert, isAlertVisible, alertType]);
 
   return (
     <div className="chat-container">
-      <ChatList handleToggleModal={() => setIsModalVisible(!isModalVisible)} />
+      <ChatList />
       <MainLayout />
       <ChatDetails />
-      {isModalVisible && (
-        <CreateConversationModal
-          handleToggleModal={() => setIsModalVisible(!isModalVisible)}
-        />
+      {visibleModal === "CreateConversation" ? (
+        <CreateConversationModal />
+      ) : (
+        visibleModal === "UpdateUsernameModal" && <UpdateUsernameModal />
       )}
-      {isVisible && (
+      {isAlertVisible && (
         <div className={`alert alert-${alertType}`}>
           <div className="alert-container">
             <div className="alert-content">

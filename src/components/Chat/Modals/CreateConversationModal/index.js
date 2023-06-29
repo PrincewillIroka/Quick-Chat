@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { createChat } from "../../../services";
+import { createChat } from "../../../../services";
 import "./CreateConversationModal.css";
-import { useStateValue } from "../../../store/stateProvider";
-import { generatePasscode } from "../../../utils";
+import { useStateValue } from "../../../../store/stateProvider";
+import { generatePasscode } from "../../../../utils";
 
-export default function CreateConversationModal({ handleToggleModal }) {
+export default function CreateConversationModal() {
   const { state, dispatch } = useStateValue();
   const [passcode, setPasscode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,11 @@ export default function CreateConversationModal({ handleToggleModal }) {
         }
         setIsLoading(false);
         setIsChatCreated(true);
-        handleToggleAlert({ isVisible: true, content: "Chat created!" });
+        handleToggleAlert({
+          isAlertVisible: true,
+          content: "Chat created!",
+          type: "success",
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -47,7 +51,7 @@ export default function CreateConversationModal({ handleToggleModal }) {
   const handleCopyChatLink = () => {
     navigator.clipboard.writeText(chatLink);
     handleToggleAlert({
-      isVisible: true,
+      isAlertVisible: true,
       content: "Chat link copied!",
       type: "success",
     });
@@ -58,6 +62,10 @@ export default function CreateConversationModal({ handleToggleModal }) {
       type: "TOGGLE_ALERT",
       payload,
     });
+  };
+
+  const handleToggleModal = () => {
+    dispatch({ type: "TOGGLE_MODAL", payload: "" });
   };
 
   return (

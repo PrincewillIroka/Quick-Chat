@@ -147,7 +147,7 @@ function MainLayout() {
       dispatch({
         type: "TOGGLE_ALERT",
         payload: {
-          isVisible: true,
+          isAlertVisible: true,
           content: `Maximum size for files is 5MB.`,
           type: "error",
         },

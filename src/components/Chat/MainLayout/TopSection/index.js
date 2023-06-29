@@ -19,7 +19,7 @@ function TopSection({ selectedChat }) {
     navigator.clipboard.writeText(chatLink);
     dispatch({
       type: "TOGGLE_ALERT",
-      payload: { isVisible: true, content: "Link Copied!", type: "success" },
+      payload: { isAlertVisible: true, content: "Link Copied!", type: "success" },
     });
   };
 

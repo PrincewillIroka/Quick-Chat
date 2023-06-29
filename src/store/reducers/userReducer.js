@@ -70,6 +70,12 @@ const userReducer = (state, action) => {
         filesUploading,
       };
     }
+    case "TOGGLE_MODAL": {
+      return {
+        ...state,
+        visibleModal: action.payload,
+      };
+    }
     default:
       return state;
   }

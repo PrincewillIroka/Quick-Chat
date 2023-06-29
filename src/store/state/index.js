@@ -4,10 +4,11 @@ const initialState = {
   selectedChat: {},
   user: {},
   alert: {
-    isVisible: false,
+    isAlertVisible: false,
     content: "",
   },
   filesUploading: {},
+  visibleModal: "",
 };
 
 export default initialState;
