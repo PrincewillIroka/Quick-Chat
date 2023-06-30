@@ -23,15 +23,15 @@
 }
 
 .chat-info-photo {
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .chat-info-initial {
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;

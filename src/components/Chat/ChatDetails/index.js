@@ -3,6 +3,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { BsPeople, BsInfoCircle } from "react-icons/bs";
 import "./ChatDetails.css";
 import ChatMedia from "./ChatMedia";
+import ChatParticipants from "./ChatParticipants";
 
 export default function ChatDetails() {
   const [activeDetail, setActiveDetail] = useState("ChatMedia");
@@ -31,13 +32,13 @@ export default function ChatDetails() {
           </div>
           <div
             className={`chat-details-icon-container ${
-              getActiveDetail("people") && "chat-details-icon-active-container"
+              getActiveDetail("ChatParticipants") && "chat-details-icon-active-container"
             }`}
-            onClick={() => setActiveDetail("people")}
+            onClick={() => setActiveDetail("ChatParticipants")}
           >
             <BsPeople
               className={`chat-detail-icon ${
-                getActiveDetail("people") && "chat-detail-active-icon"
+                getActiveDetail("ChatParticipants") && "chat-detail-active-icon"
               }`}
             />
           </div>
@@ -55,6 +56,11 @@ export default function ChatDetails() {
             />
           </div>
         </div>
+        {getActiveDetail("ChatParticipants") && (
+          <div className="chat-media-wrapper">
+            <ChatParticipants />
+          </div>
+        )}
         {getActiveDetail("ChatMedia") && (
           <div className="chat-media-wrapper">
             <ChatMedia />

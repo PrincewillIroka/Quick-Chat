@@ -19,7 +19,11 @@ function TopSection({ selectedChat }) {
     navigator.clipboard.writeText(chatLink);
     dispatch({
       type: "TOGGLE_ALERT",
-      payload: { isAlertVisible: true, content: "Link Copied!", type: "success" },
+      payload: {
+        isAlertVisible: true,
+        content: "Link Copied!",
+        type: "success",
+      },
     });
   };
 
@@ -29,15 +33,24 @@ function TopSection({ selectedChat }) {
         <div className="user-info-col-1">
           <span className="user-info-name">{chat_came}</span>
           <div className="user-info-photo-or-initial-wrapper">
-            {participants.slice(0, 3).map((participant, index) => (
-              <span
-                className={`user-info-initial`}
-                key={index}
-                title={participant.name}
-              >
-                {generateInitials(participant.name)}
-              </span>
-            ))}
+            {participants.slice(0, 3).map((participant, index) =>
+              participant.photo ? (
+                <img
+                  src={participant.photo}
+                  className="user-info-initial user-info-img"
+                  alt={participant.name}
+                  key={index}
+                />
+              ) : (
+                <span
+                  className="user-info-initial"
+                  key={index}
+                  title={participant.name}
+                >
+                  {generateInitials(participant.name)}
+                </span>
+              )
+            )}
             {participants.length > 3 && (
               <span className="user-info-others">
                 ...+{participants.length - 3} others

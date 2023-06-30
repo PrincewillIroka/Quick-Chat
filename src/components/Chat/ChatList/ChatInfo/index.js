@@ -17,16 +17,26 @@ export default function ChatInfo({
       onClick={() => selectChat(chat)}
     >
       <div className="chat-info-photo-or-initial-wrapper">
-        {participants.slice(0, 3).map((participant, index) => (
-          <span
-            className={`chat-info-initial ${
-              isSelectedChat(chat, selectedChat) && "chat-info-initial-selected"
-            }`}
-            key={index}
-          >
-            {generateInitials(participant.name)}
-          </span>
-        ))}
+        {participants.slice(0, 3).map((participant, index) =>
+          participant.photo ? (
+            <img
+              src={participant.photo}
+              className="user-info-initial user-info-img"
+              alt={participant.name}
+              key={index}
+            />
+          ) : (
+            <span
+              className={`chat-info-initial ${
+                isSelectedChat(chat, selectedChat) &&
+                "chat-info-initial-selected"
+              }`}
+              key={index}
+            >
+              {generateInitials(participant.name)}
+            </span>
+          )
+        )}
       </div>
       <div className="chat-info-col">
         {chat_name ? (

@@ -10,8 +10,8 @@
 }
 
 .message-sender-photo {
-  height: 45px;
-  width: 45px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 15px;
