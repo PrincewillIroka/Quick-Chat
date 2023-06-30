@@ -34,43 +34,39 @@ function Message({ message }) {
           <span className="message-owner">{sender.name}</span>
           <span className="message-time">10:05 AM</span>
         </div>
-        {content || attachments.length ? (
-          <div className="message-original">
-            <div className="message-original-wrapper">
-              {attachments.length ? (
-                <div className="attachments-container">
-                  {attachments.map(({ attachment = {} }, index) => {
-                    const { name, file_url, isUploading } = attachment;
-                    return (
-                      <div className="attachment-name-wrapper" key={index}>
-                        <div
-                          className="attachment-name"
-                          title={name}
-                          onClick={() => handleViewFile(file_url)}
-                        >
-                          {name}
-                        </div>
-                        {isUploading === "In Progress" && (
-                          <div className="attachment-progress-container">
-                            <span className="attachment-progress-loader"></span>
-                            <span className="attachment-progress-text">
-                              Uploading file...
-                            </span>
-                          </div>
-                        )}
+        <div className="message-original">
+          <div className="message-original-wrapper">
+            {attachments.length ? (
+              <div className="attachments-container">
+                {attachments.map(({ attachment = {} }, index) => {
+                  const { name, file_url, isUploading } = attachment;
+                  return (
+                    <div className="attachment-name-wrapper" key={index}>
+                      <div
+                        className="attachment-name"
+                        title={name}
+                        onClick={() => handleViewFile(file_url)}
+                      >
+                        {name}
                       </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                ""
-              )}
-              {content && <span className="message-content">{content}</span>}
-            </div>
+                      {isUploading === "In Progress" && (
+                        <div className="attachment-progress-container">
+                          <span className="attachment-progress-loader"></span>
+                          <span className="attachment-progress-text">
+                            Uploading file...
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              ""
+            )}
+            {content && <span className="message-content">{content}</span>}
           </div>
-        ) : (
-          ""
-        )}
+        </div>
       </div>
     </div>
   );

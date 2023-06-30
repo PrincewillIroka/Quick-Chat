@@ -219,9 +219,14 @@ function MainLayout() {
         </div>
       ) : (
         <div className="body-section">
-          {messages.map((message, index) => (
-            <Message message={message} key={index} />
-          ))}
+          {messages.map((message, index) => {
+            const { content = "", attachments = [] } = message;
+            return content || attachments.length ? (
+              <Message message={message} key={index} />
+            ) : (
+              ""
+            );
+          })}
         </div>
       )}
       {filesUploading[chat_id] && isFileContainerOpen && (
