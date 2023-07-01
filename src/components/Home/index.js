@@ -18,9 +18,10 @@ export default function Home({ user }) {
         <h1 className="quick-chat-heading">Quick Chat</h1>
       </div>
       <div className="col col-2">
-        <h4 className="welcome-heading">Hi, Welcome</h4>
-        <div className="quick-chat-info">
-          <span className="quick-chat-emphasis">Quick Chat</span>
+        <div className="welcome-heading-container">
+          <h4 className="welcome-heading">Quick Chat</h4>
+        </div>
+        <div className="quick-chat-info-container">
           <span className="quick-chat-text">
             let's you start an instant chat with other users.
           </span>

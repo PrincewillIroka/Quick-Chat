@@ -10,3 +10,7 @@ body {
   --dark: #151a30;
   --info: #f76e11;
 }
+
+h4 {
+  margin: 0;
+}

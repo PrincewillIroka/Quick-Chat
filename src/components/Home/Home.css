@@ -36,29 +36,84 @@
   flex-direction: column;
 }
 
+.welcome-heading-container {
+  width: 100%;
+  position: relative;
+  height: 50px;
+  margin-bottom: 2.5rem;
+}
+
 .welcome-heading {
   font-size: 3rem;
-  margin-bottom: 3.5rem;
+  position: absolute;
+
+  animation-name: slideInFromLeft, shake;
+  animation-duration: 3s, 0.5s;
+  animation-delay: 0s, 3s;
+  animation-iteration-count: 1, 5;
+  animation-timing-function: linear;
+
+  /* Default for slideInFromLeft */
+  left: 30%;
+  top: 0;
+
+  /* Default for shake */
+  transform: rotate(0deg);
 }
 
-.quick-chat-info {
+@keyframes slideInFromLeft {
+  from {
+    left: 0;
+  }
+  to {
+    left: 30%;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0eg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.quick-chat-info-container {
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-weight: bold;
-  font-family: Arial;
-  flex-wrap: wrap;
+  width: 100%;
+  height: 1.5rem;
   margin-bottom: 1.5rem;
-}
-
-.quick-chat-emphasis {
-  font-size: 1.5rem;
-  color: #2f2e41;
-  margin-bottom: 0.6rem;
+  justify-content: center;
+  position: relative;
 }
 
 .quick-chat-text {
   font-size: 1.2rem;
+  font-weight: bold;
+  font-family: Arial;
+  display: block;
+  position: absolute;
+  top: 0;
+  animation: slideInFromBottom 3s;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    top: 100%;
+  }
+  to {
+    top: 0;
+  }
 }
 
 .quick-chat-features {
@@ -145,12 +200,23 @@ li {
     font-size: 3rem;
   }
 
-  .quick-chat-emphasis {
-    font-size: 1.5rem;
-    background-color: #f76e11;
-  }
-
   .btn-start-now {
     width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome-heading {
+    font-size: 2.5rem;
+    left: 25%;
+  }
+
+  @keyframes slideInFromLeft {
+    from {
+      left: 0;
+    }
+    to {
+      left: 25%;
+    }
   }
 }
