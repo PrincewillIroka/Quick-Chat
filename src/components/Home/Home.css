@@ -48,8 +48,8 @@
   position: absolute;
 
   animation-name: slideInFromLeft, shake;
-  animation-duration: 3s, 0.5s;
-  animation-delay: 0s, 3s;
+  animation-duration: 1s, 0.5s;
+  animation-delay: 0s, 1s;
   animation-iteration-count: 1, 5;
   animation-timing-function: linear;
 
@@ -104,7 +104,7 @@
   display: block;
   position: absolute;
   top: 0;
-  animation: slideInFromBottom 3s;
+  animation: slideInFromBottom 1s;
 }
 
 @keyframes slideInFromBottom {
