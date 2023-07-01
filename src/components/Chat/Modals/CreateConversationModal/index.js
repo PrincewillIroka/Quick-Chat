@@ -72,7 +72,7 @@ export default function CreateConversationModal() {
     <div className="modal">
       <div className="modal-content">
         <div className="modal-top-row">
-          <span className="modal-title">Create new conversation</span>
+          <span className="modal-title">Create New Conversation</span>
           <span className="close" onClick={handleToggleModal}>
             &times;
           </span>
