@@ -46,7 +46,7 @@ export default function ChatInfo({
           <span className="chat-info-name">{chat_name}</span>
         ) : (
           participants.slice(0, 3).map((participant, index) => (
-            <div className="chat-info-name-wrapper">
+            <div className="chat-info-name-wrapper" key={index}>
               <span className="chat-info-name" key={index}>
                 {participant.name}
                 {index < participants.length - 1 && ","}&nbsp;

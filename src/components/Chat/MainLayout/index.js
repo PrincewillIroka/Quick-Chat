@@ -23,7 +23,8 @@ function MainLayout() {
   const { selectedChat = {}, user = {}, filesUploading = {} } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id } = user;
-  const selectFile = useRef();
+  const selectFileRef = useRef();
+  const bodySectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());
 
   // const [permission, setPermission] = useState(false);
@@ -53,6 +54,16 @@ function MainLayout() {
   //   audioChunks,
   //   mimeType,
   // });
+
+  const handleScrollToBottom = () => {
+    if (bodySectionRef.current) {
+      const { scrollHeight } = bodySectionRef.current;
+      bodySectionRef.current.scroll({
+        top: scrollHeight,
+        behaviour: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     handleResetValues();
@@ -97,6 +108,7 @@ function MainLayout() {
               updatedChat["messages"] = messages;
             }
             dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
+            handleScrollToBottom();
           }
 
           if (hasFiles) {
@@ -124,7 +136,7 @@ function MainLayout() {
   // };
 
   const handleClickAttachmentIcon = () => {
-    selectFile.current.click();
+    selectFileRef.current.click();
   };
 
   const handleSelectAttachment = async (e) => {
@@ -218,7 +230,7 @@ function MainLayout() {
           <span>No message here</span>
         </div>
       ) : (
-        <div className="body-section">
+        <div className="body-section" ref={bodySectionRef}>
           {messages.map((message, index) => {
             const { content = "", attachments = [] } = message;
             return content || attachments.length ? (
@@ -276,7 +288,7 @@ function MainLayout() {
             <input
               type="file"
               hidden
-              ref={selectFile}
+              ref={selectFileRef}
               onInput={handleSelectAttachment}
               multiple
               onReset={() => console.log({ reset: "shhhs" })}
