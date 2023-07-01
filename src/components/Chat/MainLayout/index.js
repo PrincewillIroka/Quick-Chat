@@ -291,7 +291,6 @@ function MainLayout() {
               ref={selectFileRef}
               onInput={handleSelectAttachment}
               multiple
-              onReset={() => console.log({ reset: "shhhs" })}
             />
           </div>
         </div>
