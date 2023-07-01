@@ -50,17 +50,12 @@ const authenticateUser = () => {
   });
 };
 
-const updateUser = async ({ user_id, username }) => {
+const updateUser = async (payload) => {
   return new Promise((resolve, reject) => {
     const url = `${APP_HOST}/api/users/updateUser`;
     fetch(url, {
       method: "PATCH",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id, username }),
+      body: payload,
     })
       .then((response) => response.json())
       .then((response) => {

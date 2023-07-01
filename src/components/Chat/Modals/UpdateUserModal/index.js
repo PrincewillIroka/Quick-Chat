@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { updateUser } from "services";
 import "./UpdateUserModal.css";
 import { useStateValue } from "store/stateProvider";
+import { generateInitials } from "utils";
+import { AiOutlineVideoCamera } from "react-icons/ai";
 
 export default function UpdateUserModal() {
+  const selectDisplayPicRef = useRef();
   const { state, dispatch } = useStateValue();
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUserName] = useState("");
+  const [userPhoto, setPhoto] = useState("");
   const { user = {} } = state;
-  const { _id: user_id, name = "" } = user;
+  const { _id: user_id, name = "", photo = "" } = user;
 
   const handleUpdateUsername = async () => {
+    if (!userPhoto && !username) {
+      return;
+    }
     setIsLoading(true);
-    await updateUser({ user_id, username })
+
+    const formData = new FormData();
+
+    if (userPhoto) {
+      formData.append("photo", userPhoto);
+    }
+    if (username) {
+      formData.append("username", username);
+    }
+    formData.append("user_id", user_id);
+
+    await updateUser(formData)
       .then(async (response) => {
         const { user } = response;
         if (user) {
@@ -48,6 +66,17 @@ export default function UpdateUserModal() {
     dispatch({ type: "TOGGLE_MODAL", payload: "" });
   };
 
+  const handleClickPhoto = () => {
+    selectDisplayPicRef.current.click();
+  };
+
+  const handleSelectPhoto = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setPhoto(file);
+    }
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -64,24 +93,54 @@ export default function UpdateUserModal() {
           </div>
         ) : (
           <div className="modal-body">
-            <div className="conversation-title-container">
-              <span>Name:</span>
+            <div className="update-username-col-container">
+              <div className="update-username-row">
+                <span>Name:</span>
+                <span className="update-username-text">{name}</span>
+              </div>
               <input
                 type="text"
-                placeholder={`Your current username is ${name}`}
-                className="conversation-title-input"
+                placeholder="Enter new username here"
+                className="update-username-input"
                 onChange={(e) => setUserName(e.target.value.trim())}
+              />
+            </div>
+            <div className="update-profile-pic-col-container">
+              <span>Display Picture:</span>
+              <div
+                className="update-profile-pic-container"
+                onClick={() => handleClickPhoto()}
+              >
+                {photo ? (
+                  <img src={photo} alt="" className="update-profile-pic" />
+                ) : (
+                  <span className="update-profile-pic-initial">
+                    {generateInitials(name)}
+                  </span>
+                )}
+                <div className="update-profile-pic-wrapper">
+                  <span className="update-profile-pic-selector">
+                    <AiOutlineVideoCamera className="update-profile-pic-icon" />
+                  </span>
+                </div>
+              </div>
+              <input
+                type="file"
+                hidden
+                ref={selectDisplayPicRef}
+                onInput={handleSelectPhoto}
+                accept="image/*"
               />
             </div>
             <div className="action-buttons">
               <button
-                className="cancel-button conversation-button"
+                className="cancel-button update-user-button"
                 onClick={handleToggleModal}
               >
                 Cancel
               </button>
               <button
-                className="create-button conversation-button"
+                className="create-button update-user-button"
                 onClick={handleUpdateUsername}
               >
                 Create

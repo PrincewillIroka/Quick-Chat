@@ -89,6 +89,7 @@ h5 {
   width: 100%;
   height: 100%;
   overflow-y: auto;
+  padding: 20px 0;
 }
 
 .chat-links-single-wrapper {

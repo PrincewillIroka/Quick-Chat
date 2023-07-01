@@ -38,7 +38,7 @@
 
 .modal-title {
   margin-left: auto;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -56,20 +56,89 @@
   cursor: pointer;
 }
 
-.conversation-title-container {
+.update-username-col-container {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
-.conversation-title-input {
+.update-profile-pic-col-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-username-row {
+  display: flex;
+  align-items: center;
+}
+
+.update-username-text {
+  opacity: 0.7;
+  margin-left: 5px;
+}
+
+.update-username-input {
   flex: 1;
   font-size: 17px;
-  padding: 5px 10px;
-  margin-bottom: 30px;
+  padding: 7px 10px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-top: 5px;
+}
+
+.update-profile-pic-container {
+  height: 8rem;
+  width: 8rem;
+  margin-top: 5px;
+  position: relative;
+  cursor: pointer;
+}
+
+.update-profile-pic {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.update-profile-pic-initial {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  background-color: #ececec;
+}
+
+.update-profile-pic-wrapper {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.update-profile-pic-selector {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.update-profile-pic-icon {
+  height: 15px;
+  width: 15px;
+  color: #f76e11;
 }
 
 .modal-passcode-row {
@@ -165,7 +234,7 @@ input:checked + .slider:before {
   width: 100%;
 }
 
-.chat-copy-info-wrapper{
+.chat-copy-info-wrapper {
   margin-top: 30px;
 }
 
@@ -203,7 +272,7 @@ input:checked + .slider:before {
   width: calc(100% - 40px);
 }
 
-.conversation-button {
+.update-user-button {
   height: 40px;
   width: 80px;
   cursor: pointer;
@@ -211,7 +280,7 @@ input:checked + .slider:before {
   font-size: 16px;
 }
 
-.conversation-button:hover {
+.update-user-button:hover {
   opacity: 0.8;
 }
 

@@ -1,9 +1,10 @@
 import { FaRegFilePdf } from "react-icons/fa";
 import { BsFiletypeDoc } from "react-icons/bs";
+import { AiOutlineFile } from "react-icons/ai";
 
-const PHOTO_EXTENSIONS = ["jpg", "jpeg", "png", "gif"];
-const VIDEO_EXTENSIONS = ["mp4", "wav", "mp3", "avi"];
-const LINK_EXTENSIONS = ["pdf", "doc", "xls", "ppt", "epub", "gz", "html"];
+const PHOTO_EXTENSIONS = ["image"];
+const VIDEO_EXTENSIONS = ["video", "audio"];
+const LINK_EXTENSIONS = ["application"];
 
 const mediaTypesObj = {
   photos: PHOTO_EXTENSIONS,
@@ -17,8 +18,10 @@ const getAttachmentIcon = (mimetype, className) => {
 
   if (mimetype.includes("pdf")) {
     icon = <FaRegFilePdf className={className} />;
-  } else if (mimetype.includes("pdf")) {
+  } else if (mimetype.includes("word")) {
     icon = <BsFiletypeDoc className={className} />;
+  } else {
+    icon = <AiOutlineFile className={className} />;
   }
 
   return icon;

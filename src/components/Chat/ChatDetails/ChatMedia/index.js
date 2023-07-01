@@ -16,25 +16,27 @@ function ChatMedia() {
   const { messages = [] } = selectedChat;
 
   const chatAttachments = useMemo(() => {
-    return messages.reduce((acc, curr) => {
-      const { attachments = [] } = curr;
+    return mediaTypesArr.reduce((acc, cur) => {
+      let mediaFiles =
+        messages.map((message) => {
+          const { attachments = [] } = message;
 
-      mediaTypesArr.forEach((mediaType) => {
-        acc[mediaType] = acc[mediaType] || [];
-        const mediaFilesFound = attachments.find(({ attachment }) => {
-          let { mimetype = "", isUploading = "" } = attachment;
-          mimetype = mimetype.split("/");
-          mimetype = mimetype[1] || "";
-          const isFound =
-            mediaTypesObj[mediaType].includes(mimetype) &&
-            isUploading === "Completed";
-          return isFound;
-        });
+          const attachmentsFound =
+            attachments.filter(({ attachment }) => {
+              let { mimetype = "", isUploading = "" } = attachment;
+              mimetype = mimetype.split("/");
+              mimetype = mimetype[0] || "";
+              const isFound =
+                mediaTypesObj[cur].includes(mimetype) &&
+                isUploading === "Completed";
+              return isFound;
+            }) || [];
 
-        if (mediaFilesFound) {
-          acc[mediaType] = acc[mediaType].concat([mediaFilesFound]);
-        }
-      });
+          return attachmentsFound;
+        }) || [];
+
+      acc[cur] = mediaFiles.flat();
+
       return acc;
     }, {});
   }, [messages]);
