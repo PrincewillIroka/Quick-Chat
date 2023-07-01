@@ -51,7 +51,7 @@ export default function ChatInfo({
                 {participant.name}
                 {index < participants.length - 1 && ","}&nbsp;
               </span>
-              {isSameSender(participant, user) && (
+              {isSameSender(participant, user) && participants.length === 1 && (
                 <span className="chat-info-name-you">(You)</span>
               )}
             </div>
