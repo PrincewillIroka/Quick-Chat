@@ -73,13 +73,13 @@ export default function ChatList() {
             src={user.photo}
             alt=""
             title={user.name}
-            onClick={() => handleToggleModal("UpdateUsernameModal")}
+            onClick={() => handleToggleModal("UpdateUserModal")}
           />
         ) : (
           <span
             className="profile-photo profile-initial"
             title={user.name}
-            onClick={() => handleToggleModal("UpdateUsernameModal")}
+            onClick={() => handleToggleModal("UpdateUserModal")}
           >
             {generateInitials(user.name)}
           </span>
