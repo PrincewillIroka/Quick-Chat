@@ -1,11 +1,11 @@
 import React from "react";
 import { useStateValue } from "store/stateProvider";
 import "./ChatParticipants.css";
-import { generateInitials } from "utils";
+import { generateInitials, isSameSender } from "utils";
 
 function ChatParticipants() {
   const { state = {} } = useStateValue();
-  const { selectedChat = {} } = state;
+  const { selectedChat = {}, user = {} } = state;
   const { participants = [] } = selectedChat;
 
   return (
@@ -27,7 +27,12 @@ function ChatParticipants() {
                 {generateInitials(participant.name)}
               </span>
             )}
-            <span>{participant.name}</span>
+            <div className="chat-participant-col">
+              <span>{participant.name}</span>
+              {isSameSender(participant, user) && (
+                <span className="chat-participant-you">(You)</span>
+              )}
+            </div>
           </div>
         ))}
       </div>

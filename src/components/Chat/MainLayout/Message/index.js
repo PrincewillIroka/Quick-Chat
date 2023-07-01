@@ -1,16 +1,12 @@
 import React, { memo } from "react";
 import "./Message.css";
-import { generateInitials } from "utils";
+import { generateInitials, isSameSender } from "utils";
 import { useStateValue } from "store/stateProvider";
 
 function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
   const { sender = {}, content = "", attachments = [] } = message;
-
-  const isSameSender = (sender) => {
-    return sender._id === user._id;
-  };
 
   const handleViewFile = (file_url) => {
     window.open(file_url);
@@ -19,7 +15,7 @@ function Message({ message }) {
   return (
     <div
       className={`message-container ${
-        isSameSender(sender) && "message-container-align-right"
+        isSameSender(sender, user) && "message-container-align-right"
       }`}
     >
       {sender.photo ? (

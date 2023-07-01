@@ -1,13 +1,16 @@
 import React from "react";
 import "./ChatInfo.css";
-import { generateInitials, isSelectedChat } from "utils";
+import { generateInitials, isSelectedChat, isSameSender } from "utils";
+import { useStateValue } from "store/stateProvider";
 
 export default function ChatInfo({
   chat,
   selectedChat = {},
   selectChat = () => {},
 }) {
+  const { state } = useStateValue();
   const { participants = [], chat_name = "" } = chat || {};
+  const { user = {} } = state;
 
   return (
     <div
@@ -43,10 +46,15 @@ export default function ChatInfo({
           <span className="chat-info-name">{chat_name}</span>
         ) : (
           participants.slice(0, 3).map((participant, index) => (
-            <span className="chat-info-name" key={index}>
-              {participant.name}
-              {index < participants.length - 1 && ", "}
-            </span>
+            <div className="chat-info-name-wrapper">
+              <span className="chat-info-name" key={index}>
+                {participant.name}
+                {index < participants.length - 1 && ","}&nbsp;
+              </span>
+              {isSameSender(participant, user) && (
+                <span className="chat-info-name-you">(You)</span>
+              )}
+            </div>
           ))
         )}
       </div>

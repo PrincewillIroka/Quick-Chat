@@ -215,7 +215,7 @@ function MainLayout() {
       {!messages.length ? (
         <div className="no-chat-section">
           <img src={NoChat} className="no-chat-svg" alt="" />
-          <span>Messages here</span>
+          <span>No message here</span>
         </div>
       ) : (
         <div className="body-section">

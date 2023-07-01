@@ -14,6 +14,10 @@ export const isSelectedChat = (chat, selectedChat) => {
   return selectedChat?._id === chat?._id;
 };
 
+export const isSameSender = (sender, user) => {
+  return sender?._id === user?._id;
+};
+
 export const formatBytes = (bytes) => {
   let r = bytes,
     b = 1024,
