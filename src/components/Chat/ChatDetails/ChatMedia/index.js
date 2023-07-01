@@ -15,7 +15,7 @@ function ChatMedia() {
   const { selectedChat = {} } = state;
   const { messages = [] } = selectedChat;
 
-  const photoAttachments = useMemo(() => {
+  const chatAttachments = useMemo(() => {
     return messages.reduce((acc, curr) => {
       const { attachments = [] } = curr;
 
@@ -49,9 +49,9 @@ function ChatMedia() {
       <div className="chat-media-info-wrapper">
         <div className="chat-media-photos-row">
           <h5>Photos</h5>
-          {photoAttachments["photos"]?.length ? (
+          {chatAttachments["photos"]?.length ? (
             <div className="chat-media-content-container">
-              {photoAttachments["photos"].map(({ attachment }, index) => {
+              {chatAttachments["photos"].map(({ attachment }, index) => {
                 const { file_url, name } = attachment;
                 return (
                   <div key={index} className="chat-media-img-wrapper">
@@ -75,9 +75,9 @@ function ChatMedia() {
         </div>
         <div className="chat-media-videos-row">
           <h5>Videos</h5>
-          {photoAttachments["videos"]?.length ? (
+          {chatAttachments["videos"]?.length ? (
             <div className="chat-media-content-container">
-              {photoAttachments["videos"].map(({ attachment }, index) => {
+              {chatAttachments["videos"].map(({ attachment }, index) => {
                 const { file_url, name, mimetype } = attachment;
                 return (
                   <video
@@ -105,10 +105,10 @@ function ChatMedia() {
         </div>
         <div className="chat-media-links-row">
           <h5>Links</h5>
-          {photoAttachments["links"]?.length ? (
+          {chatAttachments["links"]?.length ? (
             <div className="chat-media-content-container">
               <div className="chat-links-content-wrapper">
-                {photoAttachments["links"].map(({ attachment }, index) => {
+                {chatAttachments["links"].map(({ attachment }, index) => {
                   const { file_url, name, mimetype } = attachment;
                   return (
                     <div
