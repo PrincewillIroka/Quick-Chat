@@ -38,7 +38,7 @@ function TopSection({ selectedChat }) {
                 <img
                   src={participant.photo}
                   className="user-info-initial user-info-img"
-                  alt={participant.name}
+                  alt=""
                   key={index}
                 />
               ) : (

@@ -17,7 +17,7 @@ function ChatParticipants() {
               <img
                 src={participant.photo}
                 className="chat-participant-initial chat-participant-img"
-                alt={participant.name}
+                alt=""
               />
             ) : (
               <span

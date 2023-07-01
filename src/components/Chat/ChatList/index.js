@@ -71,7 +71,7 @@ export default function ChatList() {
           <img
             className="profile-photo"
             src={user.photo}
-            alt={user.name}
+            alt=""
             title={user.name}
             onClick={() => handleToggleModal("UpdateUsernameModal")}
           />
