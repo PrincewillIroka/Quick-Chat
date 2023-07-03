@@ -67,7 +67,6 @@ flex-wrap: wrap;
 .chat-info-name-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .chat-info-name-you {
