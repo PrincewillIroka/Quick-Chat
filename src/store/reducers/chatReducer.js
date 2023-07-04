@@ -1,11 +1,17 @@
 const chatReducer = (state, action) => {
   switch (action.type) {
-    case "CREATE_CHAT_SUCCESS": {
-      const chats = [...state.chats, action.payload];
+    case "ADD_NEW_CHAT": {
+      let newChat = action.payload;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      chats = [].concat([newChat], chats);
+      chatsClone = [].concat([newChat], chatsClone);
+      selectedChat = newChat;
+
       return {
         ...state,
         chats,
-        chatsClone: chats,
+        chatsClone,
+        selectedChat,
       };
     }
     case "TOGGLE_SELECTED_CHAT": {
@@ -62,18 +68,6 @@ const chatReducer = (state, action) => {
         ...state,
         selectedChat,
         chats,
-      };
-    }
-    case "ADD_NEW_CHAT": {
-      let newChat = action.payload;
-      let { chatsClone = [], selectedChat = {} } = state;
-      chatsClone = chatsClone.unshift(newChat);
-      selectedChat = newChat;
-
-      return {
-        ...state,
-        chatsClone: chatsClone,
-        selectedChat,
       };
     }
     default:
