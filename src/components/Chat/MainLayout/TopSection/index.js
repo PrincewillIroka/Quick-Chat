@@ -1,6 +1,6 @@
 import React, { useState, memo } from "react";
-import { AiOutlineVideoCamera } from "react-icons/ai";
-import { TbPhoneCall } from "react-icons/tb";
+// import { AiOutlineVideoCamera } from "react-icons/ai";
+// import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
