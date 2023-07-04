@@ -73,6 +73,17 @@ export default function UpdateUserModal() {
   const handleSelectPhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 5000000) {
+        dispatch({
+          type: "TOGGLE_ALERT",
+          payload: {
+            isAlertVisible: true,
+            content: `Maximum size for files is 5MB.`,
+            type: "error",
+          },
+        });
+        return;
+      }
       setPhoto(file);
     }
   };
