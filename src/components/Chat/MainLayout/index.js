@@ -9,12 +9,10 @@ import NoChat from "assets/NoChat.svg";
 import { useStateValue } from "store/stateProvider";
 import { socket } from "sockets/socketHandler";
 import { uploadFile } from "services";
-import { formatBytes } from "utils";
-// import {
-//   useAudioRecorder,
-//   startRecording,
-//   stopRecording,
-// } from "hooks";
+import { formatBytes, formatTime } from "utils";
+import { useSetupAudioRecorder, useRecording } from "hooks";
+
+const SQUARES = ["1", "2", "3"];
 
 function MainLayout() {
   const { state, dispatch } = useStateValue();
@@ -26,34 +24,25 @@ function MainLayout() {
   const selectFileRef = useRef();
   const bodySectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());
+  const mediaRecorder = useRef(null);
+  const [recordingStatus, setRecordingStatus] = useState("inactive");
 
-  // const [permission, setPermission] = useState(false);
-  // const [stream, setStream] = useState(null);
-  // const mediaRecorder = useRef(null);
-  // const [recordingStatus, setRecordingStatus] = useState("inactive");
-  // const [audioChunks, setAudioChunks] = useState([]);
-  // const [audio, setAudio] = useState(null);
-  // const mimeType = "audio/webm";
+  const mimeType = "audio/webm";
+  const spinnerSquares = new Array(4).fill(SQUARES).flat();
+  const isRecording = recordingStatus === "recording";
+  const hasStoppedRecording = recordingStatus === "stopRecording";
 
-  // const { getMicrophonePermission } = useAudioRecorder({
-  //   setPermission,
-  //   setStream,
-  // });
-  // const {} = startRecording({
-  //   setRecordingStatus,
-  //   setAudioChunks,
-  //   mediaRecorder,
-  //   stream,
-  //   mimeType,
-  // });
-  // const {} = stopRecording({
-  //   setRecordingStatus,
-  //   setAudioChunks,
-  //   setAudio,
-  //   mediaRecorder,
-  //   audioChunks,
-  //   mimeType,
-  // });
+  const { getMicrophonePermission, stream } =
+    useSetupAudioRecorder(setRecordingStatus);
+
+  const { audio, counter } = useRecording({
+    setRecordingStatus,
+    mediaRecorder,
+    stream,
+    mimeType,
+    recordingStatus,
+    isFileContainerOpen,
+  });
 
   const handleScrollToBottom = () => {
     if (bodySectionRef.current) {
@@ -69,10 +58,6 @@ function MainLayout() {
     handleResetValues();
   }, [chat_id]);
 
-  // useEffect(() => {
-  //   console.log({ recordingStatus });
-  // }, [recordingStatus]);
-
   const handleTyping = (e) => {
     e.preventDefault();
     setContent(e.target.value);
@@ -84,7 +69,7 @@ function MainLayout() {
     dispatch({ type: "SET_FILES_UPLOADING", payload: [] });
 
     //Check if there is any file to be uploaded
-    const hasFiles = formData.has("0");
+    const hasFiles = formData.entries().next().value;
 
     if (content || hasFiles) {
       socket.emit(
@@ -139,9 +124,7 @@ function MainLayout() {
     selectFileRef.current.click();
   };
 
-  const handleSelectAttachment = async (e) => {
-    let attachments = [...e.target.files];
-
+  const handleSelectAttachment = async (attachments, param) => {
     if (!attachments.length) return;
     let arr = [];
 
@@ -172,11 +155,16 @@ function MainLayout() {
 
     filesUploading[chat_id] = arr;
 
-    setIsFileContainerOpen(true);
     dispatch({
       type: "SET_FILES_UPLOADING",
       payload: filesUploading,
     });
+
+    if (param === "openFileContainer") {
+      setIsFileContainerOpen(isFileContainerOpen);
+    } else if (param === "sendAudio") {
+      handleSendMessage();
+    }
   };
 
   const handleRemoveFile = (fileName) => {
@@ -198,14 +186,6 @@ function MainLayout() {
     });
   };
 
-  const handleRecordAudioMessage = () => {
-    // if (!permission) {
-    //   getMicrophonePermission();
-    // } else {
-    //   startRecording({ stream });
-    // }
-  };
-
   const handleRemoveAllFiles = () => {
     handleResetValues();
     filesUploading[chat_id] = [];
@@ -219,6 +199,31 @@ function MainLayout() {
     setContent("");
     setIsFileContainerOpen(false);
     setFormData(new FormData());
+  };
+
+  const handleRecordAudioMessage = () => {
+    getMicrophonePermission();
+  };
+
+  const handleStopOrRestartRecording = () => {
+    if (isRecording) {
+      setRecordingStatus("stopRecording");
+    } else if (hasStoppedRecording) {
+      setRecordingStatus("recording");
+    }
+  };
+
+  const handleDeleteRecording = () => {
+    setRecordingStatus("inactive");
+    setIsFileContainerOpen(false);
+    mediaRecorder.current = null;
+  };
+
+  const handleSendRecording = () => {
+    const audioName = `Recording_${new Date().valueOf()}.webm`;
+    const audioFile = new File([audio], audioName);
+    handleSelectAttachment([audioFile], "sendAudio");
+    handleDeleteRecording();
   };
 
   return (
@@ -239,6 +244,42 @@ function MainLayout() {
               ""
             );
           })}
+        </div>
+      )}
+      {recordingStatus !== "inactive" && !isFileContainerOpen && (
+        <div className="recording-container">
+          <span className="recording-counter">
+            Recording: {formatTime(counter)}
+          </span>
+          {isRecording && (
+            <div className="spinner-square">
+              {spinnerSquares.map((sq, index) => (
+                <div className={`square-${sq} square`} key={index}></div>
+              ))}
+            </div>
+          )}
+          <div className="recording-controls">
+            <span
+              className="recording-btn recording-stop"
+              onClick={handleStopOrRestartRecording}
+            >
+              {isRecording ? "Stop" : hasStoppedRecording ? "Restart" : ""}
+            </span>
+            {hasStoppedRecording && (
+              <span
+                className="recording-btn recording-stop"
+                onClick={handleDeleteRecording}
+              >
+                Delete
+              </span>
+            )}
+            <span
+              className="recording-btn recording-start"
+              onClick={handleSendRecording}
+            >
+              Send
+            </span>
+          </div>
         </div>
       )}
       {filesUploading[chat_id] && isFileContainerOpen && (
@@ -276,7 +317,7 @@ function MainLayout() {
             value={content}
           />
           <span className="right-divider"></span>
-          <div className="emoji-container">
+          <div className="control-btns-container">
             <BiMicrophone
               className="microphone-icon"
               onClick={handleRecordAudioMessage}
@@ -289,7 +330,9 @@ function MainLayout() {
               type="file"
               hidden
               ref={selectFileRef}
-              onInput={handleSelectAttachment}
+              onInput={(e) =>
+                handleSelectAttachment([...e.target.files], "openFileContainer")
+              }
               multiple
             />
           </div>
