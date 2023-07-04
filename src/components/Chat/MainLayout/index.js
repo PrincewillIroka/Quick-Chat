@@ -93,7 +93,6 @@ function MainLayout() {
               updatedChat["messages"] = messages;
             }
             dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
-            handleScrollToBottom();
           }
 
           if (hasFiles) {
@@ -110,6 +109,8 @@ function MainLayout() {
             //Reset form data
             setFormData(new FormData());
           }
+
+          handleScrollToBottom();
         }
       );
     }

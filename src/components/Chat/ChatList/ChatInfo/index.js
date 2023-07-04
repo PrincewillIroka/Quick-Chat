@@ -20,13 +20,14 @@ export default function ChatInfo({
       onClick={() => selectChat(chat)}
     >
       <div className="chat-info-photo-or-initial-wrapper">
-        {participants.slice(0, 3).map((participant, index) =>
-          participant.photo ? (
+        {participants.slice(0, 3).map(({ photo = "", name = "" }, index) =>
+          photo ? (
             <img
-              src={participant.photo}
+              src={photo}
               className="user-info-initial user-info-img"
               alt=""
               key={index}
+              title={name}
             />
           ) : (
             <span
@@ -35,8 +36,9 @@ export default function ChatInfo({
                 "chat-info-initial-selected"
               }`}
               key={index}
+              title={name}
             >
-              {generateInitials(participant.name)}
+              {generateInitials(name)}
             </span>
           )
         )}
