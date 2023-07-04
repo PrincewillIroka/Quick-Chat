@@ -60,10 +60,10 @@ function TopSection({ selectedChat }) {
         </div>
       </div>
 
-      <div className="icons-container">
+      {/* <div className="icons-container">
         <AiOutlineVideoCamera className="media-icon" />
         <TbPhoneCall className="media-icon" />
-      </div>
+      </div> */}
 
       <div className="icons-container">
         <CgSearch className="control-icon" />
