@@ -11,6 +11,7 @@ import { useStateValue } from "store/stateProvider";
 import { getChats } from "services/userServices";
 import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
+import { publish } from "custom-events";
 
 export default function ChatList() {
   const { state, dispatch } = useStateValue();
@@ -51,6 +52,7 @@ export default function ChatList() {
   const handleSelectChat = (chat) => {
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     socket.emit("join", { chat_url: chat?.chat_url });
+    publish("toggledSelectedChat");
   };
 
   const handleSearchChats = (e) => {

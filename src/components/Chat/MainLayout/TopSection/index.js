@@ -1,10 +1,11 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect, useCallback } from "react";
 // import { AiOutlineVideoCamera } from "react-icons/ai";
 // import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
+import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
@@ -31,13 +32,30 @@ function TopSection({ selectedChat }) {
     });
   };
 
-  const handleSearchMessages = (value) => {
-    setSearchText(value);
-    dispatch({
-      type: "SEARCH_MESSAGES",
-      payload: { searchText: value, selectChatId },
-    });
-  };
+  const handleSearchMessages = useCallback(
+    (value) => {
+      setSearchText(value);
+      dispatch({
+        type: "SEARCH_MESSAGES",
+        payload: { searchText: value, selectChatId },
+      });
+    },
+    [dispatch, selectChatId]
+  );
+
+  const handleClearSearchField = useCallback(() => {
+    setSearchText("");
+    setIsSearchVisible(false);
+    handleSearchMessages("");
+  }, [handleSearchMessages]);
+
+  useEffect(() => {
+    subscribe("toggledSelectedChat", handleClearSearchField);
+
+    return () => {
+      unsubscribe("toggledSelectedChat", handleClearSearchField);
+    };
+  }, [handleClearSearchField]);
 
   return (
     <div className="top-section">
@@ -95,11 +113,7 @@ function TopSection({ selectedChat }) {
         {isSearchVisible ? (
           <IoMdClose
             className="control-icon"
-            onClick={() => {
-              setSearchText("");
-              setIsSearchVisible(false);
-              handleSearchMessages("");
-            }}
+            onClick={handleClearSearchField}
           />
         ) : (
           <CgSearch

@@ -165,7 +165,7 @@ export default function UpdateUserModal() {
                 className="create-button update-user-button"
                 onClick={handleUpdateUsername}
               >
-                Create
+                Update
               </button>
             </div>
           </div>
