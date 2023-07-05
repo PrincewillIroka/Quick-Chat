@@ -6,7 +6,10 @@ import { useStateValue } from "store/stateProvider";
 function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
-  const { sender = {}, content = "", attachments = [] } = message;
+  let { sender = {}, content = "", attachments = [] } = message;
+  const checkSameSender = isSameSender(sender, user);
+  sender = checkSameSender ? user : sender;
+  const { name = "", photo = "" } = sender;
 
   const handleViewFile = (file_url) => {
     window.open(file_url);
@@ -15,19 +18,19 @@ function Message({ message }) {
   return (
     <div
       className={`message-container ${
-        isSameSender(sender, user) && "message-container-align-right"
+        checkSameSender && "message-container-align-right"
       }`}
     >
-      {sender.photo ? (
-        <img className="message-sender-photo" src={sender.photo} alt="Sender" />
+      {photo ? (
+        <img className="message-sender-photo" src={photo} alt="Sender" />
       ) : (
         <span className="message-sender-photo message-sender-initial">
-          {generateInitials(sender.name)}
+          {generateInitials(name)}
         </span>
       )}
       <div className="message-details">
         <div className="message-info">
-          <span className="message-owner">{sender.name}</span>
+          <span className="message-owner">{name}</span>
           <span className="message-time">10:05 AM</span>
         </div>
         <div className="message-original">

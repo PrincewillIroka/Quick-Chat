@@ -20,8 +20,12 @@ export default function ChatInfo({
       onClick={() => selectChat(chat)}
     >
       <div className="chat-info-photo-or-initial-wrapper">
-        {participants.slice(0, 3).map(({ photo = "", name = "" }, index) =>
-          photo ? (
+        {participants.slice(0, 3).map((participant, index) => {
+          const checkSameSender = isSameSender(participant, user);
+          participant = checkSameSender ? user : participant;
+          const { name = "", photo = "" } = participant;
+
+          return photo ? (
             <img
               src={photo}
               className="user-info-initial user-info-img"
@@ -40,24 +44,30 @@ export default function ChatInfo({
             >
               {generateInitials(name)}
             </span>
-          )
-        )}
+          );
+        })}
       </div>
       <div className="chat-info-col">
         {chat_name ? (
           <span className="chat-info-name">{chat_name}</span>
         ) : (
-          participants.slice(0, 3).map((participant, index) => (
-            <div className="chat-info-name-wrapper" key={index}>
-              <span className="chat-info-name" key={index}>
-                {participant.name}
-                {index < participants.length - 1 && ","}&nbsp;
-              </span>
-              {isSameSender(participant, user) && participants.length <= 2 && (
-                <span className="chat-info-name-you">(You)</span>
-              )}
-            </div>
-          ))
+          participants.slice(0, 3).map((participant, index) => {
+            const checkSameSender = isSameSender(participant, user);
+            participant = checkSameSender ? user : participant;
+            const { name = "" } = participant;
+
+            return (
+              <div className="chat-info-name-wrapper" key={index}>
+                <span className="chat-info-name" key={index}>
+                  {name}
+                  {index < participants.length - 1 && ","}&nbsp;
+                </span>
+                {checkSameSender && participants.length <= 2 && (
+                  <span className="chat-info-name-you">(You)</span>
+                )}
+              </div>
+            );
+          })
         )}
       </div>
     </div>

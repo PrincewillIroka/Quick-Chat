@@ -4,15 +4,16 @@ import React, { useState, memo } from "react";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
-import { generateInitials } from "utils";
+import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
 
 function TopSection({ selectedChat }) {
-  const { dispatch } = useStateValue();
+  const { state, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], chat_came } = selectedChat || {};
+  const { user = {} } = state;
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
@@ -33,24 +34,24 @@ function TopSection({ selectedChat }) {
         <div className="user-info-col-1">
           <span className="user-info-name">{chat_came}</span>
           <div className="user-info-photo-or-initial-wrapper">
-            {participants.slice(0, 3).map((participant, index) =>
-              participant.photo ? (
+            {participants.slice(0, 3).map((participant, index) => {
+              const checkSameSender = isSameSender(participant, user);
+              participant = checkSameSender ? user : participant;
+              const { name = "", photo = "" } = participant;
+
+              return photo ? (
                 <img
-                  src={participant.photo}
+                  src={photo}
                   className="user-info-initial user-info-img"
                   alt=""
                   key={index}
                 />
               ) : (
-                <span
-                  className="user-info-initial"
-                  key={index}
-                  title={participant.name}
-                >
-                  {generateInitials(participant.name)}
+                <span className="user-info-initial" key={index} title={name}>
+                  {generateInitials(name)}
                 </span>
-              )
-            )}
+              );
+            })}
             {participants.length > 3 && (
               <span className="user-info-others">
                 ...+{participants.length - 3} others
