@@ -11,7 +11,7 @@ import { useStateValue } from "store/stateProvider";
 import { getChats } from "services/userServices";
 import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
-import { publish } from "custom-events";
+import { publish, unsubscribe, subscribe } from "custom-events";
 
 export default function ChatList() {
   const { state, dispatch } = useStateValue();
@@ -46,8 +46,10 @@ export default function ChatList() {
   }, [dispatch, chatUrlParam]);
 
   useEffect(() => {
-    handleGetChats();
-  }, [handleGetChats, user]);
+    subscribe("userDetailsFetched", handleGetChats);
+
+    return () => unsubscribe("userDetailsFetched", handleGetChats);
+  }, [handleGetChats]);
 
   const handleSelectChat = (chat) => {
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });

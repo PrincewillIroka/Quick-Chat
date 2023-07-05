@@ -8,6 +8,7 @@ import UpdateUserModal from "components/Chat/Modals/UpdateUserModal";
 import "./Chat.css";
 import { useStateValue } from "store/stateProvider";
 import { authenticateUser } from "services";
+import { publish } from "custom-events";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
@@ -19,25 +20,30 @@ export default function Chat() {
   } = alert;
 
   useEffect(() => {
-    authenticateUser().then((response) => {
-      const user = response?.user;
-      if (user) {
-        const { bs_token = "", hasUpdatedUsername = false, name = "" } = user;
-        localStorage.setItem("bs_token", bs_token);
-        dispatch({ type: "GET_USER_SUCCESS", payload: user });
-        if (!hasUpdatedUsername) {
-          dispatch({
-            type: "TOGGLE_ALERT",
-            payload: {
-              isAlertVisible: true,
-              content: `<div class="alert-nested-wrapper"><span>Your default name is ${name}.</span>
+    authenticateUser()
+      .then((response) => {
+        const user = response?.user;
+        if (user) {
+          const { bs_token = "", hasUpdatedUsername = false, name = "" } = user;
+          localStorage.setItem("bs_token", bs_token);
+          dispatch({ type: "GET_USER_SUCCESS", payload: user });
+          publish("userDetailsFetched");
+          if (!hasUpdatedUsername) {
+            dispatch({
+              type: "TOGGLE_ALERT",
+              payload: {
+                isAlertVisible: true,
+                content: `<div class="alert-nested-wrapper"><span>Your default name is ${name}.</span>
               <span class="alert-click-here-btn" id="alert-click-here-btn">Click here to update it.</span></div>`,
-              type: "info",
-            },
-          });
+                type: "info",
+              },
+            });
+          }
         }
-      }
-    });
+      })
+      .catch((err) => {
+        console.error({ err });
+      });
   }, [dispatch]);
 
   const closeAlert = useCallback(() => {
