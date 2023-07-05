@@ -93,11 +93,11 @@ function ChatMedia() {
                     poster={file_url}
                     title={name}
                     ref={(ref) => {
-                      //Pause after 2secs
+                      //Pause after 1secs
                       if (ref) {
                         setTimeout(() => {
                           ref.pause();
-                        }, 2000);
+                        }, 1000);
                       }
                     }}
                   >
