@@ -4,6 +4,7 @@ import React, { useState, memo } from "react";
 import { CgSearch, CgMore } from "react-icons/cg";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
+import { IoMdClose } from "react-icons/io";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
@@ -12,8 +13,14 @@ function TopSection({ selectedChat }) {
   const { state, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
-  const { participants = [], chat_came } = selectedChat || {};
+  const {
+    participants = [],
+    chat_name,
+    _id: selectChatId,
+  } = selectedChat || {};
   const { user = {} } = state;
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
@@ -28,11 +35,19 @@ function TopSection({ selectedChat }) {
     });
   };
 
+  const handleSearchMessages = (value) => {
+    setSearchText(value);
+    dispatch({
+      type: "SEARCH_MESSAGES",
+      payload: { searchText: value, selectChatId },
+    });
+  };
+
   return (
     <div className="top-section">
       <div className="row">
         <div className="user-info-col-1">
-          <span className="user-info-name">{chat_came}</span>
+          <span className="user-info-name">{chat_name}</span>
           <div className="user-info-photo-or-initial-wrapper">
             {participants.slice(0, 3).map((participant, index) => {
               const checkSameSender = isSameSender(participant, user);
@@ -65,9 +80,37 @@ function TopSection({ selectedChat }) {
         <AiOutlineVideoCamera className="media-icon" />
         <TbPhoneCall className="media-icon" />
       </div> */}
+      {isSearchVisible && (
+        <div className="top-section-search-container">
+          <input
+            placeholder="Search here..."
+            className="top-section-search-input"
+            value={searchText}
+            onChange={(e) => {
+              e.preventDefault();
+              const value = e.target.value;
+              handleSearchMessages(value);
+            }}
+          />
+        </div>
+      )}
 
       <div className="icons-container">
-        <CgSearch className="control-icon" />
+        {isSearchVisible ? (
+          <IoMdClose
+            className="control-icon"
+            onClick={() => {
+              setSearchText("");
+              setIsSearchVisible(false);
+              handleSearchMessages("");
+            }}
+          />
+        ) : (
+          <CgSearch
+            className="control-icon"
+            onClick={() => setIsSearchVisible(true)}
+          />
+        )}
         <CgMore
           className="control-icon"
           onClick={() =>

@@ -31,11 +31,7 @@ const chatReducer = (state, action) => {
     }
     case "UPDATE_CHAT": {
       let { chat_id, newMessage } = action.payload;
-      let {
-        chats = [],
-        chatsClone = [],
-        selectedChat = {},
-      } = state;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
@@ -78,7 +74,7 @@ const chatReducer = (state, action) => {
         const participantsFound = participants.filter(
           (participant) =>
             participant.name.toLowerCase().includes(searchText) ||
-            chat_name.toLowerCase().includes(searchText)
+            chat_name.toLowerCase().includes(searchText.toLowerCase())
         );
         return participantsFound.length;
       });
@@ -88,6 +84,34 @@ const chatReducer = (state, action) => {
         ...state,
         selectedChat,
         chats,
+      };
+    }
+    case "SEARCH_MESSAGES": {
+      let { searchText, selectChatId } = action.payload;
+      searchText = searchText.trim();
+      let { chatsClone } = state;
+      let selectedChat = {};
+
+      const chatFound = Object.assign(
+        {},
+        chatsClone.find((chat) => chat._id === selectChatId)
+      );
+
+      if (!chatFound) return;
+
+      if (searchText) {
+        let messages = chatFound.messages;
+        messages = messages.filter((msg) => {
+          return msg.content.toLowerCase().includes(searchText.toLowerCase());
+        });
+        chatFound.messages = messages;
+      }
+
+      selectedChat = chatFound;
+
+      return {
+        ...state,
+        selectedChat,
       };
     }
     default:
