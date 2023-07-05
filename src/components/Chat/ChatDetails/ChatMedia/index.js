@@ -92,6 +92,14 @@ function ChatMedia() {
                     muted
                     poster={file_url}
                     title={name}
+                    ref={(ref) => {
+                      //Pause after 2secs
+                      if (ref) {
+                        setTimeout(() => {
+                          ref.pause();
+                        }, 2000);
+                      }
+                    }}
                   >
                     <source src={file_url} type={mimetype} />
                   </video>

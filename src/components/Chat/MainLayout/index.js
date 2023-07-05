@@ -162,7 +162,7 @@ function MainLayout() {
     });
 
     if (param === "openFileContainer") {
-      setIsFileContainerOpen(isFileContainerOpen);
+      setIsFileContainerOpen(true);
     } else if (param === "sendAudio") {
       handleSendMessage();
     }
