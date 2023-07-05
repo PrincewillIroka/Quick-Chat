@@ -13,11 +13,7 @@ function TopSection({ selectedChat }) {
   const { state, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
-  const {
-    participants = [],
-    chat_name,
-    _id: selectChatId,
-  } = selectedChat || {};
+  const { participants = [], _id: selectChatId } = selectedChat || {};
   const { user = {} } = state;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
