@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
-import { GoChevronDown } from "react-icons/go";
+// import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { BiMessageEdit } from "react-icons/bi";
 
@@ -95,7 +95,7 @@ export default function ChatList() {
       <div className="row-2">
         <div className="centered-container">
           <h4 className="messages-title">Messages</h4>
-          <GoChevronDown />
+          {/* <GoChevronDown /> */}
         </div>
         <div className="centered-container">
           <BiMessageEdit className="bookmark-icon" title="All chats" />

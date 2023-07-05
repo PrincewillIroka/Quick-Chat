@@ -1,6 +1,6 @@
 const chatSockets = (socket, state, dispatch) => {
-  socket.on("newMessageReceived", ({ updatedChat }) => {
-    if (updatedChat) dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
+  socket.on("newMessageReceived", (payload) => {
+    if (payload) dispatch({ type: "UPDATE_CHAT", payload });
   });
 
   socket.on("uploadedFileSuccess", (data) => {

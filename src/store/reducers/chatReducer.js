@@ -30,16 +30,36 @@ const chatReducer = (state, action) => {
       };
     }
     case "UPDATE_CHAT": {
-      let updatedChat = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {} } = state;
-      chats = chats.map((chat) =>
-        chat._id === updatedChat._id ? updatedChat : chat
-      );
-      chatsClone = chatsClone.map((chat) =>
-        chat._id === updatedChat._id ? updatedChat : chat
-      );
+      let { chat_id, newMessage } = action.payload;
+      let {
+        chats = [],
+        chatsClone = [],
+        selectedChat = {},
+      } = state;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
+      const messages = chatToBeUpdated.messages || [];
+      chatToBeUpdated.messages = [].concat(messages, [newMessage]);
+
+      chats = chats.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = chatToBeUpdated;
+        }
+        return chat;
+      });
+
+      chatsClone = chatsClone.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = chatToBeUpdated;
+        }
+        return chat;
+      });
+
       selectedChat =
-        selectedChat._id === updatedChat._id ? updatedChat : selectedChat;
+        selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
 
       return {
         ...state,

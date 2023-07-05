@@ -28,7 +28,7 @@ const userReducer = (state, action) => {
       let { messages = [] } = updatedChat;
 
       messages = messages.map((message) => {
-        let { _id, attachments } = message;
+        let { _id = "", attachments = [] } = message;
         if (_id === message_id) {
           attachments = attachments.map(({ attachment: attch }) => {
             const { key: attchKey } = attch || {};
@@ -53,13 +53,15 @@ const userReducer = (state, action) => {
       selectedChat =
         selectedChat._id === updatedChat._id ? updatedChat : selectedChat;
 
-      currentFileUploading = currentFileUploading.map(({ attachment: attch }) => {
-        const { key: attchKey } = attch || {};
-        if (attchKey === attachmentKey) {
-          attch = attachment;
+      currentFileUploading = currentFileUploading.map(
+        ({ attachment: attch }) => {
+          const { key: attchKey } = attch || {};
+          if (attchKey === attachmentKey) {
+            attch = attachment;
+          }
+          return { attachment: attch };
         }
-        return { attachment: attch };
-      });
+      );
       filesUploading[chat_id] = currentFileUploading;
 
       return {

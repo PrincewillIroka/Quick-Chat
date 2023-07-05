@@ -75,24 +75,15 @@ function MainLayout() {
       socket.emit(
         "newMessageSent",
         { content, chat_url, chat_id, sender_id },
-        async (ack) => {
-          let { messageSent, updatedChat, message_id } = ack;
-          if (messageSent && updatedChat) {
+        async (payload) => {
+          let { messageSent, chat_id, message_id, newMessage } = payload;
+          if (messageSent) {
             if (hasFiles) {
               const attachments = filesUploading[chat_id];
-              let { messages = [] } = updatedChat;
-
-              messages = messages.map((message) => {
-                const { _id } = message;
-                if (_id === message_id) {
-                  message["attachments"] = attachments;
-                }
-                return message;
-              });
-
-              updatedChat["messages"] = messages;
+              newMessage.attachments = attachments;
+              payload.newMessage = newMessage;
             }
-            dispatch({ type: "UPDATE_CHAT", payload: updatedChat });
+            dispatch({ type: "UPDATE_CHAT", payload });
           }
 
           if (hasFiles) {
