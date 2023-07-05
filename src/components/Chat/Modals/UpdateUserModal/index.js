@@ -7,10 +7,13 @@ import { AiOutlineVideoCamera } from "react-icons/ai";
 
 export default function UpdateUserModal() {
   const selectDisplayPicRef = useRef();
+  const displayPhotoRef = useRef();
+
   const { state, dispatch } = useStateValue();
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUserName] = useState("");
   const [userPhoto, setPhoto] = useState("");
+  const [userPhotoURL, setPhotoURL] = useState("");
   const { user = {} } = state;
   const { _id: user_id, name = "", photo = "" } = user;
 
@@ -84,6 +87,7 @@ export default function UpdateUserModal() {
         });
         return;
       }
+      setPhotoURL(URL.createObjectURL(file));
       setPhoto(file);
     }
   };
@@ -122,7 +126,14 @@ export default function UpdateUserModal() {
                 className="update-profile-pic-container"
                 onClick={() => handleClickPhoto()}
               >
-                {photo ? (
+                {userPhotoURL ? (
+                  <img
+                    src={userPhotoURL}
+                    alt=""
+                    className="update-profile-pic"
+                    ref={displayPhotoRef}
+                  />
+                ) : photo ? (
                   <img src={photo} alt="" className="update-profile-pic" />
                 ) : (
                   <span className="update-profile-pic-initial">
