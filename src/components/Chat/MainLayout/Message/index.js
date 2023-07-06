@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import "./Message.css";
 import { generateInitials, isSameSender } from "utils";
 import { useStateValue } from "store/stateProvider";
+import { getAttachmentIcon } from "constants/index";
 
 function Message({ message }) {
   const { state } = useStateValue();
@@ -38,15 +39,37 @@ function Message({ message }) {
             {attachments.length ? (
               <div className="attachments-container">
                 {attachments.map(({ attachment = {} }, index) => {
-                  const { name, file_url, isUploading } = attachment;
+                  let {
+                    name,
+                    file_url,
+                    isUploading,
+                    mimetype = "",
+                  } = attachment;
+
                   return (
-                    <div className="attachment-name-wrapper" key={index}>
+                    <div className="attachment-details-wrapper" key={index}>
                       <div
-                        className="attachment-name"
+                        className="attachment-details-single"
                         title={name}
                         onClick={() => handleViewFile(file_url)}
                       >
-                        {name}
+                        {mimetype.includes("image") ? (
+                          <img
+                            src={file_url}
+                            className="message-attachment-img"
+                            alt=""
+                          />
+                        ) : (
+                          <span className="message-attachment-icon-wrapper">
+                            {getAttachmentIcon(
+                              mimetype,
+                              "message-attachment-icon"
+                            )}
+                          </span>
+                        )}
+                        <div className="attachment-name-wrapper">
+                          <span className="attachment-name">{name}</span>
+                        </div>
                       </div>
                       {isUploading === "In Progress" && (
                         <div className="attachment-progress-container">
