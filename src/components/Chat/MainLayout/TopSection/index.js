@@ -44,10 +44,12 @@ function TopSection({ selectedChat }) {
   );
 
   const handleClearSearchField = useCallback(() => {
-    setSearchText("");
-    setIsSearchVisible(false);
-    handleSearchMessages("");
-  }, [handleSearchMessages]);
+    if (searchText) {
+      setSearchText("");
+      setIsSearchVisible(false);
+      handleSearchMessages("");
+    }
+  }, [handleSearchMessages, searchText]);
 
   useEffect(() => {
     subscribe("toggledSelectedChat", handleClearSearchField);
