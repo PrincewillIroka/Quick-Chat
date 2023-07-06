@@ -6,6 +6,6 @@ Backend API: https://github.com/PrincewillIroka/Quick-Chat-Backend
 UI Mockup: https://dribbble.com/shots/18324922--edamessage-Messenger-Dashboard-Web-App
 ### Live
 https://quick-chat1.netlify.app/
-### App User Interface
+### Demo
 
 ![Demo](https://i.imgur.com/niadqpZ.gif)
