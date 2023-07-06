@@ -229,8 +229,9 @@ function MainLayout() {
       ) : (
         <div className="body-section" ref={bodySectionRef}>
           {messages.map((message, index) => {
-            const { content = "", attachments = [] } = message;
-            return content || attachments.length ? (
+            const { content = "", attachments = [], sender = {} } = message;
+            const { isChatBot = false } = sender;
+            return content || (attachments.length && !isChatBot) ? (
               <Message message={message} key={index} />
             ) : (
               ""
