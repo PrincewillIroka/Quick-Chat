@@ -28,7 +28,7 @@ export default function ChatInfo({
           return photo ? (
             <img
               src={photo}
-              className="user-info-initial user-info-img"
+              className="chat-info-initial chat-info-img"
               alt=""
               key={index}
               title={name}

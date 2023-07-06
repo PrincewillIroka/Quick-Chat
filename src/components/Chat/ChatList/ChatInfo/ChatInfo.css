@@ -40,13 +40,19 @@
 }
 
 .chat-info-initial:nth-child(1) {
-  /* left: -20px; */
+  left: -20px;
 }
 
 .chat-info-initial:nth-child(2) {
-  left: 35px;
-  /* z-index: 100; */
+  left: 32px;
   position: absolute;
+  z-index: 1;
+}
+
+.chat-info-initial:nth-child(3) {
+  left: 65px;
+  position: absolute;
+  z-index: 2;
 }
 
 .chat-info-initial-selected {
@@ -56,7 +62,7 @@
 .chat-info-col {
   flex: 1;
   display: flex;
-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .chat-info-name {

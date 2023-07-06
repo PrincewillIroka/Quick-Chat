@@ -44,12 +44,12 @@ function TopSection({ selectedChat }) {
   );
 
   const handleClearSearchField = useCallback(() => {
-    if (searchText) {
+    if (isSearchVisible) {
       setSearchText("");
       setIsSearchVisible(false);
       handleSearchMessages("");
     }
-  }, [handleSearchMessages, searchText]);
+  }, [handleSearchMessages, isSearchVisible]);
 
   useEffect(() => {
     subscribe("toggledSelectedChat", handleClearSearchField);
@@ -73,12 +73,12 @@ function TopSection({ selectedChat }) {
               return photo ? (
                 <img
                   src={photo}
-                  className="user-info-initial user-info-img"
+                  className="top-section-user-info-initial top-section-user-info-img"
                   alt=""
                   key={index}
                 />
               ) : (
-                <span className="user-info-initial" key={index} title={name}>
+                <span className="top-section-user-info-initial" key={index} title={name}>
                   {generateInitials(name)}
                 </span>
               );

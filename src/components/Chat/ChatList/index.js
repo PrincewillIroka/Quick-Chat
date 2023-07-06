@@ -52,9 +52,9 @@ export default function ChatList() {
   }, [handleGetChats]);
 
   const handleSelectChat = (chat) => {
+    publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     socket.emit("join", { chat_url: chat?.chat_url });
-    publish("toggledSelectedChat");
   };
 
   const handleSearchChats = (e) => {
