@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./Home.css";
 import BeginChatSvg from "assets/Begin-chat.svg";
+import { getAppHealth } from "services/userServices";
 
-export default function Home({ user }) {
+export default function Home() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAppHealth();
+  }, []);
 
   const handleNavigation = (route) => {
     navigate(route);

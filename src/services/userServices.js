@@ -68,4 +68,18 @@ const updateUser = async (payload) => {
   });
 };
 
-export { getChats, authenticateUser, updateUser };
+const getAppHealth = () => {
+  return new Promise((resolve, reject) => {
+    const url = `${APP_HOST}/api/health`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        return reject(error);
+      });
+  });
+};
+
+export { getChats, authenticateUser, updateUser, getAppHealth };
