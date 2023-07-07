@@ -23,14 +23,14 @@ export default function CreateConversationModal() {
           dispatch({ type: "ADD_NEW_CHAT", payload: newChat });
           const str = `${window.location.href}/${newChat.chat_url}`;
           setChatLink(str);
+          setIsLoading(false);
+          setIsChatCreated(true);
+          handleToggleAlert({
+            isAlertVisible: true,
+            content: "Chat created!",
+            type: "success",
+          });
         }
-        setIsLoading(false);
-        setIsChatCreated(true);
-        handleToggleAlert({
-          isAlertVisible: true,
-          content: "Chat created!",
-          type: "success",
-        });
       })
       .catch((err) => {
         console.error(err);

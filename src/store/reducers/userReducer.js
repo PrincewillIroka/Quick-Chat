@@ -78,6 +78,62 @@ const userReducer = (state, action) => {
         visibleModal: action.payload,
       };
     }
+    case "GET_BOOKMARKS": {
+      return {
+        ...state,
+        bookmarks: action.payload,
+      };
+    }
+    case "ADD_BOOKMARK": {
+      let { bookmarks } = state;
+      bookmarks = [].concat(bookmarks, action.payload);
+      return {
+        ...state,
+        bookmarks,
+      };
+    }
+    case "TOOGLED_BOOKMARKS": {
+      const value = action.payload;
+      let {
+        chats,
+        chatsClone,
+        selectedChat,
+        bookmarks = [],
+        isViewingBookmarks = false,
+      } = state;
+
+      if (value === "all") {
+        chats = chatsClone;
+        selectedChat = chatsClone[0];
+        isViewingBookmarks = false;
+      } else {
+        chats = chatsClone.filter((chat) => {
+          const isBookmark = bookmarks.find(
+            (bookmark) => bookmark.chat_id === chat._id
+          );
+          return isBookmark;
+        });
+        isViewingBookmarks = true;
+      }
+
+      return {
+        ...state,
+        chats,
+        selectedChat,
+        isViewingBookmarks,
+      };
+    }
+    case "REMOVE_BOOKMARK": {
+      const bookmark_id = action.payload;
+      let { bookmarks } = state;
+
+      bookmarks = bookmarks.filter((bookmark) => bookmark._id !== bookmark_id);
+
+      return {
+        ...state,
+        bookmarks,
+      };
+    }
     default:
       return state;
   }

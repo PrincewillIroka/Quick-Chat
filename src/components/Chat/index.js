@@ -27,7 +27,7 @@ export default function Chat() {
           const { bs_token = "", hasUpdatedUsername = false, name = "" } = user;
           localStorage.setItem("bs_token", bs_token);
           dispatch({ type: "GET_USER_SUCCESS", payload: user });
-          publish("userDetailsFetched");
+          publish("userDetailsFetched", user);
           if (!hasUpdatedUsername) {
             dispatch({
               type: "TOGGLE_ALERT",

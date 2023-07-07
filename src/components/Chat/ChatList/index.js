@@ -9,6 +9,7 @@ import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
 import { useStateValue } from "store/stateProvider";
 import { getChats } from "services/userServices";
+import { getBookmarks } from "services/bookmarkServices";
 import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
 import { publish, unsubscribe, subscribe } from "custom-events";
@@ -17,33 +18,56 @@ export default function ChatList() {
   const { state, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
   const { chatUrlParam } = useParams();
-  const { chats = [], selectedChat = {}, user = {} } = state;
+  const {
+    chats = [],
+    selectedChat = {},
+    user = {},
+    isViewingBookmarks = false,
+  } = state;
 
-  const handleGetChats = useCallback(async () => {
-    const bs_token = localStorage.getItem("bs_token");
-    await getChats({ bs_token, chatUrlParam })
-      .then(async (response) => {
-        const chatResponse = response?.chats || [];
-        if (chatResponse) {
-          let firstChat;
-
-          if (chatUrlParam) {
-            firstChat = chatResponse.find(
-              (chat) => chat.chat_url === chatUrlParam
-            );
-          } else {
-            firstChat = chatResponse[0];
-          }
-
-          dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
-          dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
-          socket.emit("join", { chat_url: firstChat?.chat_url });
+  const handleGetBookmarks = useCallback(
+    async ({ _id }) => {
+      const creator_id = _id;
+      await getBookmarks({ creator_id }).then((response) => {
+        const { bookmarks } = response;
+        if (bookmarks) {
+          dispatch({ type: "GET_BOOKMARKS", payload: bookmarks });
         }
-      })
-      .catch((err) => {
-        console.error(err);
       });
-  }, [dispatch, chatUrlParam]);
+    },
+    [dispatch]
+  );
+
+  const handleGetChats = useCallback(
+    async ({ detail }) => {
+      const bs_token = localStorage.getItem("bs_token");
+      await getChats({ bs_token, chatUrlParam })
+        .then(async (response) => {
+          const chatResponse = response?.chats || [];
+          if (chatResponse) {
+            let firstChat;
+
+            if (chatUrlParam) {
+              firstChat = chatResponse.find(
+                (chat) => chat.chat_url === chatUrlParam
+              );
+            } else {
+              firstChat = chatResponse[0];
+            }
+
+            dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
+            dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
+            socket.emit("join", { chat_url: firstChat?.chat_url });
+
+            handleGetBookmarks(detail);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    [dispatch, chatUrlParam, handleGetBookmarks]
+  );
 
   useEffect(() => {
     subscribe("userDetailsFetched", handleGetChats);
@@ -66,6 +90,10 @@ export default function ChatList() {
 
   const handleToggleModal = (value) => {
     dispatch({ type: "TOGGLE_MODAL", payload: value });
+  };
+
+  const handleToggleBookmarks = (value) => {
+    dispatch({ type: "TOOGLED_BOOKMARKS", payload: value });
   };
 
   return (
@@ -102,8 +130,20 @@ export default function ChatList() {
           {/* <GoChevronDown /> */}
         </div>
         <div className="centered-container">
-          <BiMessageEdit className="bookmark-icon" title="All chats" />
-          <BsStar className="bookmark-icon" title="Bookmarked chats" />
+          <BiMessageEdit
+            className={`bookmark-icon ${
+              !isViewingBookmarks && "bookmark-icon-active"
+            }`}
+            title="All chats"
+            onClick={() => handleToggleBookmarks("all")}
+          />
+          <BsStar
+            className={`bookmark-icon ${
+              isViewingBookmarks && "bookmark-icon-active"
+            }`}
+            title="Bookmarked chats"
+            onClick={() => handleToggleBookmarks("bookmarks")}
+          />
         </div>
       </div>
       <div className="search-row">
