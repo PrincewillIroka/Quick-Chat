@@ -84,6 +84,7 @@ const chatReducer = (state, action) => {
         ...state,
         selectedChat,
         chats,
+        isViewingBookmarks: false,
       };
     }
     case "SEARCH_MESSAGES": {

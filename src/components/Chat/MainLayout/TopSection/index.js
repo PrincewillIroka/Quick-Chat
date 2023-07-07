@@ -1,4 +1,4 @@
-import React, { useState, memo, useEffect, useCallback } from "react";
+import React, { useState, memo, useEffect, useCallback, useMemo } from "react";
 // import { AiOutlineVideoCamera } from "react-icons/ai";
 // import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
@@ -9,15 +9,22 @@ import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
+import { addBookmark, deleteBookmark } from "services";
 
 function TopSection({ selectedChat }) {
   const { state, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], _id: selectChatId } = selectedChat || {};
-  const { user = {} } = state;
+  const { user = {}, bookmarks = [] } = state;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const bookmarkFound = useMemo(() => {
+    return bookmarks.find((bookmark) => bookmark.chat_id === selectChatId);
+  }, [selectChatId, bookmarks]);
+
+  const isBookmarkFound = bookmarkFound && Object.entries(bookmarkFound);
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
@@ -59,6 +66,62 @@ function TopSection({ selectedChat }) {
     };
   }, [handleClearSearchField]);
 
+  const handleAddBookmark = async () => {
+    const { _id: creator_id } = user;
+    const chat_id = selectChatId;
+
+    if (isBookmarkFound) {
+      const { _id: bookmark_id } = bookmarkFound;
+
+      await deleteBookmark({ creator_id, bookmark_id })
+        .then((response) => {
+          const success = response.success;
+          if (success) {
+            dispatch({
+              type: "REMOVE_BOOKMARK",
+              payload: bookmark_id,
+            });
+
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Bookmark Removed!",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } else {
+      await addBookmark({ creator_id, chat_id })
+        .then(async (response) => {
+          const { newBookmark } = response;
+          if (newBookmark) {
+            dispatch({
+              type: "ADD_BOOKMARK",
+              payload: newBookmark,
+            });
+
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Bookmark Added!",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
+  const handleToggleAlert = (payload) => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload,
+    });
+  };
+
   return (
     <div className="top-section">
       <div className="row">
@@ -78,7 +141,11 @@ function TopSection({ selectedChat }) {
                   key={index}
                 />
               ) : (
-                <span className="top-section-user-info-initial" key={index} title={name}>
+                <span
+                  className="top-section-user-info-initial"
+                  key={index}
+                  title={name}
+                >
                   {generateInitials(name)}
                 </span>
               );
@@ -135,8 +202,10 @@ function TopSection({ selectedChat }) {
               <span>Get chat link</span>
               <MdOutlineContentCopy />
             </div>
-            <div className="more-items-row" onClick={handleGetChatLink}>
-              <span>Bookmark chat</span>
+            <div className="more-items-row" onClick={handleAddBookmark}>
+              <span>
+                {isBookmarkFound ? "Remove Bookmark" : "Bookmark chat"}
+              </span>
               <BsStar />
             </div>
           </div>

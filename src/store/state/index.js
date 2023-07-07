@@ -9,6 +9,8 @@ const initialState = {
   },
   filesUploading: {},
   visibleModal: "",
+  bookmarks: [],
+  isViewingBookmarks: false,
 };
 
 export default initialState;
