@@ -113,6 +113,7 @@ const userReducer = (state, action) => {
           );
           return isBookmark;
         });
+        selectedChat = chats[0];
         isViewingBookmarks = true;
       }
 

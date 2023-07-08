@@ -11,6 +11,7 @@
   padding: 0 20px 100px 20px;
   overflow-y: auto;
   margin-top: 20px;
+  scrollbar-width: thin;
 }
 
 .no-chat-section {
@@ -112,7 +113,7 @@
 }
 
 .input-field {
-  width: 85%;
+  width: 80%;
   border: none;
   outline: none;
   font-size: 16px;
@@ -150,16 +151,17 @@
 }
 
 .microphone-icon {
-  margin-right: 15px;
   height: 20px;
   width: 20px;
   cursor: pointer;
+  margin-left: 15px;
 }
 
 .attachment-icon {
   height: 20px;
   width: 20px;
   cursor: pointer;
+  margin-left: 15px;
 }
 
 .send-icon {
@@ -211,11 +213,16 @@
 
 .recording-stop {
   margin-right: 10px;
-  background-color: #f71124;
+  background-color: red;
+}
+
+.recording-pause {
+  margin-right: 10px;
+  background-color: darkorange;
 }
 
 .recording-start {
-  background-color: #059b41;
+  background-color: green;
 }
 
 .spinner-square {
@@ -266,4 +273,24 @@
     height: 20px;
     background-color: rgb(111, 163, 240);
   }
+}
+
+.emoji-container {
+  position: relative;
+}
+
+.emoji-picker-wrapper {
+  position: absolute;
+  bottom: 35px;
+  left: -240px;
+  z-index: 100;
+}
+
+.emoji-icon {
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+}
+
+.emoji-picker {
 }

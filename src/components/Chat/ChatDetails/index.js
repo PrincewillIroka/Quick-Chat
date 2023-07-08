@@ -19,20 +19,21 @@ export default function ChatDetails() {
         <div className="chat-details-body-top-row">
           <div
             className={`chat-details-icon-container ${
-              getActiveDetail("notification") &&
+              getActiveDetail("ChatMedia") &&
               "chat-details-icon-active-container"
             }`}
-            onClick={() => setActiveDetail("notification")}
+            onClick={() => setActiveDetail("ChatMedia")}
           >
-            <IoNotificationsOutline
+            <BsInfoCircle
               className={`chat-detail-icon ${
-                getActiveDetail("notification") && "chat-detail-active-icon"
+                getActiveDetail("ChatMedia") && "chat-detail-active-icon"
               }`}
             />
           </div>
           <div
             className={`chat-details-icon-container ${
-              getActiveDetail("ChatParticipants") && "chat-details-icon-active-container"
+              getActiveDetail("ChatParticipants") &&
+              "chat-details-icon-active-container"
             }`}
             onClick={() => setActiveDetail("ChatParticipants")}
           >
@@ -44,14 +45,14 @@ export default function ChatDetails() {
           </div>
           <div
             className={`chat-details-icon-container ${
-              getActiveDetail("ChatMedia") &&
+              getActiveDetail("notification") &&
               "chat-details-icon-active-container"
             }`}
-            onClick={() => setActiveDetail("ChatMedia")}
+            onClick={() => setActiveDetail("notification")}
           >
-            <BsInfoCircle
+            <IoNotificationsOutline
               className={`chat-detail-icon ${
-                getActiveDetail("ChatMedia") && "chat-detail-active-icon"
+                getActiveDetail("notification") && "chat-detail-active-icon"
               }`}
             />
           </div>
