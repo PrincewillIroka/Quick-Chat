@@ -11,6 +11,7 @@ const initialState = {
   visibleModal: "",
   bookmarks: [],
   isViewingBookmarks: false,
+  isChatLoading: true,
 };
 
 export default initialState;

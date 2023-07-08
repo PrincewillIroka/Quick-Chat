@@ -23,6 +23,7 @@ export default function ChatList() {
     selectedChat = {},
     user = {},
     isViewingBookmarks = false,
+    isChatLoading,
   } = state;
 
   const handleGetBookmarks = useCallback(
@@ -98,32 +99,41 @@ export default function ChatList() {
 
   return (
     <section className="sidebar-container">
-      <div className="row-1">
-        {user.photo ? (
-          <img
-            className="profile-photo"
-            src={user.photo}
-            alt=""
-            title={user.name}
-            onClick={() => handleToggleModal("UpdateUserModal")}
-          />
-        ) : (
-          <span
-            className="profile-photo profile-initial"
-            title={user.name}
-            onClick={() => handleToggleModal("UpdateUserModal")}
+      {isChatLoading ? (
+        <div className="shimmer-row-1-container">
+          <div className="shimmer-row-1-wrapper shimmerBG">
+            <span className="shimmer-profile-photo"></span>
+            <div className="shimmer-start-convo"></div>
+          </div>
+        </div>
+      ) : (
+        <div className="row-1">
+          {user.photo ? (
+            <img
+              className="profile-photo"
+              src={user.photo}
+              alt=""
+              title={user.name}
+              onClick={() => handleToggleModal("UpdateUserModal")}
+            />
+          ) : (
+            <span
+              className="profile-photo profile-initial"
+              title={user.name}
+              onClick={() => handleToggleModal("UpdateUserModal")}
+            >
+              {generateInitials(user.name)}
+            </span>
+          )}
+          <button
+            className="btn-start-convo"
+            onClick={() => handleToggleModal("CreateConversation")}
           >
-            {generateInitials(user.name)}
-          </span>
-        )}
-        <button
-          className="btn-start-convo"
-          onClick={() => handleToggleModal("CreateConversation")}
-        >
-          <span>Start new conversation</span>
-          <BsPlusCircle className="plus-circle-icon" />
-        </button>
-      </div>
+            <span>Start new conversation</span>
+            <BsPlusCircle className="plus-circle-icon" />
+          </button>
+        </div>
+      )}
       <div className="row-2">
         <div className="centered-container">
           <h4 className="messages-title">Messages</h4>
