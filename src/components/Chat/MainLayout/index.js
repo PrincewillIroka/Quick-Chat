@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect, memo } from "react";
 import { RiSendPlaneFill, RiAttachment2 } from "react-icons/ri";
 import { BiMicrophone } from "react-icons/bi";
 import { IoMdClose } from "react-icons/io";
+import { BsEmojiSmile } from "react-icons/bs";
+import EmojiPicker from "emoji-picker-react";
+
 import Message from "components/Chat/MainLayout/Message";
 import "./MainLayout.css";
 import TopSection from "components/Chat/MainLayout/TopSection";
@@ -26,6 +29,7 @@ function MainLayout() {
   const [formData, setFormData] = useState(new FormData());
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
+  const [isEmojiPickerVisible, setIsEmojiPickerVisible] = useState("");
 
   const mimeType = "audio/webm";
   const spinnerSquares = new Array(4).fill(SQUARES).flat();
@@ -218,6 +222,14 @@ function MainLayout() {
     handleDeleteRecording();
   };
 
+  const handleEmojiClick = (value) => {
+    const { emoji = "" } = value;
+    if (emoji) {
+      const newContent = `${content}${emoji}`;
+      setContent(newContent);
+    }
+  };
+
   return (
     <section className="main-layout-container">
       <TopSection selectedChat={selectedChat} />
@@ -253,7 +265,9 @@ function MainLayout() {
           )}
           <div className="recording-controls">
             <span
-              className="recording-btn recording-stop"
+              className={`recording-btn ${
+                isRecording ? "recording-stop" : "recording-pause"
+              }`}
               onClick={handleStopOrRestartRecording}
             >
               {isRecording ? "Stop" : hasStoppedRecording ? "Restart" : ""}
@@ -311,6 +325,20 @@ function MainLayout() {
           />
           <span className="right-divider"></span>
           <div className="control-btns-container">
+            <div className="emoji-container">
+              {isEmojiPickerVisible && (
+                <div className="emoji-picker-wrapper">
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    className="emoji-picker"
+                  />
+                </div>
+              )}
+              <BsEmojiSmile
+                onClick={() => setIsEmojiPickerVisible(!isEmojiPickerVisible)}
+                className="emoji-icon"
+              />
+            </div>
             <BiMicrophone
               className="microphone-icon"
               onClick={handleRecordAudioMessage}
