@@ -57,7 +57,6 @@ export default function ChatList() {
 
             dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
             dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
-            socket.emit("join", { chat_url: firstChat?.chat_url });
 
             handleGetBookmarks(detail);
           }
@@ -78,7 +77,8 @@ export default function ChatList() {
   const handleSelectChat = (chat) => {
     publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
-    socket.emit("join", { chat_url: chat?.chat_url });
+    const { chat_url = "" } = chat;
+    socket.emit("toggledSelectedChat", { chat_url, user_id: user._id });
   };
 
   const handleSearchChats = (e) => {
