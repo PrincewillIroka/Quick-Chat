@@ -15,9 +15,17 @@ const chatReducer = (state, action) => {
       };
     }
     case "TOGGLE_SELECTED_CHAT": {
+      const selectedChat = action.payload || {};
+      const { chat_url = "" } = selectedChat;
+
+      if (chat_url) {
+        const newUrl = window.location.origin + `/chat/${chat_url}`;
+        window.history.replaceState(null, null, newUrl);
+      }
+
       return {
         ...state,
-        selectedChat: action.payload,
+        selectedChat,
         filesUploading: [],
       };
     }
