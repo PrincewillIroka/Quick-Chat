@@ -12,6 +12,7 @@ const initialState = {
   bookmarks: [],
   isViewingBookmarks: false,
   isChatLoading: true,
+  isUserLoading: true,
 };
 
 export default initialState;
