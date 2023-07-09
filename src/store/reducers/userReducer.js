@@ -4,7 +4,7 @@ const userReducer = (state, action) => {
       return {
         ...state,
         user: action.payload,
-        isChatLoading: false
+        isChatLoading: false,
       };
     }
     case "TOGGLE_ALERT": {
