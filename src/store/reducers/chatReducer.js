@@ -35,6 +35,7 @@ const chatReducer = (state, action) => {
         ...state,
         chats,
         chatsClone: chats,
+        isChatLoading: false,
       };
     }
     case "UPDATE_CHAT": {

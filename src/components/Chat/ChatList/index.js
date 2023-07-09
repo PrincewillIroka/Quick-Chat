@@ -23,10 +23,9 @@ export default function ChatList() {
     selectedChat = {},
     user = {},
     isViewingBookmarks = false,
+    isUserLoading,
     isChatLoading,
   } = state;
-
-  console.log({ isChatLoading });
 
   const handleGetBookmarks = useCallback(
     async ({ _id }) => {
@@ -99,9 +98,11 @@ export default function ChatList() {
     dispatch({ type: "TOOGLED_BOOKMARKS", payload: value });
   };
 
+  const getShimmerLayout = (num) => new Array(num).fill("");
+
   return (
     <section className="sidebar-container">
-      {isChatLoading ? (
+      {isUserLoading ? (
         <div className="shimmer-row-1-container">
           <div className="shimmer-row-1-wrapper shimmerBG">
             <span className="shimmer-profile-photo"></span>
@@ -167,14 +168,35 @@ export default function ChatList() {
         />
       </div>
       <div className="user-info-container">
-        {chats.map((chat, index) => (
-          <ChatInfo
-            chat={chat}
-            selectChat={(chat) => handleSelectChat(chat)}
-            selectedChat={selectedChat}
-            key={index}
-          />
-        ))}
+        {isChatLoading
+          ? getShimmerLayout(5).map((sh, index) => (
+              <div key={index} className="shimmer-chat-info-container">
+                <div className="shimmer-chat-info-wrapper shimmerBG">
+                  <div className="chat-info-photo-or-initial-wrapper">
+                    {getShimmerLayout(3).map((pt, index) => {
+                      return (
+                        <span
+                          className="chat-info-initial shimmer-info-initial"
+                          key={index}
+                        ></span>
+                      );
+                    })}
+                  </div>
+                  <div className="shimmer-chat-info-name-wrapper">
+                    <span className="shimmer-chat-info-name"></span>
+                    <span className="shimmer-chat-info-name-2"></span>
+                  </div>
+                </div>
+              </div>
+            ))
+          : chats.map((chat, index) => (
+              <ChatInfo
+                chat={chat}
+                selectChat={(chat) => handleSelectChat(chat)}
+                selectedChat={selectedChat}
+                key={index}
+              />
+            ))}
       </div>
     </section>
   );
