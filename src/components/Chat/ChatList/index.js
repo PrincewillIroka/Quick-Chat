@@ -26,6 +26,8 @@ export default function ChatList() {
     isChatLoading,
   } = state;
 
+  console.log({ isChatLoading });
+
   const handleGetBookmarks = useCallback(
     async ({ _id }) => {
       const creator_id = _id;
