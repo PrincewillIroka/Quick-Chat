@@ -9,6 +9,7 @@ import "./Chat.css";
 import { useStateValue } from "store/stateProvider";
 import { authenticateUser } from "services";
 import { publish } from "custom-events";
+import { socket } from "sockets/socketHandler";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
@@ -24,7 +25,13 @@ export default function Chat() {
       .then((response) => {
         const user = response?.user;
         if (user) {
-          const { bs_token = "", hasUpdatedUsername = false, name = "" } = user;
+          const {
+            bs_token = "",
+            hasUpdatedUsername = false,
+            name = "",
+            _id = "",
+          } = user;
+          socket.emit("join", { user_id: _id });
           localStorage.setItem("bs_token", bs_token);
           dispatch({ type: "GET_USER_SUCCESS", payload: user });
           publish("userDetailsFetched", user);
