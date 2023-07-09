@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
 export const generateInitials = (name) => {
@@ -41,4 +43,16 @@ export const formatTime = (seconds) => {
   const minutes = (seconds % 3600) / 60;
 
   return [hours, minutes, seconds % 60].map(format).join(":");
+};
+
+export const encryptData = (content) => {
+  const algorithm = process.env.REACT_APP_ENCRYPTION_ALGORITHM;
+  const initVector = process.env.REACT_APP_ENCRYPTION_INIT_VECTOR;
+  const securityKey = process.env.REACT_APP_ENCRYPTION_SECURITY_KEY;
+
+  const cipher = crypto.createCipheriv(algorithm, securityKey, initVector);
+  let encryptedData = cipher.update(content, "utf-8", "hex");
+  encryptedData += cipher.final("hex");
+
+  return encryptedData;
 };
