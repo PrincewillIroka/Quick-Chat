@@ -12,7 +12,7 @@ import NoChat from "assets/NoChat.svg";
 import { useStateValue } from "store/stateProvider";
 import { socket } from "sockets/socketHandler";
 import { uploadFile } from "services";
-import { formatBytes, formatTime } from "utils";
+import { formatBytes, formatTime, encryptData } from "utils";
 import { useSetupAudioRecorder, useRecording } from "hooks";
 
 const SQUARES = ["1", "2", "3"];
@@ -71,14 +71,16 @@ function MainLayout() {
     setContent("");
     setIsFileContainerOpen(false);
     dispatch({ type: "SET_FILES_UPLOADING", payload: [] });
+    setIsEmojiPickerVisible(false);
 
     //Check if there is any file to be uploaded
     const hasFiles = formData.entries().next().value;
 
     if (content || hasFiles) {
+      const encryptedContent = encryptData(content);
       socket.emit(
         "newMessageSent",
-        { content, chat_url, chat_id, sender_id },
+        { content: encryptedContent, chat_url, chat_id, sender_id },
         async (payload) => {
           let { messageSent, chat_id, message_id, newMessage } = payload;
           if (messageSent) {
