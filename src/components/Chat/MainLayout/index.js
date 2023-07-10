@@ -21,7 +21,7 @@ function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
-  const { selectedChat = {}, user = {}, filesUploading = {} } = state;
+  const { selectedChat = {}, user = {}, filesUploading = {}, isChatLoading } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id } = user;
   const selectFileRef = useRef();
