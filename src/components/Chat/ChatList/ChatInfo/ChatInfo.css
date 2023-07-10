@@ -79,3 +79,29 @@
   font-size: 13px;
   opacity: 0.7;
 }
+
+@media (max-width: 1400px) {
+  .chat-info-photo-or-initial-wrapper {
+    width: 25%;
+  }
+
+  .chat-info-initial:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  .chat-info-photo-or-initial-wrapper {
+    width: 20%;
+  }
+
+  .chat-info-initial:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 969px) {
+  .chat-info-photo-or-initial-wrapper {
+    display: none;
+  }
+}

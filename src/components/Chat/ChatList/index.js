@@ -110,7 +110,7 @@ export default function ChatList() {
           </div>
         </div>
       ) : (
-        <div className="row-1">
+        <div className="sidebar-row-1">
           {user.photo ? (
             <img
               className="profile-photo"
@@ -132,7 +132,7 @@ export default function ChatList() {
             className="btn-start-convo"
             onClick={() => handleToggleModal("CreateConversation")}
           >
-            <span>Start new conversation</span>
+            <span className="btn-start-convo-text">Start new conversation</span>
             <BsPlusCircle className="plus-circle-icon" />
           </button>
         </div>

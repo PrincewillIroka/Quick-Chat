@@ -52,3 +52,9 @@
 .chat-media-wrapper {
   height: calc(100% - 80px);
 }
+
+@media (max-width: 1200px) {
+  .chat-details-container {
+    display: none;
+  }
+}
