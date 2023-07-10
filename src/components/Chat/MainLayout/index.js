@@ -315,55 +315,60 @@ function MainLayout() {
           </div>
         </div>
       )}
-      <div className="type-message-section">
-        <div className="message-input-container">
-          <input
-            type="text"
-            placeholder="Type a message"
-            className="input-field"
-            onChange={handleTyping}
-            onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
-            value={content}
-          />
-          <span className="right-divider"></span>
-          <div className="control-btns-container">
-            <div className="emoji-container">
-              {isEmojiPickerVisible && (
-                <div className="emoji-picker-wrapper">
-                  <EmojiPicker
-                    onEmojiClick={handleEmojiClick}
-                    className="emoji-picker"
-                  />
-                </div>
-              )}
-              <BsEmojiSmile
-                onClick={() => setIsEmojiPickerVisible(!isEmojiPickerVisible)}
-                className="emoji-icon"
+      {!isChatLoading && (
+        <div className="type-message-section">
+          <div className="message-input-container">
+            <input
+              type="text"
+              placeholder="Type a message"
+              className="input-field"
+              onChange={handleTyping}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+              value={content}
+            />
+            <span className="right-divider"></span>
+            <div className="control-btns-container">
+              <div className="emoji-container">
+                {isEmojiPickerVisible && (
+                  <div className="emoji-picker-wrapper">
+                    <EmojiPicker
+                      onEmojiClick={handleEmojiClick}
+                      className="emoji-picker"
+                    />
+                  </div>
+                )}
+                <BsEmojiSmile
+                  onClick={() => setIsEmojiPickerVisible(!isEmojiPickerVisible)}
+                  className="emoji-icon"
+                />
+              </div>
+              <BiMicrophone
+                className="microphone-icon"
+                onClick={handleRecordAudioMessage}
+              />
+              <RiAttachment2
+                className="attachment-icon"
+                onClick={handleClickAttachmentIcon}
+              />
+              <input
+                type="file"
+                hidden
+                ref={selectFileRef}
+                onInput={(e) =>
+                  handleSelectAttachment(
+                    [...e.target.files],
+                    "openFileContainer"
+                  )
+                }
+                multiple
               />
             </div>
-            <BiMicrophone
-              className="microphone-icon"
-              onClick={handleRecordAudioMessage}
-            />
-            <RiAttachment2
-              className="attachment-icon"
-              onClick={handleClickAttachmentIcon}
-            />
-            <input
-              type="file"
-              hidden
-              ref={selectFileRef}
-              onInput={(e) =>
-                handleSelectAttachment([...e.target.files], "openFileContainer")
-              }
-              multiple
-            />
+          </div>
+          <div className="send-button-container" onClick={handleSendMessage}>
+            <RiSendPlaneFill className="send-icon" />
           </div>
         </div>
-        <div className="send-button-container" onClick={handleSendMessage}>
-          <RiSendPlaneFill className="send-icon" />
-        </div>
-      </div>
+      )}
     </section>
   );
 }
