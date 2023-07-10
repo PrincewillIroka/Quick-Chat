@@ -4,7 +4,7 @@
   border-right: 1px solid #eeeeee;
 }
 
-.row-1 {
+.sidebar-row-1 {
   display: flex;
   background-color: #f8f8f8;
   justify-content: space-between;
@@ -40,6 +40,10 @@
   height: 40px;
   padding: 0 15px;
   cursor: pointer;
+}
+
+.btn-start-convo-text {
+  font-size: 1rem;
 }
 
 .btn-start-convo:hover {
@@ -188,4 +192,46 @@
   background-color: #fff;
   height: 10px;
   border-radius: 10px;
+}
+
+@media (max-width: 1400px) {
+  .sidebar-row-1 {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .sidebar-container {
+    width: 30%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar-container {
+    width: 25%;
+  }
+
+  .sidebar-row-1 {
+    justify-content: center;
+  }
+
+  .profile-photo {
+    display: none;
+  }
+}
+
+@media (max-width: 969px) {
+  .plus-circle-icon {
+    display: none;
+  }
+
+  .btn-start-convo {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    display: none;
+  }
 }

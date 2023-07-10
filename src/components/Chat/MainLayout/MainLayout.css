@@ -294,3 +294,33 @@
 
 .emoji-picker {
 }
+
+@media (max-width: 1200px) {
+  .main-layout-container {
+    width: 70%;
+  }
+
+  .type-message-section {
+    width: 70%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main-layout-container {
+    width: 75%;
+  }
+
+  .type-message-section {
+    width: 75%;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-layout-container {
+    width: 100%;
+  }
+
+  .type-message-section {
+    width: 100%;
+  }
+}
