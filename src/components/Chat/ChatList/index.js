@@ -80,7 +80,7 @@ export default function ChatList() {
     publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     const { chat_url = "" } = chat;
-    socket.emit("toggledSelectedChat", { chat_url, user_id: user._id });
+    socket.emit("toggled-selected-chat", { chat_url, user_id: user._id });
   };
 
   const handleSearchChats = (e) => {
