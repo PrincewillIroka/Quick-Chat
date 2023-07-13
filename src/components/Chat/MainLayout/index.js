@@ -79,7 +79,7 @@ function MainLayout() {
     if (content || hasFiles) {
       const encryptedContent = encryptData(content);
       socket.emit(
-        "newMessageSent",
+        "new-message-sent",
         { content: encryptedContent, chat_url, chat_id, sender_id },
         async (payload) => {
           let { messageSent, chat_id, message_id, newMessage } = payload;
