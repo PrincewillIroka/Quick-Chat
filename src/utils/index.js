@@ -46,9 +46,11 @@ export const formatTime = (seconds) => {
 };
 
 export const encryptData = (content) => {
-  const algorithm = process.env.REACT_APP_ENCRYPTION_ALGORITHM;
-  const initVector = process.env.REACT_APP_ENCRYPTION_INIT_VECTOR;
-  const securityKey = process.env.REACT_APP_ENCRYPTION_SECURITY_KEY;
+  const {
+    REACT_APP_ENCRYPTION_ALGORITHM: algorithm,
+    REACT_APP_ENCRYPTION_INIT_VECTOR: initVector,
+    REACT_APP_ENCRYPTION_SECURITY_KEY: securityKey,
+  } = process.env;
 
   const cipher = crypto.createCipheriv(algorithm, securityKey, initVector);
   let encryptedData = cipher.update(content, "utf-8", "hex");
@@ -56,3 +58,16 @@ export const encryptData = (content) => {
 
   return encryptedData;
 };
+
+export function debounce(func, timeout = 500) {
+  let timer;
+  return (...args) => {
+    if (!timer) {
+      func.apply(this, args);
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = undefined;
+    }, timeout);
+  };
+}
