@@ -60,6 +60,14 @@ export default function ChatList() {
             dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
             dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
 
+            const { chat_url = "" } = firstChat;
+            const { _id: user_id } = user;
+            
+            socket.emit("participant-join-selected-chat", {
+              chat_url,
+              user_id,
+            });
+
             handleGetBookmarks(detail);
           }
         })
@@ -67,7 +75,7 @@ export default function ChatList() {
           console.error(err);
         });
     },
-    [dispatch, chatUrlParam, handleGetBookmarks]
+    [handleGetBookmarks, dispatch, chatUrlParam, user]
   );
 
   useEffect(() => {
@@ -80,7 +88,10 @@ export default function ChatList() {
     publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     const { chat_url = "" } = chat;
-    socket.emit("toggled-selected-chat", { chat_url, user_id: user._id });
+    socket.emit("participant-join-selected-chat", {
+      chat_url,
+      user_id: user._id,
+    });
   };
 
   const handleSearchChats = (e) => {

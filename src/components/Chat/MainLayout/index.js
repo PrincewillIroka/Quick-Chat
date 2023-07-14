@@ -12,7 +12,7 @@ import NoChat from "assets/NoChat.svg";
 import { useStateValue } from "store/stateProvider";
 import { socket } from "sockets/socketHandler";
 import { uploadFile } from "services";
-import { formatBytes, formatTime, encryptData } from "utils";
+import { formatBytes, formatTime, encryptData, debounce } from "utils";
 import { useSetupAudioRecorder, useRecording } from "hooks";
 
 const SQUARES = ["1", "2", "3"];
@@ -21,9 +21,16 @@ function MainLayout() {
   const { state, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
-  const { selectedChat = {}, user = {}, filesUploading = {}, isChatLoading } = state;
+  const {
+    selectedChat = {},
+    user = {},
+    filesUploading = {},
+    isChatLoading,
+    participantTyping,
+  } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
-  const { _id: sender_id } = user;
+  const { _id: sender_id, name: user_name } = user;
+  const { isTyping = false, message: typingMessage } = participantTyping;
   const selectFileRef = useRef();
   const bodySectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());
@@ -62,9 +69,16 @@ function MainLayout() {
     handleResetValues();
   }, [chat_id]);
 
+  function debounceHandler(value) {
+    const message = value ? `${user_name} is typing...` : "";
+    socket.emit("participant-is-typing", { chat_url, message });
+  }
+
   const handleTyping = (e) => {
     e.preventDefault();
-    setContent(e.target.value);
+    const value = e.target.value;
+    setContent(value);
+    debounce(debounceHandler(value), 5000);
   };
 
   const handleSendMessage = () => {
@@ -72,6 +86,7 @@ function MainLayout() {
     setIsFileContainerOpen(false);
     dispatch({ type: "SET_FILES_UPLOADING", payload: [] });
     setIsEmojiPickerVisible(false);
+    socket.emit("participant-is-typing", { chat_url, message: "" });
 
     //Check if there is any file to be uploaded
     const hasFiles = formData.entries().next().value;
@@ -320,7 +335,9 @@ function MainLayout() {
           <div className="message-input-container">
             <input
               type="text"
-              placeholder="Type a message"
+              placeholder={
+                isTyping && !content ? typingMessage : "Type a message"
+              }
               className="input-field"
               onChange={handleTyping}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}

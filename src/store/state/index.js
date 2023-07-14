@@ -13,6 +13,10 @@ const initialState = {
   isViewingBookmarks: false,
   isChatLoading: true,
   isUserLoading: true,
+  participantTyping: {
+    isTyping: false,
+    message: "",
+  },
 };
 
 export default initialState;

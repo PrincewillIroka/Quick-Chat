@@ -136,6 +136,17 @@ const userReducer = (state, action) => {
         bookmarks,
       };
     }
+    case "UPDATE_PARTICIPANT_IS_TYPING": {
+      const message = action.payload;
+      const participantTyping = {};
+      participantTyping.message = message;
+      participantTyping.isTyping = message ? true : false;
+
+      return {
+        ...state,
+        participantTyping,
+      };
+    }
     default:
       return state;
   }

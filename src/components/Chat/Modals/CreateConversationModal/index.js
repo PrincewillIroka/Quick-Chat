@@ -21,8 +21,8 @@ export default function CreateConversationModal() {
         const { newChat } = response;
         if (newChat) {
           dispatch({ type: "ADD_NEW_CHAT", payload: newChat });
-          const str = `${window.location.href}/${newChat.chat_url}`;
-          setChatLink(str);
+          const chatLink = `${window.location.origin}/chat/${newChat.chat_url}`;
+          setChatLink(chatLink);
           setIsLoading(false);
           setIsChatCreated(true);
           handleToggleAlert({
