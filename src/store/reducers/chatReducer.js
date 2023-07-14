@@ -124,6 +124,41 @@ const chatReducer = (state, action) => {
         selectedChat,
       };
     }
+    case "ADD_PARTICIPANT_TO_CHAT": {
+      let { chat_id, participant } = action.payload;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
+      const participants = chatToBeUpdated.participants || [];
+      chatToBeUpdated.participants = [].concat(participants, [participant]);
+
+      chats = chats.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = chatToBeUpdated;
+        }
+        return chat;
+      });
+
+      chatsClone = chatsClone.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = chatToBeUpdated;
+        }
+        return chat;
+      });
+
+      selectedChat =
+        selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
+
+      return {
+        ...state,
+        chats,
+        chatsClone,
+        selectedChat,
+      };
+    }
     default:
       return state;
   }

@@ -18,8 +18,7 @@ const chatSockets = (socket, state, dispatch) => {
   });
 
   socket.on("participant-has-joined-chat", (data) => {
-    console.log({ data });
-    // dispatch({ type: "ADD_PARTICIPANT_TO_CHAT", payload: data });
+    dispatch({ type: "ADD_PARTICIPANT_TO_CHAT", payload: data });
   });
 };
 

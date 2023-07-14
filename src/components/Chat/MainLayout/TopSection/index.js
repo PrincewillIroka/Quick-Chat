@@ -27,7 +27,7 @@ function TopSection({ selectedChat }) {
   const isBookmarkFound = bookmarkFound && Object.entries(bookmarkFound);
 
   const handleGetChatLink = () => {
-    const chatLink = `${window.location.href}/${selectedChat.chat_url}`;
+    const chatLink = `${window.location.origin}/chat/${selectedChat.chat_url}`;
     navigator.clipboard.writeText(chatLink);
     dispatch({
       type: "TOGGLE_ALERT",
