@@ -69,7 +69,6 @@ function MainLayout() {
     handleResetValues();
   }, [chat_id]);
 
-
   function debounceHandler(value) {
     const message = value ? `${user_name} is typing...` : "";
     socket.emit("participant-is-typing", { chat_url, message });
@@ -87,6 +86,7 @@ function MainLayout() {
     setIsFileContainerOpen(false);
     dispatch({ type: "SET_FILES_UPLOADING", payload: [] });
     setIsEmojiPickerVisible(false);
+    socket.emit("participant-is-typing", { chat_url, message: "" });
 
     //Check if there is any file to be uploaded
     const hasFiles = formData.entries().next().value;
