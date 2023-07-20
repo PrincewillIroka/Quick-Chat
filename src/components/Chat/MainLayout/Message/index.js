@@ -6,7 +6,7 @@ import { getAttachmentIcon } from "constants/index";
 
 function Message({ message }) {
   const { state } = useStateValue();
-  const { user = {} } = state;
+  const { user = {}, colorSchema = "lightMode" } = state;
   let { sender = {}, content = "", attachments = [] } = message;
   const checkSameSender = isSameSender(sender, user);
   sender = checkSameSender ? user : sender;
@@ -25,7 +25,11 @@ function Message({ message }) {
       {photo ? (
         <img className="message-sender-photo" src={photo} alt="Sender" />
       ) : (
-        <span className="message-sender-photo message-sender-initial">
+        <span
+          className={`message-sender-photo message-sender-initial ${
+            colorSchema === "darkMode" ? "message-sender-initial-dark" : ""
+          }`}
+        >
           {generateInitials(name)}
         </span>
       )}

@@ -13,6 +13,10 @@
   font-size: 15px;
 }
 
+.chat-details-header-dark {
+  background-color: #272727;
+}
+
 .chat-details-body {
   height: 90%;
   padding: 0 15px;

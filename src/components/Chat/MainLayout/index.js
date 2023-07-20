@@ -27,6 +27,7 @@ function MainLayout() {
     filesUploading = {},
     isChatLoading,
     participantTyping,
+    colorSchema = "lightMode",
   } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id, name: user_name } = user;
@@ -248,7 +249,11 @@ function MainLayout() {
   };
 
   return (
-    <section className="main-layout-container">
+    <section
+      className={`main-layout-container ${
+        colorSchema === "darkMode" ? "main-layout-container-dark" : ""
+      }`}
+    >
       <TopSection selectedChat={selectedChat} />
       {!messages.length ? (
         <div className="no-chat-section">
@@ -256,7 +261,12 @@ function MainLayout() {
           <span>No message here</span>
         </div>
       ) : (
-        <div className="body-section" ref={bodySectionRef}>
+        <div
+          className={`body-section ${
+            colorSchema === "darkMode" ? "body-section-dark" : ""
+          }`}
+          ref={bodySectionRef}
+        >
           {messages.map((message, index) => {
             const { content = "", attachments = [], sender = {} } = message;
             const { isChatBot = false } = sender;
@@ -269,7 +279,11 @@ function MainLayout() {
         </div>
       )}
       {recordingStatus !== "inactive" && !isFileContainerOpen && (
-        <div className="recording-container">
+        <div
+          className={`recording-container ${
+            colorSchema === "darkMode" ? "recording-container-dark" : ""
+          }`}
+        >
           <span className="recording-counter">
             Recording: {formatTime(counter)}
           </span>
@@ -331,14 +345,24 @@ function MainLayout() {
         </div>
       )}
       {!isChatLoading && (
-        <div className="type-message-section">
-          <div className="message-input-container">
+        <div
+          className={`type-message-section ${
+            colorSchema === "darkMode" ? "type-message-section-dark" : ""
+          }`}
+        >
+          <div
+            className={`message-input-container ${
+              colorSchema === "darkMode" ? "message-input-container-dark" : ""
+            }`}
+          >
             <input
               type="text"
               placeholder={
                 isTyping && !content ? typingMessage : "Type a message"
               }
-              className="input-field"
+              className={`input-field ${
+                colorSchema === "darkMode" ? "input-field-dark" : ""
+              }`}
               onChange={handleTyping}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
               value={content}

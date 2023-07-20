@@ -9,8 +9,18 @@
   border-bottom: 1px solid #eee;
 }
 
+.chat-info-wrapper-dark {
+  background-color: #000;
+  border-top: 1px solid #555;
+  border-bottom: 1px solid #555;
+}
+
 .chat-info-wrapper-selected {
   background-color: #f7f7f7;
+}
+
+.chat-info-wrapper-selected-dark {
+  background-color: #272727;
 }
 
 .chat-info-photo-or-initial-wrapper {
@@ -37,6 +47,10 @@
   align-items: center;
   justify-content: center;
   background-color: #f7f7f7;
+}
+
+.chat-info-initial-dark {
+  color: #000;
 }
 
 .chat-info-initial:nth-child(1) {

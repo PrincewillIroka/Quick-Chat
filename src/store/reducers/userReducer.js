@@ -147,6 +147,15 @@ const userReducer = (state, action) => {
         participantTyping,
       };
     }
+    case "TOGGLE_COLOR_SCHEMA": {
+      let { colorSchema } = state;
+      colorSchema = colorSchema === "lightMode" ? "darkMode" : "lightMode";
+
+      return {
+        ...state,
+        colorSchema,
+      };
+    }
     default:
       return state;
   }

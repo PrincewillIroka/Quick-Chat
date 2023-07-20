@@ -4,6 +4,11 @@
   overflow: hidden;
 }
 
+.chat-container-dark {
+  background-color: #000;
+  color: #fff;
+}
+
 .alert {
   position: fixed;
   bottom: 10px;

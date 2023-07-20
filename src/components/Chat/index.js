@@ -13,7 +13,7 @@ import { socket } from "sockets/socketHandler";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
-  const { alert = {}, visibleModal = "" } = state;
+  const { alert = {}, visibleModal = "", colorSchema = "lightMode" } = state;
   const {
     isAlertVisible = false,
     content: alertContent,
@@ -79,10 +79,14 @@ export default function Chat() {
   };
 
   return (
-    <div className="chat-container">
+    <div
+      className={`chat-container ${
+        colorSchema === "darkMode" ? "chat-container-dark" : ""
+      }`}
+    >
       <ChatList />
       <MainLayout />
-      <ChatDetails />
+      <ChatDetails colorSchema={colorSchema} />
       {visibleModal === "CreateConversation" ? (
         <CreateConversationModal />
       ) : (

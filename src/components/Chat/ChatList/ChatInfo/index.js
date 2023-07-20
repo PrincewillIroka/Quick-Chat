@@ -10,13 +10,20 @@ export default function ChatInfo({
 }) {
   const { state } = useStateValue();
   const { participants = [], chat_name = "" } = chat || {};
-  const { user = {} } = state;
+  const { user = {}, colorSchema = "lightMode" } = state;
 
   return (
     <div
       className={`chat-info-wrapper ${
-        isSelectedChat(chat, selectedChat) && "chat-info-wrapper-selected"
-      }`}
+        colorSchema === "darkMode" ? "chat-info-wrapper-dark" : ""
+      } ${
+        isSelectedChat(chat, selectedChat) &&
+        `${
+          colorSchema === "darkMode"
+            ? "chat-info-wrapper-selected-dark"
+            : "chat-info-wrapper-selected"
+        }`
+      } `}
       onClick={() => selectChat(chat)}
     >
       <div className="chat-info-photo-or-initial-wrapper">
@@ -36,6 +43,8 @@ export default function ChatInfo({
           ) : (
             <span
               className={`chat-info-initial ${
+                colorSchema === "darkMode" && "chat-info-initial-dark"
+              } ${
                 isSelectedChat(chat, selectedChat) &&
                 "chat-info-initial-selected"
               }`}

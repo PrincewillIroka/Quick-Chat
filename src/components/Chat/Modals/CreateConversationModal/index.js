@@ -12,7 +12,7 @@ export default function CreateConversationModal() {
   const [isChatCreated, setIsChatCreated] = useState(false);
   const [chatName, setChatName] = useState("");
   const [chatLink, setChatLink] = useState("");
-  const { user = {} } = state;
+  const { user = {}, colorSchema = "lightMode" } = state;
 
   const handleCreateChat = async () => {
     setIsLoading(true);
@@ -70,10 +70,19 @@ export default function CreateConversationModal() {
 
   return (
     <div className="modal">
-      <div className="modal-content">
+      <div
+        className={`modal-content ${
+          colorSchema === "darkMode" ? "modal-content-dark" : ""
+        }`}
+      >
         <div className="modal-top-row">
           <span className="modal-title">Create New Conversation</span>
-          <span className="close" onClick={handleToggleModal}>
+          <span
+            className={`close ${
+              colorSchema === "darkMode" ? "close-dark" : ""
+            }`}
+            onClick={handleToggleModal}
+          >
             &times;
           </span>
         </div>

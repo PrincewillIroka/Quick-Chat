@@ -6,7 +6,6 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
@@ -22,6 +21,10 @@
   height: 60%;
   display: flex;
   flex-direction: column;
+}
+
+.modal-content-dark {
+  background-color: #000 !important;
 }
 
 .modal-top-row {
@@ -47,13 +50,17 @@
   font-size: 30px;
   font-weight: bold;
   margin-left: auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.close-dark {
+  color: #aaa !important;
 }
 
 .close:hover,
 .close:focus {
   color: #aaa;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .conversation-title-container {
@@ -65,11 +72,15 @@
 .conversation-title-input {
   flex: 1;
   font-size: 17px;
-  padding: 5px 10px;
+  padding: 7px 10px;
   margin-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-top: 5px;
+}
+
+.conversation-title-input:focus {
+  outline: none;
 }
 
 .modal-passcode-row {
@@ -165,7 +176,7 @@ input:checked + .slider:before {
   width: 100%;
 }
 
-.chat-copy-info-wrapper{
+.chat-copy-info-wrapper {
   margin-top: 30px;
 }
 

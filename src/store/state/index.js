@@ -17,6 +17,7 @@ const initialState = {
     isTyping: false,
     message: "",
   },
+  colorSchema: "lightMode",
 };
 
 export default initialState;

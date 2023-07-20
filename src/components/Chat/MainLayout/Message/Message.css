@@ -24,6 +24,10 @@
   background-color: #f7f7f7;
 }
 
+.message-sender-initial-dark {
+  color: #000;
+}
+
 .message-details {
   flex: 1;
   display: flex;

@@ -5,10 +5,10 @@ const audio = new Audio(NotificationTone);
 const chatSockets = (socket, state, dispatch) => {
   socket.on("new-message-received", (payload) => {
     if (payload) {
+      dispatch({ type: "UPDATE_CHAT", payload });
       if (audio.pause) {
         audio.play().catch(console.warn);
       }
-      dispatch({ type: "UPDATE_CHAT", payload });
     }
   });
 

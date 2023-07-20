@@ -2,7 +2,11 @@ import React, { useState, memo, useEffect, useCallback, useMemo } from "react";
 // import { AiOutlineVideoCamera } from "react-icons/ai";
 // import { TbPhoneCall } from "react-icons/tb";
 import { CgSearch, CgMore } from "react-icons/cg";
-import { MdOutlineContentCopy } from "react-icons/md";
+import {
+  MdOutlineContentCopy,
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+} from "react-icons/md";
 import { BsStar } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { subscribe, unsubscribe } from "custom-events";
@@ -16,7 +20,7 @@ function TopSection({ selectedChat }) {
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], _id: selectChatId } = selectedChat || {};
-  const { user = {}, bookmarks = [] } = state;
+  const { user = {}, bookmarks = [], colorSchema = "lightMode" } = state;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
 
@@ -122,8 +126,18 @@ function TopSection({ selectedChat }) {
     });
   };
 
+  const handleChangeColorSchema = () => {
+    dispatch({
+      type: "TOGGLE_COLOR_SCHEMA",
+    });
+  };
+
   return (
-    <div className="top-section">
+    <div
+      className={`top-section ${
+        colorSchema === "darkMode" ? "top-section-dark" : ""
+      }`}
+    >
       <div className="row">
         <div className="user-info-col-1">
           {/* <span className="user-info-name">{chat_name}</span> */}
@@ -142,7 +156,11 @@ function TopSection({ selectedChat }) {
                 />
               ) : (
                 <span
-                  className="top-section-user-info-initial"
+                  className={`top-section-user-info-initial ${
+                    colorSchema === "darkMode"
+                      ? "top-section-user-info-initial-dark"
+                      : ""
+                  }`}
                   key={index}
                   title={name}
                 >
@@ -159,14 +177,25 @@ function TopSection({ selectedChat }) {
         </div>
       </div>
 
-      {/* <div className="icons-container">
-        <AiOutlineVideoCamera className="media-icon" />
-        <TbPhoneCall className="media-icon" />
-      </div> */}
+      <div className="icons-container">
+        {/* <AiOutlineVideoCamera className="media-icon" />
+        <TbPhoneCall className="media-icon" /> */}
+        {colorSchema === "lightMode" ? (
+          <MdOutlineDarkMode
+            className="color-schema-icon"
+            onClick={handleChangeColorSchema}
+          />
+        ) : (
+          <MdOutlineLightMode
+            className="color-schema-icon"
+            onClick={handleChangeColorSchema}
+          />
+        )}
+      </div>
       {isSearchVisible && (
         <div className="top-section-search-container">
           <input
-            placeholder="Search here..."
+            placeholder="Search chat content here..."
             className="top-section-search-input"
             value={searchText}
             onChange={(e) => {
@@ -197,7 +226,11 @@ function TopSection({ selectedChat }) {
           }
         />
         {isMoreItemsDropdownVisible && (
-          <div className="more-items-dropdown">
+          <div
+            className={`more-items-dropdown ${
+              colorSchema === "darkMode" ? "more-items-dropdown-dark" : ""
+            }`}
+          >
             <div className="more-items-row" onClick={handleGetChatLink}>
               <span>Get chat link</span>
               <MdOutlineContentCopy />
