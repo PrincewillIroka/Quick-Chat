@@ -25,6 +25,7 @@ export default function ChatList() {
     isViewingBookmarks = false,
     isUserLoading,
     isChatLoading,
+    colorSchema = "lightMode",
   } = state;
 
   const handleGetBookmarks = useCallback(
@@ -62,7 +63,7 @@ export default function ChatList() {
 
             const { chat_url = "" } = firstChat;
             const { _id: user_id } = user;
-            
+
             socket.emit("participant-join-selected-chat", {
               chat_url,
               user_id,
@@ -112,7 +113,11 @@ export default function ChatList() {
   const getShimmerLayout = (num) => new Array(num).fill("");
 
   return (
-    <section className="sidebar-container">
+    <section
+      className={`sidebar-container ${
+        colorSchema === "darkMode" ? "sidebar-container-dark" : ""
+      }`}
+    >
       {isUserLoading ? (
         <div className="shimmer-row-1-container">
           <div className="shimmer-row-1-wrapper shimmerBG">
@@ -121,7 +126,11 @@ export default function ChatList() {
           </div>
         </div>
       ) : (
-        <div className="sidebar-row-1">
+        <div
+          className={`sidebar-row-1 ${
+            colorSchema === "darkMode" ? "sidebar-row-1-dark" : ""
+          }`}
+        >
           {user.photo ? (
             <img
               className="profile-photo"
@@ -170,13 +179,15 @@ export default function ChatList() {
           />
         </div>
       </div>
-      <div className="search-row">
-        {!searchText && <FiSearch className="search-icon" />}
-        <input
-          placeholder="Search here..."
-          className="search-input"
-          onChange={handleSearchChats}
-        />
+      <div className="search-row-container">
+        <div className="search-row">
+          {!searchText && <FiSearch className="search-icon" />}
+          <input
+            placeholder="Search chat list here..."
+            className="search-input"
+            onChange={handleSearchChats}
+          />
+        </div>
       </div>
       <div className="user-info-container">
         {isChatLoading

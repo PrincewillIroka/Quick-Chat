@@ -5,13 +5,20 @@
   border-right: 1px solid #eeeeee;
 }
 
+.main-layout-container-dark {
+  border-right: 1px solid #555;
+}
+
 .body-section {
   flex: 1;
   background-color: #fffdfd;
-  padding: 0 20px 100px 20px;
+  padding: 20px 20px 100px 20px;
   overflow-y: auto;
-  margin-top: 20px;
   scrollbar-width: thin;
+}
+
+.body-section-dark {
+  background-color: #000;
 }
 
 .no-chat-section {
@@ -103,6 +110,10 @@
   height: 55px;
 }
 
+.type-message-section-dark {
+  background-color: #272727;
+}
+
 .message-input-container {
   display: flex;
   flex: 1;
@@ -110,6 +121,11 @@
   height: 36px;
   border-radius: 20px;
   margin: 0 15px;
+}
+
+.message-input-container-dark {
+  background-color: #000;
+  border-color: #555;
 }
 
 .input-field {
@@ -120,6 +136,11 @@
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
   padding: 0 10px;
+}
+
+.input-field-dark {
+  background-color: #000;
+  color: #fff;
 }
 
 .right-divider {
@@ -184,6 +205,10 @@
   border-radius: 5px;
   padding: 15px;
   display: flex;
+}
+
+.recording-container-dark {
+  background-color: #393939;
 }
 
 .recording-counter {

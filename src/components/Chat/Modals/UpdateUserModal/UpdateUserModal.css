@@ -24,6 +24,10 @@
   flex-direction: column;
 }
 
+.modal-content-dark {
+  background-color: #000 !important;
+}
+
 .modal-top-row {
   display: flex;
   align-items: center;
@@ -47,13 +51,17 @@
   font-size: 30px;
   font-weight: bold;
   margin-left: auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.close-dark {
+  color: #aaa !important;
 }
 
 .close:hover,
 .close:focus {
   color: #aaa;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .update-username-col-container {
@@ -84,6 +92,10 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-top: 5px;
+}
+
+.update-username-input:focus {
+  outline: none;
 }
 
 .update-profile-pic-container {
