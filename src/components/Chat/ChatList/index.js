@@ -42,7 +42,7 @@ export default function ChatList() {
   );
 
   const handleGetChats = useCallback(
-    async ({ detail }) => {
+    async ({ detail: userDetail }) => {
       const bs_token = localStorage.getItem("bs_token");
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
@@ -62,21 +62,21 @@ export default function ChatList() {
             dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
 
             const { chat_url = "" } = firstChat;
-            const { _id: user_id } = user;
+            const { _id: user_id } = userDetail;
 
             socket.emit("participant-join-selected-chat", {
               chat_url,
               user_id,
             });
 
-            handleGetBookmarks(detail);
+            handleGetBookmarks(userDetail);
           }
         })
         .catch((err) => {
           console.error(err);
         });
     },
-    [handleGetBookmarks, dispatch, chatUrlParam, user]
+    [handleGetBookmarks, dispatch, chatUrlParam]
   );
 
   useEffect(() => {
