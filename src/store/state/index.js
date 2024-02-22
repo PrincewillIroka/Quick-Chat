@@ -18,6 +18,7 @@ const initialState = {
     message: "",
   },
   colorSchema: "lightMode",
+  notifications: [],
 };
 
 export default initialState;

@@ -42,41 +42,43 @@ export default function ChatList() {
   );
 
   const handleGetChats = useCallback(
-    async ({ detail }) => {
+    async ({ detail: userDetail }) => {
       const bs_token = localStorage.getItem("bs_token");
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
-          const chatResponse = response?.chats || [];
-          if (chatResponse) {
+          if (response.success) {
+            const { chats = [], notifications = [] } = response;
+
             let firstChat;
 
             if (chatUrlParam) {
-              firstChat = chatResponse.find(
-                (chat) => chat.chat_url === chatUrlParam
-              );
+              firstChat = chats.find((chat) => chat.chat_url === chatUrlParam);
             } else {
-              firstChat = chatResponse[0];
+              firstChat = chats[0];
             }
 
-            dispatch({ type: "GET_CHATS_SUCCESS", payload: chatResponse });
+            dispatch({
+              type: "GET_CHATS_SUCCESS",
+              payload: { chats, notifications },
+            });
             dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
 
             const { chat_url = "" } = firstChat;
-            const { _id: user_id } = user;
+            const { _id: user_id } = userDetail;
 
             socket.emit("participant-join-selected-chat", {
               chat_url,
               user_id,
             });
 
-            handleGetBookmarks(detail);
+            handleGetBookmarks(userDetail);
           }
         })
         .catch((err) => {
           console.error(err);
         });
     },
-    [handleGetBookmarks, dispatch, chatUrlParam, user]
+    [handleGetBookmarks, dispatch, chatUrlParam]
   );
 
   useEffect(() => {

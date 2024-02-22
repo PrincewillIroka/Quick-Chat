@@ -30,12 +30,14 @@ const chatReducer = (state, action) => {
       };
     }
     case "GET_CHATS_SUCCESS": {
-      const chats = action.payload;
+      const { chats = [], notifications = [] } = action.payload;
+
       return {
         ...state,
         chats,
         chatsClone: chats,
         isChatLoading: false,
+        notifications,
       };
     }
     case "UPDATE_CHAT": {
@@ -157,6 +159,16 @@ const chatReducer = (state, action) => {
         chats,
         chatsClone,
         selectedChat,
+      };
+    }
+    case "NEW_MESSAGE_NOTIFICATION": {
+      const notification = action.payload;
+      let { notifications } = state;
+      notifications = notifications.concat([notification], notifications);
+      
+      return {
+        ...state,
+        notifications,
       };
     }
     default:

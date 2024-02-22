@@ -6,7 +6,7 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("new-message-received", (payload) => {
     if (payload) {
       dispatch({ type: "UPDATE_CHAT", payload });
-      if (audio.pause) {
+      if (audio.paused) {
         audio.play().catch(console.warn);
       }
     }
@@ -22,6 +22,10 @@ const chatSockets = (socket, state, dispatch) => {
 
   socket.on("participant-has-joined-chat", (data) => {
     dispatch({ type: "ADD_PARTICIPANT_TO_CHAT", payload: data });
+  });
+
+  socket.on("new-message-notification", (data) => {
+    dispatch({ type: "NEW_MESSAGE_NOTIFICATION", payload: data });
   });
 };
 

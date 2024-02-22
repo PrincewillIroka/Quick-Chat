@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+.sidebar-row-1-dark > .profile-initial {
+  color: #000;
+}
+
 .btn-start-convo {
   background-color: #f76e11;
   color: #fff;
