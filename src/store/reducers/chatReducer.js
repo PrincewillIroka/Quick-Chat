@@ -165,10 +165,27 @@ const chatReducer = (state, action) => {
       const notification = action.payload;
       let { notifications } = state;
       notifications = notifications.concat([notification], notifications);
-      
+
       return {
         ...state,
         notifications,
+      };
+    }
+    case "VIEW_CHAT_FROM_NOTIFICATIONS": {
+      const chat_id = action.payload;
+      const { chats } = state;
+
+      const selectedChat = chats.find((chat) => chat._id === chat_id);
+      const { chat_url = "" } = selectedChat || {};
+
+      if (chat_url) {
+        const newUrl = window.location.origin + `/chat/${chat_url}`;
+        window.history.replaceState(null, null, newUrl);
+      }
+
+      return {
+        ...state,
+        ...(Object.entries(selectedChat) && { selectedChat }),
       };
     }
     default:
