@@ -8,7 +8,7 @@ function ChatNotifications() {
   const { state = {}, dispatch } = useStateValue();
   const { notifications = [], user = {} } = state;
 
-  const handleNotification = ({ message_id, value, chat_url, chat_id }) => {
+  const handleNotification = ({ chat_url, chat_id }) => {
     publish("toggledSelectedChat");
     dispatch({ type: "VIEW_CHAT_FROM_NOTIFICATIONS", payload: chat_id });
     socket.emit("participant-join-selected-chat", {
