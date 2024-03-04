@@ -72,9 +72,20 @@
   color: #000;
 }
 
+.top-section-user-info-initial:nth-child(1) {
+  left: -20px;
+}
+
 .top-section-user-info-initial:nth-child(2) {
-  /* left: 35px;
-  position: absolute; */
+  left: 32px;
+  position: absolute;
+  z-index: 1;
+}
+
+.top-section-user-info-initial:nth-child(3) {
+  left: 65px;
+  position: absolute;
+  z-index: 2;
 }
 
 .top-section-user-info-img {
