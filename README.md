@@ -8,4 +8,4 @@ You don't have to create an account. Just create a chat and send the link to oth
 https://quick-chat1.netlify.app/
 ### Demo
 
-![Demo](https://res.cloudinary.com/dhz0mnlc2/image/upload/v1709904114/screen_recording_hss9z2.gif)
+![Demo](https://imgur.com/st2aMse)
