@@ -153,6 +153,7 @@ function TopSection({ selectedChat }) {
                   className="top-section-user-info-initial top-section-user-info-img"
                   alt=""
                   key={index}
+                  title={name}
                 />
               ) : (
                 <span
