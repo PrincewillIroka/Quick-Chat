@@ -128,7 +128,10 @@ export default function CreateConversationModal() {
         ) : (
           <div className="modal-body">
             <div className="conversation-title-container">
-              <span>Conversation title (Optional):</span>
+              <div>
+                Conversation title:
+                <span className="optional-tag">(Optional)</span>
+              </div>
               <input
                 type="text"
                 placeholder="E.g Close friends, Team members e.t.c"
@@ -137,15 +140,28 @@ export default function CreateConversationModal() {
               />
             </div>
             <div className="modal-passcode-row">
-              <span>Set a passcode (Optional):</span>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={passcode}
-                  onChange={() => handleSetPasscode()}
-                />
-                <span className="slider round"></span>
-              </label>
+              <div className="modal-passcode-row-1">
+                <div>
+                  Set a passcode:
+                  <span className="optional-tag">(Optional)</span>
+                </div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={passcode}
+                    onChange={() => handleSetPasscode()}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+              {passcode ? (
+                <span className="modal-passcode-info">
+                  A passcode will be generated for this chat. Only users that
+                  you share the passcode with, can join the chat.
+                </span>
+              ) : (
+                ""
+              )}
             </div>
             <div className="action-buttons">
               <button
