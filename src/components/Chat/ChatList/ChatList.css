@@ -212,6 +212,19 @@
   border-radius: 10px;
 }
 
+.no-bookmark-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10vh;
+}
+
+.no-bookmark-svg {
+  height: 150px;
+  width: 150px;
+}
+
 @media (max-width: 1400px) {
   .sidebar-row-1 {
     padding: 0 10px;

@@ -13,6 +13,7 @@ import { getBookmarks } from "services/bookmarkServices";
 import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
 import { publish, unsubscribe, subscribe } from "custom-events";
+import NoBookmarks from "assets/Bookmarks.svg";
 
 export default function ChatList() {
   const { state, dispatch } = useStateValue();
@@ -192,35 +193,42 @@ export default function ChatList() {
         </div>
       </div>
       <div className="user-info-container">
-        {isChatLoading
-          ? getShimmerLayout(5).map((sh, index) => (
-              <div key={index} className="shimmer-chat-info-container">
-                <div className="shimmer-chat-info-wrapper shimmerBG">
-                  <div className="chat-info-photo-or-initial-wrapper">
-                    {getShimmerLayout(3).map((pt, index) => {
-                      return (
-                        <span
-                          className="chat-info-initial shimmer-info-initial"
-                          key={index}
-                        ></span>
-                      );
-                    })}
-                  </div>
-                  <div className="shimmer-chat-info-name-wrapper">
-                    <span className="shimmer-chat-info-name"></span>
-                    <span className="shimmer-chat-info-name-2"></span>
-                  </div>
+        {isChatLoading ? (
+          getShimmerLayout(5).map((sh, index) => (
+            <div key={index} className="shimmer-chat-info-container">
+              <div className="shimmer-chat-info-wrapper shimmerBG">
+                <div className="chat-info-photo-or-initial-wrapper">
+                  {getShimmerLayout(3).map((pt, index) => {
+                    return (
+                      <span
+                        className="chat-info-initial shimmer-info-initial"
+                        key={index}
+                      ></span>
+                    );
+                  })}
+                </div>
+                <div className="shimmer-chat-info-name-wrapper">
+                  <span className="shimmer-chat-info-name"></span>
+                  <span className="shimmer-chat-info-name-2"></span>
                 </div>
               </div>
-            ))
-          : chats.map((chat, index) => (
-              <ChatInfo
-                chat={chat}
-                selectChat={(chat) => handleSelectChat(chat)}
-                selectedChat={selectedChat}
-                key={index}
-              />
-            ))}
+            </div>
+          ))
+        ) : isViewingBookmarks && !chats.length ? (
+          <div className="no-bookmark-container">
+            <img src={NoBookmarks} className="no-bookmark-svg" alt="" />
+            <span>You haven't bookmarked any chat.</span>
+          </div>
+        ) : (
+          chats.map((chat, index) => (
+            <ChatInfo
+              chat={chat}
+              selectChat={(chat) => handleSelectChat(chat)}
+              selectedChat={selectedChat}
+              key={index}
+            />
+          ))
+        )}
       </div>
     </section>
   );
