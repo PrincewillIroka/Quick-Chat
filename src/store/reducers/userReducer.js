@@ -148,12 +148,13 @@ const userReducer = (state, action) => {
       };
     }
     case "TOGGLE_COLOR_SCHEMA": {
-      let { colorSchema } = state;
-      colorSchema = colorSchema === "lightMode" ? "darkMode" : "lightMode";
+      const isDarkMode = action.payload;
+      let { user } = state;
+      user = { ...user, isDarkMode };
 
       return {
         ...state,
-        colorSchema,
+        user,
       };
     }
     default:

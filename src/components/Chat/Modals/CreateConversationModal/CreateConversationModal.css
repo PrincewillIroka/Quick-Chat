@@ -66,6 +66,7 @@
 .conversation-title-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   margin-bottom: 30px;
 }
 
@@ -83,10 +84,26 @@
   outline: none;
 }
 
+.optional-tag {
+  font-size: 13px;
+  margin-left: 7px;
+}
+
 .modal-passcode-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 30px;
+}
+
+.modal-passcode-row-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-passcode-info {
+  font-size: 13px;
 }
 
 .switch {

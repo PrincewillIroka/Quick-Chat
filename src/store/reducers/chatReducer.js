@@ -2,26 +2,24 @@ const chatReducer = (state, action) => {
   switch (action.type) {
     case "ADD_NEW_CHAT": {
       let newChat = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      let { chats = [], chatsClone = [] } = state;
+
       chats = [].concat([newChat], chats);
       chatsClone = [].concat([newChat], chatsClone);
-      selectedChat = newChat;
+
+      updateBrowserUrl(newChat);
 
       return {
         ...state,
         chats,
         chatsClone,
-        selectedChat,
+        selectedChat: newChat,
       };
     }
     case "TOGGLE_SELECTED_CHAT": {
       const selectedChat = action.payload || {};
-      const { chat_url = "" } = selectedChat;
 
-      if (chat_url) {
-        const newUrl = window.location.origin + `/chat/${chat_url}`;
-        window.history.replaceState(null, null, newUrl);
-      }
+      updateBrowserUrl(selectedChat);
 
       return {
         ...state,
@@ -190,6 +188,14 @@ const chatReducer = (state, action) => {
     }
     default:
       return state;
+  }
+};
+
+const updateBrowserUrl = (selectedChat) => {
+  const { chat_url = "" } = selectedChat;
+  if (chat_url) {
+    const newUrl = window.location.origin + `/chat/${chat_url}`;
+    window.history.replaceState(null, null, newUrl);
   }
 };
 

@@ -68,6 +68,28 @@ const updateUser = async (payload) => {
   });
 };
 
+const updateDarkMode = async ({ user_id, isDarkMode }) => {
+  return new Promise((resolve, reject) => {
+    const url = `${APP_HOST}/api/users/updateDarkMode`;
+    fetch(url, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id, isDarkMode }),
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        resolve(response);
+      })
+      .catch((error) => {
+        console.error(error);
+        return reject(error);
+      });
+  });
+};
+
 const getAppHealth = () => {
   return new Promise((resolve, reject) => {
     const url = `${APP_HOST}/api/health`;
@@ -82,4 +104,4 @@ const getAppHealth = () => {
   });
 };
 
-export { getChats, authenticateUser, updateUser, getAppHealth };
+export { getChats, authenticateUser, updateUser, getAppHealth, updateDarkMode };

@@ -12,19 +12,22 @@ export default function CreateConversationModal() {
   const [isChatCreated, setIsChatCreated] = useState(false);
   const [chatName, setChatName] = useState("");
   const [chatLink, setChatLink] = useState("");
-  const { user = {}, colorSchema = "lightMode" } = state;
+  const { user = {} } = state;
+  const { isDarkMode = false } = user;
 
   const handleCreateChat = async () => {
     setIsLoading(true);
     await createChat({ creator_id: user._id, passcode, chat_name: chatName })
       .then(async (response) => {
-        const { newChat } = response;
-        if (newChat) {
+        const { success, newChat } = response || {};
+        if (success && newChat) {
           dispatch({ type: "ADD_NEW_CHAT", payload: newChat });
+
           const chatLink = `${window.location.origin}/chat/${newChat.chat_url}`;
           setChatLink(chatLink);
           setIsLoading(false);
           setIsChatCreated(true);
+
           handleToggleAlert({
             isAlertVisible: true,
             content: "Chat created!",
@@ -71,16 +74,12 @@ export default function CreateConversationModal() {
   return (
     <div className="modal">
       <div
-        className={`modal-content ${
-          colorSchema === "darkMode" ? "modal-content-dark" : ""
-        }`}
+        className={`modal-content ${isDarkMode ? "modal-content-dark" : ""}`}
       >
         <div className="modal-top-row">
           <span className="modal-title">Create New Conversation</span>
           <span
-            className={`close ${
-              colorSchema === "darkMode" ? "close-dark" : ""
-            }`}
+            className={`close ${isDarkMode ? "close-dark" : ""}`}
             onClick={handleToggleModal}
           >
             &times;
@@ -128,7 +127,10 @@ export default function CreateConversationModal() {
         ) : (
           <div className="modal-body">
             <div className="conversation-title-container">
-              <span>Conversation title (Optional):</span>
+              <div>
+                Conversation title:
+                <span className="optional-tag">(Optional)</span>
+              </div>
               <input
                 type="text"
                 placeholder="E.g Close friends, Team members e.t.c"
@@ -137,15 +139,28 @@ export default function CreateConversationModal() {
               />
             </div>
             <div className="modal-passcode-row">
-              <span>Set a passcode (Optional):</span>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={passcode}
-                  onChange={() => handleSetPasscode()}
-                />
-                <span className="slider round"></span>
-              </label>
+              <div className="modal-passcode-row-1">
+                <div>
+                  Set a passcode:
+                  <span className="optional-tag">(Optional)</span>
+                </div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={passcode}
+                    onChange={() => handleSetPasscode()}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+              {passcode ? (
+                <span className="modal-passcode-info">
+                  A passcode will be generated for this chat. Only users that
+                  you share the passcode with, can join the chat.
+                </span>
+              ) : (
+                ""
+              )}
             </div>
             <div className="action-buttons">
               <button
