@@ -14,8 +14,8 @@ export default function UpdateUserModal() {
   const [username, setUserName] = useState("");
   const [userPhoto, setPhoto] = useState("");
   const [userPhotoURL, setPhotoURL] = useState("");
-  const { user = {}, colorSchema = "lightMode" } = state;
-  const { _id: user_id, name = "", photo = "" } = user;
+  const { user = {} } = state;
+  const { _id: user_id, name = "", photo = "", isDarkMode = false } = user;
 
   const handleUpdateUsername = async () => {
     if (!userPhoto && !username) {
@@ -95,16 +95,12 @@ export default function UpdateUserModal() {
   return (
     <div className="modal">
       <div
-        className={`modal-content ${
-          colorSchema === "darkMode" ? "modal-content-dark" : ""
-        }`}
+        className={`modal-content ${isDarkMode ? "modal-content-dark" : ""}`}
       >
         <div className="modal-top-row">
           <span className="modal-title">Update User</span>
           <span
-            className={`close ${
-              colorSchema === "darkMode" ? "close-dark" : ""
-            }`}
+            className={`close ${isDarkMode ? "close-dark" : ""}`}
             onClick={handleToggleModal}
           >
             &times;

@@ -26,8 +26,8 @@ export default function ChatList() {
     isViewingBookmarks = false,
     isUserLoading,
     isChatLoading,
-    colorSchema = "lightMode",
   } = state;
+  const { isDarkMode = false } = user;
 
   const handleGetBookmarks = useCallback(
     async ({ _id }) => {
@@ -118,7 +118,7 @@ export default function ChatList() {
   return (
     <section
       className={`sidebar-container ${
-        colorSchema === "darkMode" ? "sidebar-container-dark" : ""
+        isDarkMode ? "sidebar-container-dark" : ""
       }`}
     >
       {isUserLoading ? (
@@ -130,9 +130,7 @@ export default function ChatList() {
         </div>
       ) : (
         <div
-          className={`sidebar-row-1 ${
-            colorSchema === "darkMode" ? "sidebar-row-1-dark" : ""
-          }`}
+          className={`sidebar-row-1 ${isDarkMode ? "sidebar-row-1-dark" : ""}`}
         >
           {user.photo ? (
             <img

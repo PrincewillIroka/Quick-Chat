@@ -17,7 +17,6 @@ const initialState = {
     isTyping: false,
     message: "",
   },
-  colorSchema: "lightMode",
   notifications: [],
 };
 

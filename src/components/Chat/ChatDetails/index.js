@@ -6,7 +6,7 @@ import ChatMedia from "./ChatMedia";
 import ChatParticipants from "./ChatParticipants";
 import ChatNotifications from "./ChatNotifications";
 
-export default function ChatDetails({ colorSchema }) {
+export default function ChatDetails({ isDarkMode }) {
   const [activeDetail, setActiveDetail] = useState("ChatMedia");
 
   const getActiveDetail = (value) => {
@@ -17,7 +17,7 @@ export default function ChatDetails({ colorSchema }) {
     <div className="chat-details-container">
       <div
         className={`chat-details-header ${
-          colorSchema === "darkMode" ? "chat-details-header-dark" : ""
+          isDarkMode ? "chat-details-header-dark" : ""
         }`}
       >
         Chat Details

@@ -13,12 +13,13 @@ import { socket } from "sockets/socketHandler";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
-  const { alert = {}, visibleModal = "", colorSchema = "lightMode" } = state;
+  const { alert = {}, visibleModal = "", user = {} } = state;
   const {
     isAlertVisible = false,
     content: alertContent,
     type: alertType,
   } = alert;
+  const { isDarkMode = false } = user;
 
   useEffect(() => {
     authenticateUser()
@@ -80,13 +81,11 @@ export default function Chat() {
 
   return (
     <div
-      className={`chat-container ${
-        colorSchema === "darkMode" ? "chat-container-dark" : ""
-      }`}
+      className={`chat-container ${isDarkMode ? "chat-container-dark" : ""}`}
     >
       <ChatList />
       <MainLayout />
-      <ChatDetails colorSchema={colorSchema} />
+      <ChatDetails isDarkMode={isDarkMode} />
       {visibleModal === "CreateConversation" ? (
         <CreateConversationModal />
       ) : (

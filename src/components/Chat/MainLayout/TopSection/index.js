@@ -13,14 +13,15 @@ import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
-import { addBookmark, deleteBookmark } from "services";
+import { addBookmark, deleteBookmark, updateDarkMode } from "services";
 
 function TopSection({ selectedChat }) {
   const { state, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], _id: selectChatId } = selectedChat || {};
-  const { user = {}, bookmarks = [], colorSchema = "lightMode" } = state;
+  const { user = {}, bookmarks = [] } = state;
+  let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
 
@@ -71,13 +72,12 @@ function TopSection({ selectedChat }) {
   }, [handleClearSearchField]);
 
   const handleAddBookmark = async () => {
-    const { _id: creator_id } = user;
     const chat_id = selectChatId;
 
     if (isBookmarkFound) {
       const { _id: bookmark_id } = bookmarkFound;
 
-      await deleteBookmark({ creator_id, bookmark_id })
+      await deleteBookmark({ creator_id: user_id, bookmark_id })
         .then((response) => {
           const success = response.success;
           if (success) {
@@ -97,7 +97,7 @@ function TopSection({ selectedChat }) {
           console.error(err);
         });
     } else {
-      await addBookmark({ creator_id, chat_id })
+      await addBookmark({ creator_id: user_id, chat_id })
         .then(async (response) => {
           const { newBookmark } = response;
           if (newBookmark) {
@@ -126,18 +126,25 @@ function TopSection({ selectedChat }) {
     });
   };
 
-  const handleChangeColorSchema = () => {
-    dispatch({
-      type: "TOGGLE_COLOR_SCHEMA",
-    });
+  const handleChangeColorSchema = async () => {
+    isDarkMode = isDarkMode ? false : true;
+    updateDarkMode({ user_id, isDarkMode })
+      .then(async (response) => {
+        const { success, updatedDarkMode } = response;
+        if (success) {
+          dispatch({
+            type: "TOGGLE_COLOR_SCHEMA",
+            payload: updatedDarkMode,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
-    <div
-      className={`top-section ${
-        colorSchema === "darkMode" ? "top-section-dark" : ""
-      }`}
-    >
+    <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
       <div className="row">
         <div className="user-info-col-1">
           {/* <span className="user-info-name">{chat_name}</span> */}
@@ -158,9 +165,7 @@ function TopSection({ selectedChat }) {
               ) : (
                 <span
                   className={`top-section-user-info-initial ${
-                    colorSchema === "darkMode"
-                      ? "top-section-user-info-initial-dark"
-                      : ""
+                    isDarkMode ? "top-section-user-info-initial-dark" : ""
                   }`}
                   key={index}
                   title={name}
@@ -181,13 +186,13 @@ function TopSection({ selectedChat }) {
       <div className="icons-container">
         {/* <AiOutlineVideoCamera className="media-icon" />
         <TbPhoneCall className="media-icon" /> */}
-        {colorSchema === "lightMode" ? (
-          <MdOutlineDarkMode
+        {isDarkMode ? (
+          <MdOutlineLightMode
             className="color-schema-icon"
             onClick={handleChangeColorSchema}
           />
         ) : (
-          <MdOutlineLightMode
+          <MdOutlineDarkMode
             className="color-schema-icon"
             onClick={handleChangeColorSchema}
           />
@@ -229,7 +234,7 @@ function TopSection({ selectedChat }) {
         {isMoreItemsDropdownVisible && (
           <div
             className={`more-items-dropdown ${
-              colorSchema === "darkMode" ? "more-items-dropdown-dark" : ""
+              isDarkMode ? "more-items-dropdown-dark" : ""
             }`}
           >
             <div className="more-items-row" onClick={handleGetChatLink}>
