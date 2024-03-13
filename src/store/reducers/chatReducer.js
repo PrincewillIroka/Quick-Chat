@@ -186,6 +186,37 @@ const chatReducer = (state, action) => {
         ...(Object.entries(selectedChat) && { selectedChat }),
       };
     }
+    case "UPDATE_CHAT": {
+      let { chat_id, updatedChat } = action.payload;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
+      chats = chats.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = updatedChat;
+        }
+        return chat;
+      });
+
+      chatsClone = chatsClone.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = updatedChat;
+        }
+        return chat;
+      });
+
+      selectedChat = selectedChat._id === chat_id ? updatedChat : selectedChat;
+
+      return {
+        ...state,
+        chats,
+        chatsClone,
+        selectedChat,
+      };
+    }
     default:
       return state;
   }

@@ -37,4 +37,26 @@ const uploadFile = (payload) => {
       });
   });
 };
-export { createChat, uploadFile };
+
+const updateAccessRight = ({ chat_id, user_id, passcode }) => {
+  return new Promise((resolve, reject) => {
+    const url = `${APP_HOST}/api/chats/updateAccessRight`;
+
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ chat_id, user_id, passcode }),
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        return reject(error);
+      });
+  });
+};
+
+export { createChat, uploadFile, updateAccessRight };
