@@ -31,7 +31,7 @@ export default function ChatInfo({
         {participants.slice(0, 3).map((participant, index) => {
           const checkSameSender = isSameSender(participant, user);
           participant = checkSameSender ? user : participant;
-          const { name = "", photo = "" } = participant;
+          const { name = "", photo = "" } = participant || {};
 
           return photo ? (
             <img

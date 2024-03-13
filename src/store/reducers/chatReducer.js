@@ -38,7 +38,7 @@ const chatReducer = (state, action) => {
         notifications,
       };
     }
-    case "UPDATE_CHAT": {
+    case "ADD_NEW_MESSAGE_TO_CHAT": {
       let { chat_id, newMessage } = action.payload;
       let { chats = [], chatsClone = [], selectedChat = {} } = state;
 
@@ -184,6 +184,37 @@ const chatReducer = (state, action) => {
       return {
         ...state,
         ...(Object.entries(selectedChat) && { selectedChat }),
+      };
+    }
+    case "UPDATE_CHAT": {
+      let { chat_id, updatedChat } = action.payload;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
+      chats = chats.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = updatedChat;
+        }
+        return chat;
+      });
+
+      chatsClone = chatsClone.map((chat) => {
+        if (chat._id === chat_id) {
+          chat = updatedChat;
+        }
+        return chat;
+      });
+
+      selectedChat = selectedChat._id === chat_id ? updatedChat : selectedChat;
+
+      return {
+        ...state,
+        chats,
+        chatsClone,
+        selectedChat,
       };
     }
     default:

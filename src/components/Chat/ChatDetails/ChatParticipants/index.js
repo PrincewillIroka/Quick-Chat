@@ -7,6 +7,7 @@ function ChatParticipants() {
   const { state = {} } = useStateValue();
   const { selectedChat = {}, user = {} } = state;
   const { participants = [] } = selectedChat;
+  const { isDarkMode = false } = user;
 
   return (
     <div className="chat-participant-container">
@@ -26,7 +27,9 @@ function ChatParticipants() {
                 />
               ) : (
                 <span
-                  className="chat-participant-initial"
+                  className={`chat-participant-initial ${
+                    isDarkMode && "chat-participant-initial-dark"
+                  }`}
                   title={name}
                 >
                   {generateInitials(name)}
