@@ -38,7 +38,7 @@ const chatReducer = (state, action) => {
         notifications,
       };
     }
-    case "UPDATE_CHAT": {
+    case "ADD_NEW_MESSAGE_TO_CHAT": {
       let { chat_id, newMessage } = action.payload;
       let { chats = [], chatsClone = [], selectedChat = {} } = state;
 
