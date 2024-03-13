@@ -28,13 +28,7 @@ function MainLayout() {
     isChatLoading,
     participantTyping,
   } = state;
-  const {
-    messages = [],
-    _id: chat_id,
-    chat_url,
-    passcode = "",
-    creator_id = "",
-  } = selectedChat;
+  const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id, name: user_name, isDarkMode = false } = user;
   const { isTyping = false, message: typingMessage } = participantTyping;
   const selectFileRef = useRef();
@@ -110,7 +104,7 @@ function MainLayout() {
               newMessage.attachments = attachments;
               payload.newMessage = newMessage;
             }
-            dispatch({ type: "UPDATE_CHAT", payload });
+            dispatch({ type: "ADD_NEW_MESSAGE_TO_CHAT", payload });
           }
 
           if (hasFiles) {
@@ -132,12 +126,6 @@ function MainLayout() {
         }
       );
     }
-  };
-
-  const checkPasscode = () => {
-    const isChatCreator = sender_id === creator_id;
-    const hasAccess = isChatCreator || !passcode;
-    return hasAccess;
   };
 
   const handleClickAttachmentIcon = () => {
@@ -260,178 +248,167 @@ function MainLayout() {
         isDarkMode ? "main-layout-container-dark" : ""
       }`}
     >
-      {checkPasscode() ? (
-        <>
-          <TopSection selectedChat={selectedChat} />
-          {!messages.length ? (
-            <div className="no-chat-section">
-              <img src={NoChat} className="no-chat-svg" alt="" />
-              <span>No message here</span>
+      <>
+        <TopSection selectedChat={selectedChat} />
+        {!messages.length ? (
+          <div className="no-chat-section">
+            <img src={NoChat} className="no-chat-svg" alt="" />
+            <span>No message here</span>
+          </div>
+        ) : (
+          <div
+            className={`body-section ${isDarkMode ? "body-section-dark" : ""}`}
+            ref={bodySectionRef}
+          >
+            {messages.map((message, index) => {
+              const { content = "", attachments = [], sender = {} } = message;
+              const { isChatBot = false } = sender;
+              return content || (attachments.length && !isChatBot) ? (
+                <Message message={message} key={index} />
+              ) : (
+                ""
+              );
+            })}
+          </div>
+        )}
+        {recordingStatus !== "inactive" && !isFileContainerOpen && (
+          <div
+            className={`recording-container ${
+              isDarkMode ? "recording-container-dark" : ""
+            }`}
+          >
+            <span className="recording-counter">
+              Recording: {formatTime(counter)}
+            </span>
+            {isRecording && (
+              <div className="spinner-square">
+                {spinnerSquares.map((sq, index) => (
+                  <div className={`square-${sq} square`} key={index}></div>
+                ))}
+              </div>
+            )}
+            <div className="recording-controls">
+              <span
+                className={`recording-btn ${
+                  isRecording ? "recording-stop" : "recording-pause"
+                }`}
+                onClick={handleStopOrRestartRecording}
+              >
+                {isRecording ? "Stop" : hasStoppedRecording ? "Restart" : ""}
+              </span>
+              {hasStoppedRecording && (
+                <span
+                  className="recording-btn recording-stop"
+                  onClick={handleDeleteRecording}
+                >
+                  Delete
+                </span>
+              )}
+              <span
+                className="recording-btn recording-start"
+                onClick={handleSendRecording}
+              >
+                Send
+              </span>
             </div>
-          ) : (
-            <div
-              className={`body-section ${
-                isDarkMode ? "body-section-dark" : ""
-              }`}
-              ref={bodySectionRef}
-            >
-              {messages.map((message, index) => {
-                const { content = "", attachments = [], sender = {} } = message;
-                const { isChatBot = false } = sender;
-                return content || (attachments.length && !isChatBot) ? (
-                  <Message message={message} key={index} />
-                ) : (
-                  ""
+          </div>
+        )}
+        {filesUploading[chat_id] && isFileContainerOpen && (
+          <div className="files-list-container">
+            <IoMdClose
+              className="files-list-close-button"
+              onClick={() => handleRemoveAllFiles(false)}
+            />
+            <div className="files-list-content">
+              {filesUploading[chat_id].map(({ attachment }, index) => {
+                const { name = "", size = 0 } = attachment;
+                return (
+                  <div className="file-list-item" key={index} title={name}>
+                    <IoMdClose
+                      className="file-item-close-button"
+                      title={name}
+                      onClick={() => handleRemoveFile(name)}
+                    />
+                    <span className="file-item-name">{name}</span>
+                    <span className="file-item-size">{formatBytes(size)}</span>
+                  </div>
                 );
               })}
             </div>
-          )}
-          {recordingStatus !== "inactive" && !isFileContainerOpen && (
+          </div>
+        )}
+        {!isChatLoading && (
+          <div
+            className={`type-message-section ${
+              isDarkMode ? "type-message-section-dark" : ""
+            }`}
+          >
             <div
-              className={`recording-container ${
-                isDarkMode ? "recording-container-dark" : ""
+              className={`message-input-container ${
+                isDarkMode ? "message-input-container-dark" : ""
               }`}
             >
-              <span className="recording-counter">
-                Recording: {formatTime(counter)}
-              </span>
-              {isRecording && (
-                <div className="spinner-square">
-                  {spinnerSquares.map((sq, index) => (
-                    <div className={`square-${sq} square`} key={index}></div>
-                  ))}
-                </div>
-              )}
-              <div className="recording-controls">
-                <span
-                  className={`recording-btn ${
-                    isRecording ? "recording-stop" : "recording-pause"
-                  }`}
-                  onClick={handleStopOrRestartRecording}
-                >
-                  {isRecording ? "Stop" : hasStoppedRecording ? "Restart" : ""}
-                </span>
-                {hasStoppedRecording && (
-                  <span
-                    className="recording-btn recording-stop"
-                    onClick={handleDeleteRecording}
-                  >
-                    Delete
-                  </span>
-                )}
-                <span
-                  className="recording-btn recording-start"
-                  onClick={handleSendRecording}
-                >
-                  Send
-                </span>
-              </div>
-            </div>
-          )}
-          {filesUploading[chat_id] && isFileContainerOpen && (
-            <div className="files-list-container">
-              <IoMdClose
-                className="files-list-close-button"
-                onClick={() => handleRemoveAllFiles(false)}
-              />
-              <div className="files-list-content">
-                {filesUploading[chat_id].map(({ attachment }, index) => {
-                  const { name = "", size = 0 } = attachment;
-                  return (
-                    <div className="file-list-item" key={index} title={name}>
-                      <IoMdClose
-                        className="file-item-close-button"
-                        title={name}
-                        onClick={() => handleRemoveFile(name)}
-                      />
-                      <span className="file-item-name">{name}</span>
-                      <span className="file-item-size">
-                        {formatBytes(size)}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-          {!isChatLoading && (
-            <div
-              className={`type-message-section ${
-                isDarkMode ? "type-message-section-dark" : ""
-              }`}
-            >
-              <div
-                className={`message-input-container ${
-                  isDarkMode ? "message-input-container-dark" : ""
+              <input
+                type="text"
+                placeholder={
+                  isTyping && !content ? typingMessage : "Type a message"
+                }
+                className={`input-field ${
+                  isDarkMode ? "input-field-dark" : ""
                 }`}
-              >
-                <input
-                  type="text"
-                  placeholder={
-                    isTyping && !content ? typingMessage : "Type a message"
-                  }
-                  className={`input-field ${
-                    isDarkMode ? "input-field-dark" : ""
-                  }`}
-                  onChange={handleTyping}
-                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
-                  value={content}
-                />
-                <span className="right-divider"></span>
-                <div className="control-btns-container">
-                  <div className="emoji-container">
-                    {isEmojiPickerVisible && (
-                      <div className="emoji-picker-wrapper">
-                        <EmojiPicker
-                          onEmojiClick={handleEmojiClick}
-                          className="emoji-picker"
-                        />
-                      </div>
-                    )}
-                    <BsEmojiSmile
-                      onClick={() =>
-                        setIsEmojiPickerVisible(!isEmojiPickerVisible)
-                      }
-                      className="emoji-icon"
-                    />
-                  </div>
-                  <BiMicrophone
-                    className="microphone-icon"
-                    onClick={handleRecordAudioMessage}
-                  />
-                  <RiAttachment2
-                    className="attachment-icon"
-                    onClick={handleClickAttachmentIcon}
-                  />
-                  <input
-                    type="file"
-                    hidden
-                    ref={selectFileRef}
-                    onInput={(e) =>
-                      handleSelectAttachment(
-                        [...e.target.files],
-                        "openFileContainer"
-                      )
+                onChange={handleTyping}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+                value={content}
+              />
+              <span className="right-divider"></span>
+              <div className="control-btns-container">
+                <div className="emoji-container">
+                  {isEmojiPickerVisible && (
+                    <div className="emoji-picker-wrapper">
+                      <EmojiPicker
+                        onEmojiClick={handleEmojiClick}
+                        className="emoji-picker"
+                      />
+                    </div>
+                  )}
+                  <BsEmojiSmile
+                    onClick={() =>
+                      setIsEmojiPickerVisible(!isEmojiPickerVisible)
                     }
-                    multiple
+                    className="emoji-icon"
                   />
                 </div>
-              </div>
-              <div
-                className="send-button-container"
-                onClick={handleSendMessage}
-              >
-                <RiSendPlaneFill className="send-icon" />
+                <BiMicrophone
+                  className="microphone-icon"
+                  onClick={handleRecordAudioMessage}
+                />
+                <RiAttachment2
+                  className="attachment-icon"
+                  onClick={handleClickAttachmentIcon}
+                />
+                <input
+                  type="file"
+                  hidden
+                  ref={selectFileRef}
+                  onInput={(e) =>
+                    handleSelectAttachment(
+                      [...e.target.files],
+                      "openFileContainer"
+                    )
+                  }
+                  multiple
+                />
               </div>
             </div>
-          )}
-        </>
-      ) : (
-        <div>
-          <input placeholder="Enter passcode here" />
-          <button>Submit</button>
-        </div>
-      )}
+            <div
+              className="send-button-container"
+              onClick={() => handleSendMessage}
+            >
+              <RiSendPlaneFill className="send-icon" />
+            </div>
+          </div>
+        )}
+      </>
     </section>
   );
 }
