@@ -51,8 +51,10 @@ export default function CreateConversationModal() {
     setPasscode(num);
   };
 
-  const handleCopyChatLink = () => {
-    navigator.clipboard.writeText(chatLink);
+  const handleCopy = (param) => {
+    const value = param === "chatLink" ? chatLink : passcode;
+    navigator.clipboard.writeText(value);
+
     handleToggleAlert({
       isAlertVisible: true,
       content: "Chat link copied!",
@@ -101,7 +103,7 @@ export default function CreateConversationModal() {
                 <MdOutlineContentCopy
                   title="Copy link"
                   className="copy-link"
-                  onClick={handleCopyChatLink}
+                  onClick={() => handleCopy("chatLink")}
                 />
               </div>
             </div>
@@ -115,6 +117,7 @@ export default function CreateConversationModal() {
                   <MdOutlineContentCopy
                     title="Copy passcode"
                     className="copy-link"
+                    onClick={() => handleCopy("passcode")}
                   />
                 </div>
               </div>
