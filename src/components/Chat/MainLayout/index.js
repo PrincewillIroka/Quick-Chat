@@ -109,6 +109,7 @@ function MainLayout() {
 
           if (hasFiles) {
             formData.append("chat_id", chat_id);
+            formData.append("chat_url", chat_url);
             formData.append("sender_id", sender_id);
             formData.append("message_id", message_id);
 
