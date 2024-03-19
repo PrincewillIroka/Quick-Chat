@@ -357,7 +357,7 @@ function MainLayout() {
                   isDarkMode ? "input-field-dark" : ""
                 }`}
                 onChange={handleTyping}
-                onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 value={content}
               />
               <span className="right-divider"></span>
@@ -402,7 +402,10 @@ function MainLayout() {
             </div>
             <div
               className="send-button-container"
-              onClick={() => handleSendMessage}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
             >
               <RiSendPlaneFill className="send-icon" />
             </div>

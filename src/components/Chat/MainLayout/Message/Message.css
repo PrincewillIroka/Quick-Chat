@@ -80,6 +80,7 @@
   padding: 7px;
   height: 4.5rem;
   cursor: pointer;
+  position: relative;
 }
 
 .attachment-details-single {
