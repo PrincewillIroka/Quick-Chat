@@ -50,13 +50,8 @@ export default function ChatList() {
           if (response.success) {
             const { chats = [], notifications = [] } = response;
 
-            let firstChat;
-
-            if (chatUrlParam) {
-              firstChat = chats.find((chat) => chat.chat_url === chatUrlParam);
-            } else {
-              firstChat = chats[0];
-            }
+            const firstChat =
+              chats.find((chat) => chat.chat_url === chatUrlParam) || chats[0];
 
             dispatch({
               type: "GET_CHATS_SUCCESS",
