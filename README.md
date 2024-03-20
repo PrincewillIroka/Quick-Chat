@@ -6,5 +6,5 @@ You don't have to create an account. Just create a chat and send the link to oth
 - UI Mockup: https://dribbble.com/shots/18324922--edamessage-Messenger-Dashboard-Web-App
 ### Live
 https://quick-chat1.netlify.app/
-### Demo
+### Screenshot
 ![Screenshot](https://i.imgur.com/afyuT1Y.png)

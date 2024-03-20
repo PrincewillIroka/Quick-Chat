@@ -8,13 +8,24 @@ function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
   const { isDarkMode = false } = user;
-  let { sender = {}, content = "", attachments = [] } = message;
+  let { sender = {}, content = "", attachments = [], createdAt = "" } = message;
   const checkSameSender = isSameSender(sender, user);
   sender = checkSameSender ? user : sender;
   const { name = "", photo = "" } = sender;
 
   const handleViewFile = (file_url) => {
     window.open(file_url);
+  };
+
+  const formatDate = (dt) => {
+    return new Date(dt).toLocaleString("en-UK", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      hour: "numeric",
+      hour12: true,
+      minute: "numeric",
+    });
   };
 
   return (
@@ -37,7 +48,7 @@ function Message({ message }) {
       <div className="message-details">
         <div className="message-info">
           <span className="message-owner">{name}</span>
-          <span className="message-time">10:05 AM</span>
+          <span className="message-time">{formatDate(createdAt)}</span>
         </div>
         <div className="message-original">
           <div className="message-original-wrapper">

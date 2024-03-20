@@ -109,6 +109,7 @@ function MainLayout() {
 
           if (hasFiles) {
             formData.append("chat_id", chat_id);
+            formData.append("chat_url", chat_url);
             formData.append("sender_id", sender_id);
             formData.append("message_id", message_id);
 
@@ -357,7 +358,7 @@ function MainLayout() {
                   isDarkMode ? "input-field-dark" : ""
                 }`}
                 onChange={handleTyping}
-                onKeyDown={(e) => e.key === "Enter" && handleSendMessage(e)}
+                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 value={content}
               />
               <span className="right-divider"></span>
@@ -402,7 +403,10 @@ function MainLayout() {
             </div>
             <div
               className="send-button-container"
-              onClick={() => handleSendMessage}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
             >
               <RiSendPlaneFill className="send-icon" />
             </div>

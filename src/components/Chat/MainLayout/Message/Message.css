@@ -1,7 +1,7 @@
 .message-container {
   display: flex;
   margin-bottom: 40px;
-  width: 35%;
+  width: 40%;
 }
 
 .message-container-align-right {
@@ -37,10 +37,13 @@
 .message-info {
   display: flex;
   margin-bottom: 10px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .message-owner {
   margin-right: 20px;
+  font-size: 16px;
 }
 
 .message-time {
@@ -80,6 +83,7 @@
   padding: 7px;
   height: 4.5rem;
   cursor: pointer;
+  position: relative;
 }
 
 .attachment-details-single {

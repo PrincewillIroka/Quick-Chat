@@ -26,18 +26,29 @@ const userReducer = (state, action) => {
 
       let currentFileUploading = filesUploading[chat_id] || [];
       const updatedChat = chatsClone.find((ch) => ch._id === chat_id);
+
       let { messages = [] } = updatedChat;
 
       messages = messages.map((message) => {
         let { _id = "", attachments = [] } = message;
         if (_id === message_id) {
-          attachments = attachments.map(({ attachment: attch }) => {
-            const { key: attchKey } = attch || {};
-            if (attchKey === attachmentKey) {
-              attch = attachment;
-            }
-            return { attachment: attch };
-          });
+          if (
+            !attachments.find(
+              ({ attachment: attch }) => attch?.key === attachmentKey
+            )
+          ) {
+            attachments = attachments.concat([{ attachment }]);
+          } else {
+            attachments = attachments.map(({ attachment: attch }) => {
+              const { key: attchKey } = attch || {};
+
+              if (attchKey === attachmentKey) {
+                attch = attachment;
+              }
+              return { attachment: attch };
+            });
+          }
+
           message["attachments"] = attachments;
         }
         return message;
