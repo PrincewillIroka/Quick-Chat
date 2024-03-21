@@ -8,7 +8,13 @@ function Message({ message }) {
   const { state } = useStateValue();
   const { user = {} } = state;
   const { isDarkMode = false } = user;
-  let { sender = {}, content = "", attachments = [], createdAt = "" } = message;
+  let {
+    sender = {},
+    content = "",
+    attachments = [],
+    createdAt = "",
+    messageType = "",
+  } = message;
   const checkSameSender = isSameSender(sender, user);
   sender = checkSameSender ? user : sender;
   const { name = "", photo = "" } = sender;
@@ -19,16 +25,16 @@ function Message({ message }) {
 
   const formatDate = (dt) => {
     return new Date(dt).toLocaleString("en-UK", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
       hour: "numeric",
       hour12: true,
       minute: "numeric",
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
     });
   };
 
-  return (
+  return messageType !== "info" ? (
     <div
       className={`message-container ${
         checkSameSender && "message-container-align-right"
@@ -106,6 +112,17 @@ function Message({ message }) {
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div
+      className={`message-info-container ${
+        isDarkMode ? "message-info-container-dark" : ""
+      }`}
+    >
+      <span className="message-info-content">
+        {checkSameSender ? "You joined this chat." : content}
+      </span>
+      <span className="message-info-createdAt">{formatDate(createdAt)}</span>
     </div>
   );
 }

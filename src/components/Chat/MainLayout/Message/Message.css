@@ -169,3 +169,27 @@
 .attachment-progress-text {
   font-size: 11px;
 }
+
+.message-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f7f7f7;
+  border-radius: 7px;
+  padding: 5px 15px;
+  font-size: 15px;
+  width: 50%;
+  margin: 0 auto 30px;
+}
+
+.message-info-container-dark {
+  color: #000;
+}
+
+.message-info-content {
+  width: 50%;
+}
+
+.message-info-createdAt {
+  font-size: 12px;
+}

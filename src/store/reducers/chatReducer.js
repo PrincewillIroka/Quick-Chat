@@ -125,15 +125,20 @@ const chatReducer = (state, action) => {
       };
     }
     case "ADD_PARTICIPANT_TO_CHAT": {
-      let { chat_id, participant } = action.payload;
+      let { chat_id, participant, newMessage = {} } = action.payload;
       let { chats = [], chatsClone = [], selectedChat = {} } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
       if (!chatToBeUpdated) return;
 
-      const participants = chatToBeUpdated.participants || [];
+      const { participants = [], messages = [] } = chatToBeUpdated;
+
       chatToBeUpdated.participants = [].concat(participants, [participant]);
+
+      if (Object.entries(newMessage)) {
+        chatToBeUpdated.messages = [].concat(messages, [newMessage]);
+      }
 
       chats = chats.map((chat) => {
         if (chat._id === chat_id) {
