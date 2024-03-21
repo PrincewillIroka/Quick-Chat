@@ -2,6 +2,7 @@ import React from "react";
 import { useStateValue } from "store/stateProvider";
 import { publish } from "custom-events";
 import { socket } from "sockets/socketHandler";
+import PushNotifications from "assets/PushNotifications.svg";
 import "./ChatNotifications.css";
 
 function ChatNotifications() {
@@ -20,15 +21,22 @@ function ChatNotifications() {
   return (
     <div className="notification-container">
       <div className="notification-wrapper">
-        {notifications.map((notification, index) => (
-          <div
-            className="notification-single-wrapper"
-            key={index}
-            onClick={() => handleNotification(notification)}
-          >
-            {notification.value}
+        {notifications.length ? (
+          notifications.map((notification, index) => (
+            <div
+              className="notification-single-wrapper"
+              key={index}
+              onClick={() => handleNotification(notification)}
+            >
+              {notification.value}
+            </div>
+          ))
+        ) : (
+          <div className="notification-bg-container">
+            <img src={PushNotifications} className="notification-bg" alt="" />
+            <span>No Notification found</span>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

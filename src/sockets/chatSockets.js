@@ -21,7 +21,13 @@ const chatSockets = (socket, state, dispatch) => {
   });
 
   socket.on("participant-has-joined-chat", (data) => {
-    dispatch({ type: "ADD_PARTICIPANT_TO_CHAT", payload: data });
+    dispatch({
+      type: "ADD_PARTICIPANT_TO_CHAT",
+      payload: data,
+    });
+    if (audio.paused) {
+      audio.play().catch(console.warn);
+    }
   });
 
   socket.on("new-message-notification", (data) => {
