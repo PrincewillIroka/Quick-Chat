@@ -71,6 +71,7 @@ const chatReducer = (state, action) => {
         chats,
         chatsClone,
         selectedChat,
+        participantTyping: { isTyping: false, message: "" },
       };
     }
     case "SEARCH_CHATS": {

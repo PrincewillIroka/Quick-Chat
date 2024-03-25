@@ -17,7 +17,7 @@ export default function UpdateUserModal() {
   const { user = {} } = state;
   const { _id: user_id, name = "", photo = "", isDarkMode = false } = user;
 
-  const handleUpdateUsername = async () => {
+  const handleUpdateUser = async () => {
     if (!userPhoto && !username) {
       return;
     }
@@ -76,12 +76,12 @@ export default function UpdateUserModal() {
   const handleSelectPhoto = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 5000000) {
+      if (file.size > 2000000) {
         dispatch({
           type: "TOGGLE_ALERT",
           payload: {
             isAlertVisible: true,
-            content: `Maximum size for files is 5MB.`,
+            content: `Maximum size for files is 2MB.`,
             type: "error",
           },
         });
@@ -168,7 +168,7 @@ export default function UpdateUserModal() {
               </button>
               <button
                 className="create-button update-user-button"
-                onClick={handleUpdateUsername}
+                onClick={handleUpdateUser}
               >
                 Update
               </button>
