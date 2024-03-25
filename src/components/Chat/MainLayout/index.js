@@ -149,12 +149,12 @@ function MainLayout() {
       0
     );
 
-    if (totalFileSize > 5000000) {
+    if (totalFileSize > 2000000) {
       dispatch({
         type: "TOGGLE_ALERT",
         payload: {
           isAlertVisible: true,
-          content: `Maximum size for files is 5MB.`,
+          content: `Maximum size for files is 2MB.`,
           type: "error",
         },
       });
