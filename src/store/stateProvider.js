@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { socketHandler, socket } from "../sockets";
+import { socketHandler } from "../sockets";
 
 // data layer
 export const StateContext = createContext();
@@ -7,12 +7,6 @@ export const StateContext = createContext();
 // Build a provider
 export const StateProvider = ({ reducers, initialState, children }) => {
   const [state, dispatch] = useReducer(reducers, initialState);
-
-  useEffect(() => {
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     socketHandler(state, dispatch);
