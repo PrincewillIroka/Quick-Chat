@@ -4,6 +4,7 @@ import { BsPlusCircle, BsStar } from "react-icons/bs";
 // import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { BiMessageEdit } from "react-icons/bi";
+import { FaCaretDown } from "react-icons/fa6";
 
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
@@ -127,23 +128,28 @@ export default function ChatList() {
         <div
           className={`sidebar-row-1 ${isDarkMode ? "sidebar-row-1-dark" : ""}`}
         >
-          {user.photo ? (
-            <img
-              className="profile-photo"
-              src={user.photo}
-              alt=""
-              title={user.name}
-              onClick={() => handleToggleModal("UpdateUserModal")}
-            />
-          ) : (
-            <span
-              className="profile-photo profile-initial"
-              title={user.name}
-              onClick={() => handleToggleModal("UpdateUserModal")}
-            >
-              {generateInitials(user.name)}
-            </span>
-          )}
+          <div
+            className="profile-photo-wrapper"
+            onClick={() => handleToggleModal("UpdateUserModal")}
+          >
+            {user.photo ? (
+              <img
+                className="profile-photo"
+                src={user.photo}
+                alt=""
+                title={user.name}
+              />
+            ) : (
+              <span
+                className="profile-photo profile-initial"
+                title={user.name}
+                onClick={() => handleToggleModal("UpdateUserModal")}
+              >
+                {generateInitials(user.name)}
+              </span>
+            )}
+            <FaCaretDown />
+          </div>
           <button
             className="btn-start-convo"
             onClick={() => handleToggleModal("CreateConversation")}
@@ -153,10 +159,9 @@ export default function ChatList() {
           </button>
         </div>
       )}
-      <div className="row-2">
+      <div className="sidebar-row-2">
         <div className="centered-container">
           <h4 className="messages-title">Messages</h4>
-          {/* <GoChevronDown /> */}
         </div>
         <div className="centered-container">
           <BiMessageEdit
@@ -179,7 +184,7 @@ export default function ChatList() {
         <div className="search-row">
           {!searchText && <FiSearch className="search-icon" />}
           <input
-            placeholder="Search chat list here..."
+            placeholder="Search here..."
             className="search-input"
             onChange={handleSearchChats}
           />
