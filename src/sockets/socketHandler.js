@@ -6,6 +6,10 @@ const appHost = process.env.REACT_APP_HOST;
 export const socket = io(appHost, {
   transports: ["websocket"],
   jsonp: false,
+  reconnection: true,
+  reconnectionDelay: 3000,
+  reconnectionAttempts: 20,
+  forceNew: true,
 });
 
 export const socketHandler = (state, dispatch) => {
