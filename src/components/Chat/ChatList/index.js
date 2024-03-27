@@ -9,7 +9,7 @@ import { FaCaretDown } from "react-icons/fa6";
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
 import { useStateValue } from "store/stateProvider";
-import { getChats } from "services/userServices";
+import { getChats, getNotifications } from "services/userServices";
 import { getBookmarks } from "services/bookmarkServices";
 import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
@@ -49,14 +49,14 @@ export default function ChatList() {
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
           if (response.success) {
-            const { chats = [], notifications = [] } = response;
+            const { chats = [] } = response;
 
             const firstChat =
               chats.find((chat) => chat.chat_url === chatUrlParam) || chats[0];
 
             dispatch({
               type: "GET_CHATS_SUCCESS",
-              payload: { chats, notifications },
+              payload: { chats },
             });
             dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: firstChat });
 
@@ -69,6 +69,21 @@ export default function ChatList() {
             });
 
             handleGetBookmarks(userDetail);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+      await getNotifications({ bs_token })
+        .then(async (response) => {
+          if (response.success) {
+            const { notifications = [] } = response;
+
+            dispatch({
+              type: "GET_NOTIFICATIONS_SUCCESS",
+              payload: { notifications },
+            });
           }
         })
         .catch((err) => {

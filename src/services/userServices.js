@@ -104,4 +104,33 @@ const getAppHealth = () => {
   });
 };
 
-export { getChats, authenticateUser, updateUser, getAppHealth, updateDarkMode };
+const getNotifications = ({ bs_token }) => {
+  return new Promise((resolve, reject) => {
+    const url = `${APP_HOST}/api/users/getNotifications`;
+
+    fetch(url, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ bs_token }),
+    })
+      .then((response) => response.json())
+      .then((response) => resolve(response))
+      .catch((error) => {
+        console.error(error);
+        return reject(error);
+      });
+  });
+};
+
+export {
+  getChats,
+  authenticateUser,
+  updateUser,
+  getAppHealth,
+  updateDarkMode,
+  getNotifications,
+};
