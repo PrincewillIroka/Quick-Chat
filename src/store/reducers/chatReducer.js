@@ -28,13 +28,20 @@ const chatReducer = (state, action) => {
       };
     }
     case "GET_CHATS_SUCCESS": {
-      const { chats = [], notifications = [] } = action.payload;
+      const { chats = [] } = action.payload;
 
       return {
         ...state,
         chats,
         chatsClone: chats,
         isChatLoading: false,
+      };
+    }
+    case "GET_NOTIFICATIONS_SUCCESS": {
+      const { notifications = [] } = action.payload;
+
+      return {
+        ...state,
         notifications,
       };
     }
