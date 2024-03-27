@@ -159,7 +159,7 @@ export default function ChatList() {
           </button>
         </div>
       )}
-      <div className="row-2">
+      <div className="sidebar-row-2">
         <div className="centered-container">
           <h4 className="messages-title">Messages</h4>
         </div>

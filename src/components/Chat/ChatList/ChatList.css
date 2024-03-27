@@ -77,11 +77,11 @@
   color: #fff;
 }
 
-.row-2 {
+.sidebar-row-2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
+  padding: 10px 15px 0;
   height: 40px;
 }
 
