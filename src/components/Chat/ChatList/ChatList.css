@@ -14,11 +14,17 @@
   justify-content: space-between;
   height: 10%;
   align-items: center;
-  padding: 0 30px;
+  padding: 0 15px;
 }
 
 .sidebar-row-1-dark {
   background-color: #272727;
+}
+
+.profile-photo-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .profile-photo {
@@ -27,6 +33,7 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  border: 1px solid #000;
 }
 
 .profile-initial {
@@ -35,6 +42,7 @@
   justify-content: center;
   background-color: #ececec;
   cursor: pointer;
+  color: #272727;
 }
 
 .sidebar-row-1-dark > .profile-initial {
@@ -73,8 +81,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  height: 50px;
+  padding: 10px 15px;
+  height: 40px;
 }
 
 .centered-container {
@@ -101,8 +109,8 @@
 }
 
 .search-row-container {
-  padding: 0 30px;
-  margin: 5px 0 30px;
+  padding: 0 15px;
+  margin: 15px 0 15px;
   height: 40px;
 }
 
@@ -112,7 +120,7 @@
   background-color: #f7f7f7;
   align-items: center;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 5px;
 }
 
 .search-icon {
