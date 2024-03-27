@@ -9,8 +9,6 @@ export const StateProvider = ({ reducers, initialState, children }) => {
   const [state, dispatch] = useReducer(reducers, initialState);
 
   useEffect(() => {
-    socket.connect();
-
     return () => {
       socket.disconnect();
     };
