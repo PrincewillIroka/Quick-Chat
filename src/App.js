@@ -8,19 +8,15 @@ import reducers from "store/reducers";
 import "./App.css";
 
 function App() {
-  const ChatComponent = () => (
-    <StateProvider reducers={reducers} initialState={initialState}>
-      <Chat />
-    </StateProvider>
-  );
-
   return (
     <Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/chat" element={<ChatComponent />} />
-        <Route path="/chat/:chatUrlParam" element={<ChatComponent />} />
-      </Routes>
+      <StateProvider reducers={reducers} initialState={initialState}>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat/:chatUrlParam" element={<Chat />} />
+        </Routes>
+      </StateProvider>
     </Router>
   );
 }
