@@ -7,10 +7,6 @@ export const socket = io(appHost, {
   transports: ["websocket"],
   jsonp: false,
   autoConnect: true,
-  reconnection: true,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
-  reconnectionAttempts: 5,
   forceNew: true,
 });
 
