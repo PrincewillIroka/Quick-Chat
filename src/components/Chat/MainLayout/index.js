@@ -66,6 +66,7 @@ function MainLayout() {
 
   useEffect(() => {
     handleResetValues();
+    handleScrollToBottom();
   }, [chat_id]);
 
   function debounceHandler(value) {
@@ -241,10 +242,6 @@ function MainLayout() {
       setContent(newContent);
     }
   };
-
-  useEffect(() => {
-    handleScrollToBottom();
-  }, [selectedChat]);
 
   return (
     <section
