@@ -6,32 +6,39 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("new-message-received", (payload) => {
     if (payload) {
       dispatch({ type: "ADD_NEW_MESSAGE_TO_CHAT", payload });
+      if (payload?.newMessage?.content) {
+        dispatch({ type: "INCREASE_CHAT_NOTIFICATION_COUNT", payload });
+      }
       if (audio.paused) {
         audio.play().catch(console.warn);
       }
     }
   });
 
-  socket.on("uploaded-file-success", (data) => {
-    dispatch({ type: "UPDATE_FILE_UPLOADING_STATUS", payload: data });
+  socket.on("uploaded-file-success", (payload) => {
+    dispatch({ type: "UPDATE_FILE_UPLOADING_STATUS", payload });
+    if (payload?.attachment?.isUploading === "Completed") {
+      dispatch({ type: "INCREASE_CHAT_NOTIFICATION_COUNT", payload });
+    }
   });
 
   socket.on("update-participant-typing", (message) => {
     dispatch({ type: "UPDATE_PARTICIPANT_IS_TYPING", payload: message });
   });
 
-  socket.on("participant-has-joined-chat", (data) => {
+  socket.on("participant-has-joined-chat", (payload) => {
     dispatch({
       type: "ADD_PARTICIPANT_TO_CHAT",
-      payload: data,
+      payload,
     });
+    dispatch({ type: "INCREASE_CHAT_NOTIFICATION_COUNT", payload });
     if (audio.paused) {
       audio.play().catch(console.warn);
     }
   });
 
-  socket.on("new-message-notification", (data) => {
-    dispatch({ type: "NEW_MESSAGE_NOTIFICATION", payload: data });
+  socket.on("new-message-notification", (payload) => {
+    dispatch({ type: "NEW_MESSAGE_NOTIFICATION", payload });
   });
 };
 

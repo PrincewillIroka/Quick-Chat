@@ -100,9 +100,10 @@ export default function ChatList() {
   }, [handleGetChats]);
 
   const handleSelectChat = (chat) => {
+    const { chat_url = "", _id: chat_id } = chat;
     publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
-    const { chat_url = "" } = chat;
+    dispatch({ type: "CLEAR_CHAT_NOTIFICATION_COUNT", payload: { chat_id } });
     socket.emit("participant-join-selected-chat", {
       chat_url,
       user_id: user._id,

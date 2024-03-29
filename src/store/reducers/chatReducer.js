@@ -230,6 +230,35 @@ const chatReducer = (state, action) => {
         selectedChat,
       };
     }
+    case "INCREASE_CHAT_NOTIFICATION_COUNT": {
+      let { notifications_count, selectedChat } = state;
+      const { chat_id } = action.payload;
+
+      const selectedChatId = selectedChat._id;
+      if (chat_id !== selectedChatId) {
+        let chat_notification_count = notifications_count[chat_id] || 0;
+        chat_notification_count = chat_notification_count + 1;
+        notifications_count[chat_id] = chat_notification_count;
+      }
+
+      return {
+        ...state,
+        notifications_count,
+      };
+    }
+    case "CLEAR_CHAT_NOTIFICATION_COUNT": {
+      let { notifications_count } = state;
+      let { chat_id } = action.payload;
+
+      if (notifications_count[chat_id]) {
+        delete notifications_count[chat_id];
+      }
+
+      return {
+        ...state,
+        notifications_count,
+      };
+    }
     default:
       return state;
   }

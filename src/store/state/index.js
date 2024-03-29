@@ -18,6 +18,7 @@ const initialState = {
     message: "",
   },
   notifications: [],
+  notifications_count: {},
 };
 
 export default initialState;

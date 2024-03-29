@@ -4,9 +4,8 @@ import chatSockets from "./chatSockets";
 const appHost = process.env.REACT_APP_HOST;
 
 export const socket = io(appHost, {
-  transports: ["websocket", "polling"],
+  transports: ["websocket"],
   jsonp: false,
-  reconnection: true,
 });
 
 export const socketHandler = (state, dispatch) => {
