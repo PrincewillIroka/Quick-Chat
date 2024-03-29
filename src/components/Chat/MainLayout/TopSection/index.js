@@ -68,11 +68,9 @@ function TopSection({ selectedChat }) {
   }, [handleSearchMessages, isSearchVisible]);
 
   useEffect(() => {
-    subscribe("toggledSelectedChat", handleClearSearchField);
+    subscribe("toggledSelectedChat", () => handleClearSearchField());
 
-    return () => {
-      unsubscribe("toggledSelectedChat", handleClearSearchField);
-    };
+    return () => unsubscribe("toggledSelectedChat");
   }, [handleClearSearchField]);
 
   const handleAddBookmark = async () => {
@@ -225,7 +223,7 @@ function TopSection({ selectedChat }) {
         {isSearchVisible ? (
           <IoMdClose
             className="control-icon"
-            onClick={handleClearSearchField}
+            onClick={() => handleClearSearchField()}
           />
         ) : (
           <CgSearch

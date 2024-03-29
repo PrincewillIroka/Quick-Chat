@@ -33,7 +33,7 @@ function MainLayout() {
   const chatTyping = participantsTypingInChat[chat_url] || {};
   const { isTyping = false, message: typingMessage = "" } = chatTyping;
   const selectFileRef = useRef();
-  const bodySectionRef = useRef();
+  const messageSectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
@@ -57,11 +57,9 @@ function MainLayout() {
   });
 
   const handleScrollToBottom = () => {
-    if (bodySectionRef.current) {
-      const { scrollHeight } = bodySectionRef.current;
-      bodySectionRef.current.scroll({
-        top: scrollHeight,
-        behaviour: "smooth",
+    if (messageSectionRef.current) {
+      messageSectionRef.current.scrollIntoView({
+        block: "start",
       });
     }
   };
@@ -244,6 +242,10 @@ function MainLayout() {
     }
   };
 
+  useEffect(() => {
+    handleScrollToBottom();
+  }, [selectedChat]);
+
   return (
     <section
       className={`main-layout-container ${
@@ -260,7 +262,6 @@ function MainLayout() {
         ) : (
           <div
             className={`body-section ${isDarkMode ? "body-section-dark" : ""}`}
-            ref={bodySectionRef}
           >
             {messages.map((message, index) => {
               const { content = "", attachments = [], sender = {} } = message;
@@ -271,6 +272,7 @@ function MainLayout() {
                 ""
               );
             })}
+            <div ref={messageSectionRef}></div>
           </div>
         )}
         {recordingStatus !== "inactive" && !isFileContainerOpen && (
