@@ -35,15 +35,17 @@ export default function UpdateUserModal() {
 
     await updateUser(formData)
       .then(async (response) => {
-        const { user } = response;
-        if (user) {
-          dispatch({ type: "GET_USER_SUCCESS", payload: user });
-          handleToggleModal();
-          handleToggleAlert({
-            isAlertVisible: true,
-            content: "Username updated!",
-            type: "success",
-          });
+        if (response.success) {
+          const { updatedUser = {} } = response;
+          if (Object.entries(updatedUser)) {
+            dispatch({ type: "GET_USER_SUCCESS", payload: updatedUser });
+            handleToggleModal();
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Username updated!",
+              type: "success",
+            });
+          }
         }
         setIsLoading(false);
       })

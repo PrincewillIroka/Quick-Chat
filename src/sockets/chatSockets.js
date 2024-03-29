@@ -40,6 +40,10 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("new-message-notification", (payload) => {
     dispatch({ type: "NEW_MESSAGE_NOTIFICATION", payload });
   });
+
+  socket.on("participant-profile-updated", (payload) => {
+    dispatch({ type: "UPDATE_PARTICIPANT_PROFILE", payload });
+  });
 };
 
 export default chatSockets;

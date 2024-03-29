@@ -61,19 +61,8 @@ const chatReducer = (state, action) => {
       const messages = chatToBeUpdated.messages || [];
       chatToBeUpdated.messages = [].concat(messages, [newMessage]);
 
-      chats = chats.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
-
-      chatsClone = chatsClone.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
+      chats = updateChat(chats, chat_id, chatToBeUpdated);
+      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
@@ -155,19 +144,8 @@ const chatReducer = (state, action) => {
         chatToBeUpdated.messages = [].concat(messages, [newMessage]);
       }
 
-      chats = chats.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
-
-      chatsClone = chatsClone.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
+      chats = updateChat(chats, chat_id, chatToBeUpdated);
+      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
@@ -277,6 +255,16 @@ const updateBrowserUrl = (selectedChat) => {
     const newUrl = window.location.origin + `/chat/${chat_url}`;
     window.history.replaceState(null, null, newUrl);
   }
+};
+
+const updateChat = (chats, chat_id, chatToBeUpdated) => {
+  const updatedChats = chats.map((chat) => {
+    if (chat._id === chat_id) {
+      chat = chatToBeUpdated;
+    }
+    return chat;
+  });
+  return updatedChats;
 };
 
 export default chatReducer;
