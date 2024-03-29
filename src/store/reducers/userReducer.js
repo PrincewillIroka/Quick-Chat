@@ -148,14 +148,16 @@ const userReducer = (state, action) => {
       };
     }
     case "UPDATE_PARTICIPANT_IS_TYPING": {
-      const message = action.payload;
-      const participantTyping = {};
-      participantTyping.message = message;
-      participantTyping.isTyping = message ? true : false;
+      const { message = "", chat_url = "" } = action.payload;
+      let { participantsTypingInChat = {} } = state;
+      participantsTypingInChat[chat_url] = {
+        message,
+        isTyping: message ? true : false,
+      };
 
       return {
         ...state,
-        participantTyping,
+        participantsTypingInChat,
       };
     }
     case "TOGGLE_COLOR_SCHEMA": {

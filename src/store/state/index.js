@@ -13,10 +13,7 @@ const initialState = {
   isViewingBookmarks: false,
   isChatLoading: true,
   isUserLoading: true,
-  participantTyping: {
-    isTyping: false,
-    message: "",
-  },
+  participantsTypingInChat: {},
   notifications: [],
   notifications_count: {},
 };

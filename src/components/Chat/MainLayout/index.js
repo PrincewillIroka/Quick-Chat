@@ -26,11 +26,12 @@ function MainLayout() {
     user = {},
     filesUploading = {},
     isChatLoading,
-    participantTyping,
+    participantsTypingInChat = {},
   } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id, name: user_name, isDarkMode = false } = user;
-  const { isTyping = false, message: typingMessage } = participantTyping;
+  const chatTyping = participantsTypingInChat[chat_url] || {};
+  const { isTyping = false, message: typingMessage = "" } = chatTyping;
   const selectFileRef = useRef();
   const bodySectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());

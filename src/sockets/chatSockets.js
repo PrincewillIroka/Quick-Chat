@@ -22,8 +22,8 @@ const chatSockets = (socket, state, dispatch) => {
     }
   });
 
-  socket.on("update-participant-typing", (message) => {
-    dispatch({ type: "UPDATE_PARTICIPANT_IS_TYPING", payload: message });
+  socket.on("update-participant-typing", (payload) => {
+    dispatch({ type: "UPDATE_PARTICIPANT_IS_TYPING", payload });
   });
 
   socket.on("participant-has-joined-chat", (payload) => {

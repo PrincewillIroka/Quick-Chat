@@ -46,8 +46,13 @@ const chatReducer = (state, action) => {
       };
     }
     case "ADD_NEW_MESSAGE_TO_CHAT": {
-      let { chat_id, newMessage } = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      let { chat_id, newMessage, chat_url } = action.payload;
+      let {
+        chats = [],
+        chatsClone = [],
+        selectedChat = {},
+        participantsTypingInChat = {},
+      } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
@@ -73,12 +78,14 @@ const chatReducer = (state, action) => {
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
 
+      participantsTypingInChat[chat_url] = { isTyping: false, message: "" };
+
       return {
         ...state,
         chats,
         chatsClone,
         selectedChat,
-        participantTyping: { isTyping: false, message: "" },
+        participantsTypingInChat,
       };
     }
     case "SEARCH_CHATS": {
