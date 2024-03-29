@@ -6,9 +6,11 @@ import {
   MdOutlineContentCopy,
   MdOutlineDarkMode,
   MdOutlineLightMode,
+  MdDeleteOutline,
 } from "react-icons/md";
 import { BsStar } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
+import { AiTwotoneEdit } from "react-icons/ai";
 import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
@@ -30,6 +32,8 @@ function TopSection({ selectedChat }) {
   }, [selectChatId, bookmarks]);
 
   const isBookmarkFound = bookmarkFound && Object.entries(bookmarkFound);
+
+  const isFeatureEnabled = false;
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.origin}/chat/${selectedChat.chat_url}`;
@@ -143,6 +147,10 @@ function TopSection({ selectedChat }) {
       });
   };
 
+  const handleDeleteChat = (payload) => {};
+
+  const handleRenameChat = (payload) => {};
+
   return (
     <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
       <div className="row">
@@ -247,6 +255,18 @@ function TopSection({ selectedChat }) {
               </span>
               <BsStar />
             </div>
+            {isFeatureEnabled && (
+              <>
+                <div className="more-items-row" onClick={handleRenameChat}>
+                  <span>Rename chat</span>
+                  <AiTwotoneEdit />
+                </div>
+                <div className="more-items-row" onClick={handleDeleteChat}>
+                  <span>Delete chat</span>
+                  <MdDeleteOutline />
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
