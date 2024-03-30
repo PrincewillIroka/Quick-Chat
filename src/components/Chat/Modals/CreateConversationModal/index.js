@@ -82,7 +82,7 @@ export default function CreateConversationModal() {
           <span className="modal-title">Create New Conversation</span>
           <span
             className={`close ${isDarkMode ? "close-dark" : ""}`}
-            onClick={handleToggleModal}
+            onClick={() => handleToggleModal()}
           >
             &times;
           </span>
@@ -168,7 +168,7 @@ export default function CreateConversationModal() {
             <div className="action-buttons">
               <button
                 className="cancel-button conversation-button"
-                onClick={handleToggleModal}
+                onClick={() => handleToggleModal()}
               >
                 Cancel
               </button>

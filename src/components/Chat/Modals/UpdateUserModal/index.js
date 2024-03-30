@@ -103,7 +103,7 @@ export default function UpdateUserModal() {
           <span className="modal-title">Update User</span>
           <span
             className={`close ${isDarkMode ? "close-dark" : ""}`}
-            onClick={handleToggleModal}
+            onClick={() => handleToggleModal()}
           >
             &times;
           </span>
@@ -164,7 +164,7 @@ export default function UpdateUserModal() {
             <div className="action-buttons">
               <button
                 className="cancel-button update-user-button"
-                onClick={handleToggleModal}
+                onClick={() => handleToggleModal()}
               >
                 Cancel
               </button>

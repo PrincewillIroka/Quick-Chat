@@ -22,7 +22,11 @@ function TopSection({ selectedChat }) {
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], _id: selectChatId } = selectedChat || {};
-  const { user = {}, bookmarks = [] } = state;
+  const {
+    user = {},
+    bookmarks = [],
+    isDeleteAndRenameFeatureEnabled = true,
+  } = state;
   let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -33,7 +37,9 @@ function TopSection({ selectedChat }) {
 
   const isBookmarkFound = bookmarkFound && Object.entries(bookmarkFound);
 
-  const isFeatureEnabled = false;
+  useEffect(() => {
+    setIsMoreItemsDropdownVisible(false);
+  }, [selectChatId]);
 
   const handleGetChatLink = () => {
     const chatLink = `${window.location.origin}/chat/${selectedChat.chat_url}`;
@@ -145,9 +151,27 @@ function TopSection({ selectedChat }) {
       });
   };
 
-  const handleDeleteChat = (payload) => {};
+  const handleDeleteChat = (payload) => {
+    dispatch({
+      type: "TOGGLE_MODAL",
+      payload: {
+        type: "ConfirmationModal",
+        title: "Delete Chat",
+        subtitle: "Are you sure you want to delete this chat ?",
+      },
+    });
+  };
 
-  const handleRenameChat = (payload) => {};
+  const handleRenameChat = (payload) => {
+    dispatch({
+      type: "TOGGLE_MODAL",
+      payload: {
+        type: "ConfirmationModal",
+        title: "Rename Chat",
+        subtitle: "Are you sure you want to rename this chat ?",
+      },
+    });
+  };
 
   return (
     <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
@@ -243,23 +267,29 @@ function TopSection({ selectedChat }) {
               isDarkMode ? "more-items-dropdown-dark" : ""
             }`}
           >
-            <div className="more-items-row" onClick={handleGetChatLink}>
+            <div className="more-items-row" onClick={() => handleGetChatLink()}>
               <span>Get chat link</span>
               <MdOutlineContentCopy />
             </div>
-            <div className="more-items-row" onClick={handleAddBookmark}>
+            <div className="more-items-row" onClick={() => handleAddBookmark()}>
               <span>
                 {isBookmarkFound ? "Remove Bookmark" : "Bookmark chat"}
               </span>
               <BsStar />
             </div>
-            {isFeatureEnabled && (
+            {isDeleteAndRenameFeatureEnabled && (
               <>
-                <div className="more-items-row" onClick={handleRenameChat}>
+                <div
+                  className="more-items-row"
+                  onClick={() => handleRenameChat()}
+                >
                   <span>Rename chat</span>
                   <AiTwotoneEdit />
                 </div>
-                <div className="more-items-row" onClick={handleDeleteChat}>
+                <div
+                  className="more-items-row"
+                  onClick={() => handleDeleteChat()}
+                >
                   <span>Delete chat</span>
                   <MdDeleteOutline />
                 </div>

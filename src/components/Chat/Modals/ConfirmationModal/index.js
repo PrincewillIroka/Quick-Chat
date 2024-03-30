@@ -1,27 +1,18 @@
-import React, { useState, useRef } from "react";
-import { updateUser } from "services";
+import React, { useState } from "react";
+// import { updateUser } from "services";
 import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
-import { generateInitials } from "utils";
-import { AiOutlineVideoCamera } from "react-icons/ai";
 
 export default function ConfirmationModal() {
-  const selectDisplayPicRef = useRef();
-  const displayPhotoRef = useRef();
-
   const { state, dispatch } = useStateValue();
+  const [newChatName, setChatName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { user = {}, visibleModal = {} } = state;
-  const { _id: user_id, name = "", photo = "", isDarkMode = false } = user;
+  const { user = {}, visibleModal = {}, selectedChat = {} } = state;
+  const { isDarkMode = false } = user;
   const { title = "", subtitle = "" } = visibleModal;
 
-  const handleUpdateUser = async () => {};
-
-  const handleToggleAlert = (payload) => {
-    dispatch({
-      type: "TOGGLE_ALERT",
-      payload,
-    });
+  const handleUpdateUser = async () => {
+    setIsLoading(true);
   };
 
   const handleToggleModal = () => {
@@ -37,7 +28,7 @@ export default function ConfirmationModal() {
           <span className="modal-title">{title}</span>
           <span
             className={`close ${isDarkMode ? "close-dark" : ""}`}
-            onClick={handleToggleModal}
+            onClick={() => handleToggleModal()}
           >
             &times;
           </span>
@@ -49,10 +40,26 @@ export default function ConfirmationModal() {
           </div>
         ) : (
           <div className="modal-body">
+            <div>{subtitle}</div>
+            <div className="update-username-col-container">
+              {/* <div className="update-username-row">
+                <span>Chat:</span>
+                <span className="update-username-text">
+                  {selectedChat?.title}
+                </span>
+              </div> */}
+              <input
+                type="text"
+                placeholder={selectedChat?.chat_name}
+                className="update-username-input"
+                onChange={(e) => setChatName(e.target.value.trim())}
+                value={newChatName}
+              />
+            </div>
             <div className="action-buttons">
               <button
                 className="cancel-button update-user-button"
-                onClick={handleToggleModal}
+                onClick={() => handleToggleModal()}
               >
                 Cancel
               </button>
