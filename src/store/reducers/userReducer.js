@@ -148,14 +148,16 @@ const userReducer = (state, action) => {
       };
     }
     case "UPDATE_PARTICIPANT_IS_TYPING": {
-      const message = action.payload;
-      const participantTyping = {};
-      participantTyping.message = message;
-      participantTyping.isTyping = message ? true : false;
+      const { message = "", chat_url = "" } = action.payload;
+      let { participantsTypingInChat = {} } = state;
+      participantsTypingInChat[chat_url] = {
+        message,
+        isTyping: message ? true : false,
+      };
 
       return {
         ...state,
-        participantTyping,
+        participantsTypingInChat,
       };
     }
     case "TOGGLE_COLOR_SCHEMA": {
@@ -168,9 +170,81 @@ const userReducer = (state, action) => {
         user,
       };
     }
+    case "UPDATE_PARTICIPANT_PROFILE": {
+      const { updatedParticipant = {} } = action.payload;
+      const updatedParticipantId = updatedParticipant?._id;
+      let { chats, chatsClone, selectedChat, user = {} } = state;
+      const userId = user?._id;
+
+      if (updatedParticipantId !== userId) {
+        chats = updateParticipantDetailsInChat(
+          chats,
+          updatedParticipant,
+          updatedParticipantId
+        );
+        chatsClone = updateParticipantDetailsInChat(
+          chatsClone,
+          updatedParticipant,
+          updatedParticipantId
+        );
+        selectedChat = updateParticipantDetailsInChat(
+          [selectedChat], //We passed an array containing only selectedChat
+          updatedParticipant,
+          updatedParticipantId
+        );
+        selectedChat = selectedChat[0]; // We retrieve only the first item (index 0) from the array result
+      }
+
+      return {
+        ...state,
+        chats,
+        chatsClone,
+        selectedChat,
+      };
+    }
     default:
       return state;
   }
+};
+
+const updateParticipantDetailsInChat = (
+  chats,
+  updatedParticipant,
+  updatedParticipantId
+) => {
+  const updatedChats = chats.map((chat) => {
+    let { participants = [], messages = [] } = chat;
+
+    const isChatParticipant = participants.find(
+      (p) => p._id === updatedParticipantId
+    );
+
+    if (isChatParticipant) {
+      participants = participants.map((participant) => {
+        if (updatedParticipantId === participant._id) {
+          participant = updatedParticipant;
+        }
+        return participant;
+      });
+
+      messages = messages.map((message) => {
+        let { sender = {} } = message;
+        const { _id: senderId, isChatBot = false } = sender;
+
+        if (updatedParticipantId === senderId && !isChatBot) {
+          sender = updatedParticipant;
+          message.sender = sender;
+        }
+        return message;
+      });
+
+      chat.participants = participants;
+      chat.messages = messages;
+    }
+
+    return chat;
+  });
+  return updatedChats;
 };
 
 export default userReducer;

@@ -9,8 +9,8 @@ export default function ChatInfo({
   selectChat = () => {},
 }) {
   const { state } = useStateValue();
-  const { participants = [], chat_name = "" } = chat || {};
-  const { user = {} } = state;
+  const { participants = [], chat_name = "", _id: chat_id } = chat || {};
+  const { user = {}, notifications_count = {} } = state;
   const { isDarkMode = false } = user;
 
   return (
@@ -80,6 +80,11 @@ export default function ChatInfo({
           })
         )}
       </div>
+      {notifications_count[chat_id] ? (
+        <div className="chat-info-counter">{notifications_count[chat_id]}</div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

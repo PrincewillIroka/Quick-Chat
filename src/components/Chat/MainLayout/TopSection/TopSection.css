@@ -164,7 +164,11 @@
   z-index: 2;
 }
 
-.more-items-row:nth-child(1) {
+.more-items-row:hover {
+  background-color: #f7f7f7;
+}
+
+.more-items-row:not(:nth-child(4)) {
   border-bottom: 1px solid #e6e6e6;
 }
 

@@ -35,15 +35,17 @@ export default function UpdateUserModal() {
 
     await updateUser(formData)
       .then(async (response) => {
-        const { user } = response;
-        if (user) {
-          dispatch({ type: "GET_USER_SUCCESS", payload: user });
-          handleToggleModal();
-          handleToggleAlert({
-            isAlertVisible: true,
-            content: "Username updated!",
-            type: "success",
-          });
+        if (response.success) {
+          const { updatedUser = {} } = response;
+          if (Object.entries(updatedUser)) {
+            dispatch({ type: "GET_USER_SUCCESS", payload: updatedUser });
+            handleToggleModal();
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Username updated!",
+              type: "success",
+            });
+          }
         }
         setIsLoading(false);
       })
@@ -66,7 +68,7 @@ export default function UpdateUserModal() {
   };
 
   const handleToggleModal = () => {
-    dispatch({ type: "TOGGLE_MODAL", payload: "" });
+    dispatch({ type: "TOGGLE_MODAL", payload: {} });
   };
 
   const handleClickPhoto = () => {
@@ -101,7 +103,7 @@ export default function UpdateUserModal() {
           <span className="modal-title">Update User</span>
           <span
             className={`close ${isDarkMode ? "close-dark" : ""}`}
-            onClick={handleToggleModal}
+            onClick={() => handleToggleModal()}
           >
             &times;
           </span>
@@ -162,7 +164,7 @@ export default function UpdateUserModal() {
             <div className="action-buttons">
               <button
                 className="cancel-button update-user-button"
-                onClick={handleToggleModal}
+                onClick={() => handleToggleModal()}
               >
                 Cancel
               </button>

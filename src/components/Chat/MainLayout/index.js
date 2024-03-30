@@ -26,13 +26,14 @@ function MainLayout() {
     user = {},
     filesUploading = {},
     isChatLoading,
-    participantTyping,
+    participantsTypingInChat = {},
   } = state;
   const { messages = [], _id: chat_id, chat_url } = selectedChat;
   const { _id: sender_id, name: user_name, isDarkMode = false } = user;
-  const { isTyping = false, message: typingMessage } = participantTyping;
+  const chatTyping = participantsTypingInChat[chat_url] || {};
+  const { isTyping = false, message: typingMessage = "" } = chatTyping;
   const selectFileRef = useRef();
-  const bodySectionRef = useRef();
+  const messageSectionRef = useRef();
   const [formData, setFormData] = useState(new FormData());
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState("inactive");
@@ -56,17 +57,16 @@ function MainLayout() {
   });
 
   const handleScrollToBottom = () => {
-    if (bodySectionRef.current) {
-      const { scrollHeight } = bodySectionRef.current;
-      bodySectionRef.current.scroll({
-        top: scrollHeight,
-        behaviour: "smooth",
+    if (messageSectionRef.current) {
+      messageSectionRef.current.scrollIntoView({
+        block: "start",
       });
     }
   };
 
   useEffect(() => {
     handleResetValues();
+    handleScrollToBottom();
   }, [chat_id]);
 
   function debounceHandler(value) {
@@ -259,7 +259,6 @@ function MainLayout() {
         ) : (
           <div
             className={`body-section ${isDarkMode ? "body-section-dark" : ""}`}
-            ref={bodySectionRef}
           >
             {messages.map((message, index) => {
               const { content = "", attachments = [], sender = {} } = message;
@@ -270,6 +269,7 @@ function MainLayout() {
                 ""
               );
             })}
+            <div ref={messageSectionRef}></div>
           </div>
         )}
         {recordingStatus !== "inactive" && !isFileContainerOpen && (

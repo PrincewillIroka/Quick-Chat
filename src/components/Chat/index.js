@@ -5,6 +5,7 @@ import MainLayout from "components/Chat/MainLayout";
 import ChatDetails from "components/Chat/ChatDetails";
 import CreateConversationModal from "components/Chat/Modals/CreateConversationModal";
 import UpdateUserModal from "components/Chat/Modals/UpdateUserModal";
+import ConfirmationModal from "components/Chat/Modals/ConfirmationModal";
 import "./Chat.css";
 import { useStateValue } from "store/stateProvider";
 import { authenticateUser, updateAccessRight } from "services";
@@ -13,7 +14,7 @@ import { socket } from "sockets/socketHandler";
 
 export default function Chat() {
   const { state, dispatch } = useStateValue();
-  const { alert = {}, visibleModal = "", user = {}, selectedChat = {} } = state;
+  const { alert = {}, visibleModal = {}, user = {}, selectedChat = {} } = state;
   const {
     isAlertVisible = false,
     content: alertContent,
@@ -84,7 +85,7 @@ export default function Chat() {
     event.preventDefault();
     if (event.target.id === "alert-click-here-btn") {
       closeAlert();
-      dispatch({ type: "TOGGLE_MODAL", payload: "UpdateUserModal" });
+      dispatch({ type: "TOGGLE_MODAL", payload: { type: "UpdateUserModal" } });
     }
   };
 
@@ -160,10 +161,12 @@ export default function Chat() {
         </div>
       )}
 
-      {visibleModal === "CreateConversation" ? (
+      {visibleModal?.type === "CreateConversation" ? (
         <CreateConversationModal />
+      ) : visibleModal?.type === "UpdateUserModal" ? (
+        <UpdateUserModal />
       ) : (
-        visibleModal === "UpdateUserModal" && <UpdateUserModal />
+        visibleModal?.type === "ConfirmationModal" && <ConfirmationModal />
       )}
       {isAlertVisible && (
         <div className={`alert alert-${alertType}`}>

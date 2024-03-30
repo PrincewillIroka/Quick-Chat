@@ -46,8 +46,13 @@ const chatReducer = (state, action) => {
       };
     }
     case "ADD_NEW_MESSAGE_TO_CHAT": {
-      let { chat_id, newMessage } = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      let { chat_id, newMessage, chat_url } = action.payload;
+      let {
+        chats = [],
+        chatsClone = [],
+        selectedChat = {},
+        participantsTypingInChat = {},
+      } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
@@ -56,29 +61,20 @@ const chatReducer = (state, action) => {
       const messages = chatToBeUpdated.messages || [];
       chatToBeUpdated.messages = [].concat(messages, [newMessage]);
 
-      chats = chats.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
-
-      chatsClone = chatsClone.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
+      chats = updateChat(chats, chat_id, chatToBeUpdated);
+      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
+
+      participantsTypingInChat[chat_url] = { isTyping: false, message: "" };
 
       return {
         ...state,
         chats,
         chatsClone,
         selectedChat,
-        participantTyping: { isTyping: false, message: "" },
+        participantsTypingInChat,
       };
     }
     case "SEARCH_CHATS": {
@@ -148,19 +144,8 @@ const chatReducer = (state, action) => {
         chatToBeUpdated.messages = [].concat(messages, [newMessage]);
       }
 
-      chats = chats.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
-
-      chatsClone = chatsClone.map((chat) => {
-        if (chat._id === chat_id) {
-          chat = chatToBeUpdated;
-        }
-        return chat;
-      });
+      chats = updateChat(chats, chat_id, chatToBeUpdated);
+      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
@@ -230,6 +215,35 @@ const chatReducer = (state, action) => {
         selectedChat,
       };
     }
+    case "INCREASE_CHAT_NOTIFICATION_COUNT": {
+      let { notifications_count, selectedChat } = state;
+      const { chat_id } = action.payload;
+
+      const selectedChatId = selectedChat._id;
+      if (chat_id !== selectedChatId) {
+        let chat_notification_count = notifications_count[chat_id] || 0;
+        chat_notification_count = chat_notification_count + 1;
+        notifications_count[chat_id] = chat_notification_count;
+      }
+
+      return {
+        ...state,
+        notifications_count,
+      };
+    }
+    case "CLEAR_CHAT_NOTIFICATION_COUNT": {
+      let { notifications_count } = state;
+      let { chat_id } = action.payload;
+
+      if (notifications_count[chat_id]) {
+        delete notifications_count[chat_id];
+      }
+
+      return {
+        ...state,
+        notifications_count,
+      };
+    }
     default:
       return state;
   }
@@ -241,6 +255,16 @@ const updateBrowserUrl = (selectedChat) => {
     const newUrl = window.location.origin + `/chat/${chat_url}`;
     window.history.replaceState(null, null, newUrl);
   }
+};
+
+const updateChat = (chats, chat_id, chatToBeUpdated) => {
+  const updatedChats = chats.map((chat) => {
+    if (chat._id === chat_id) {
+      chat = chatToBeUpdated;
+    }
+    return chat;
+  });
+  return updatedChats;
 };
 
 export default chatReducer;
