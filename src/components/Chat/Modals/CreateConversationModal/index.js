@@ -70,7 +70,7 @@ export default function CreateConversationModal() {
   };
 
   const handleToggleModal = () => {
-    dispatch({ type: "TOGGLE_MODAL", payload: "" });
+    dispatch({ type: "TOGGLE_MODAL", payload: {} });
   };
 
   return (

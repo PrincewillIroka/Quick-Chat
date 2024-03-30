@@ -68,7 +68,7 @@ export default function UpdateUserModal() {
   };
 
   const handleToggleModal = () => {
-    dispatch({ type: "TOGGLE_MODAL", payload: "" });
+    dispatch({ type: "TOGGLE_MODAL", payload: {} });
   };
 
   const handleClickPhoto = () => {

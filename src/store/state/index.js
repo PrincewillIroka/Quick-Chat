@@ -8,7 +8,7 @@ const initialState = {
     content: "",
   },
   filesUploading: {},
-  visibleModal: "",
+  visibleModal: { type: "", title: "", subtitle: "" },
   bookmarks: [],
   isViewingBookmarks: false,
   isChatLoading: true,

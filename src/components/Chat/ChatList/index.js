@@ -118,7 +118,7 @@ export default function ChatList() {
   };
 
   const handleToggleModal = (value) => {
-    dispatch({ type: "TOGGLE_MODAL", payload: value });
+    dispatch({ type: "TOGGLE_MODAL", payload: { type: value } });
   };
 
   const handleToggleBookmarks = (value) => {
