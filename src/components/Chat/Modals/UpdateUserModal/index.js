@@ -42,7 +42,7 @@ export default function UpdateUserModal() {
             handleToggleModal();
             handleToggleAlert({
               isAlertVisible: true,
-              content: "Username updated!",
+              content: "Username updated successfully!",
               type: "success",
             });
           }

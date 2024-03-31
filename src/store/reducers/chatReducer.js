@@ -244,6 +244,25 @@ const chatReducer = (state, action) => {
         notifications_count,
       };
     }
+    case "RENAME_CHAT": {
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      const { chat_id, chat_name } = action.payload;
+
+      if (chat_id === selectedChat._id) {
+        selectedChat.chat_name = chat_name;
+      }
+
+      chats = renameChat(chats, chat_id, chat_name);
+
+      chatsClone = renameChat(chatsClone, chat_id, chat_name);
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
+        chatsClone,
+      };
+    }
     default:
       return state;
   }
@@ -261,6 +280,16 @@ const updateChat = (chats, chat_id, chatToBeUpdated) => {
   const updatedChats = chats.map((chat) => {
     if (chat._id === chat_id) {
       chat = chatToBeUpdated;
+    }
+    return chat;
+  });
+  return updatedChats;
+};
+
+const renameChat = (chats, chat_id, chat_name) => {
+  const updatedChats = chats.map((chat) => {
+    if (chat_id === chat._id) {
+      chat.chat_name = chat_name;
     }
     return chat;
   });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { updateUser } from "services";
+import { renameChat } from "services";
 import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
 
@@ -10,9 +10,37 @@ export default function ConfirmationModal() {
   const { user = {}, visibleModal = {}, selectedChat = {} } = state;
   const { isDarkMode = false } = user;
   const { title = "", subtitle = "" } = visibleModal;
+  const { chat_name, _id: chat_id } = selectedChat;
 
-  const handleUpdateUser = async () => {
+  const handleSubmit = async () => {
     setIsLoading(true);
+    await renameChat({ chat_id, chat_name: newChatName })
+      .then((response) => {
+        setIsLoading(false);
+        if (response.success) {
+          dispatch({
+            type: "RENAME_CHAT",
+            payload: { chat_id, chat_name: response.chat_name },
+          });
+          handleToggleAlert({
+            isAlertVisible: true,
+            content: "Chat renamed successfully!",
+            type: "success",
+          });
+          handleToggleModal();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsLoading(false);
+      });
+  };
+
+  const handleToggleAlert = (payload) => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload,
+    });
   };
 
   const handleToggleModal = () => {
@@ -40,20 +68,15 @@ export default function ConfirmationModal() {
           </div>
         ) : (
           <div className="modal-body">
-            <div>{subtitle}</div>
-            <div className="update-username-col-container">
-              {/* <div className="update-username-row">
-                <span>Chat:</span>
-                <span className="update-username-text">
-                  {selectedChat?.title}
-                </span>
-              </div> */}
+            <div className="modal-col-container">
+              <div className="modal-subtitle">{subtitle}</div>
               <input
                 type="text"
-                placeholder={selectedChat?.chat_name}
+                placeholder={chat_name}
                 className="update-username-input"
                 onChange={(e) => setChatName(e.target.value.trim())}
                 value={newChatName}
+                disabled={title.includes("Delete")}
               />
             </div>
             <div className="action-buttons">
@@ -65,7 +88,7 @@ export default function ConfirmationModal() {
               </button>
               <button
                 className="create-button update-user-button"
-                onClick={handleUpdateUser}
+                onClick={() => handleSubmit()}
               >
                 Continue
               </button>
