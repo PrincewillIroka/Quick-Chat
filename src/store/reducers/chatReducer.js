@@ -248,6 +248,10 @@ const chatReducer = (state, action) => {
       let { chats = [], chatsClone = [], selectedChat = {} } = state;
       const { chat_id, chat_name } = action.payload;
 
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
       if (chat_id === selectedChat._id) {
         selectedChat.chat_name = chat_name;
       }

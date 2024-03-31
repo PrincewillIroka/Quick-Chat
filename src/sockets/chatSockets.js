@@ -44,6 +44,10 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("participant-profile-updated", (payload) => {
     dispatch({ type: "UPDATE_PARTICIPANT_PROFILE", payload });
   });
+
+  socket.on("chat-renamed", (payload) => {
+    dispatch({ type: "RENAME_CHAT", payload });
+  });
 };
 
 export default chatSockets;
