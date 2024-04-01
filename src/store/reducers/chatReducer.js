@@ -1,4 +1,4 @@
-const chatReducer = (state, action) => {
+const chatReducer = (state = {}, action) => {
   switch (action.type) {
     case "ADD_NEW_CHAT": {
       let newChat = action.payload;
@@ -130,11 +130,12 @@ const chatReducer = (state, action) => {
     }
     case "ADD_PARTICIPANT_TO_CHAT": {
       let { chat_id, participant, newMessage = {} } = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      let { chats = [], chatsClone = [], selectedChat = {}, user = {} } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+      const participantIsCurrentUser = participant?._id === user?._id;
 
-      if (!chatToBeUpdated) return;
+      if (!chatToBeUpdated || participantIsCurrentUser) return;
 
       const { participants = [], messages = [] } = chatToBeUpdated;
 
@@ -216,7 +217,7 @@ const chatReducer = (state, action) => {
       };
     }
     case "INCREASE_CHAT_NOTIFICATION_COUNT": {
-      let { notifications_count, selectedChat } = state;
+      let { notifications_count = {}, selectedChat = {} } = state;
       const { chat_id } = action.payload;
 
       const selectedChatId = selectedChat._id;
@@ -267,6 +268,28 @@ const chatReducer = (state, action) => {
         chatsClone,
       };
     }
+    case "DELETE_CHAT": {
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      const { chat_id } = action.payload;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) return;
+
+      chats = deleteChat(chats, chat_id);
+      chatsClone = deleteChat(chatsClone, chat_id);
+
+      if (chat_id === selectedChat._id) {
+        selectedChat = chats[0];
+      }
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
+        chatsClone,
+      };
+    }
     default:
       return state;
   }
@@ -297,6 +320,11 @@ const renameChat = (chats, chat_id, chat_name) => {
     }
     return chat;
   });
+  return updatedChats;
+};
+
+const deleteChat = (chats, chat_id) => {
+  const updatedChats = chats.filter((chat) => chat_id !== chat._id);
   return updatedChats;
 };
 

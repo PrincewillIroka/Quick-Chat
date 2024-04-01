@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { renameChat } from "services";
+import { socket } from "sockets/socketHandler";
 import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
 
@@ -14,26 +14,52 @@ export default function ConfirmationModal() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    await renameChat({ chat_id, chat_name: newChatName })
-      .then((response) => {
-        setIsLoading(false);
-        if (response.success) {
-          dispatch({
-            type: "RENAME_CHAT",
-            payload: { chat_id, chat_name: response.chat_name },
-          });
-          handleToggleAlert({
-            isAlertVisible: true,
-            content: "Chat renamed successfully!",
-            type: "success",
-          });
-          handleToggleModal();
+    if (title.includes("Rename")) {
+      socket.emit(
+        "rename-chat",
+        {
+          chat_id,
+          chat_name: newChatName,
+        },
+        (response) => {
+          setIsLoading(false);
+          if (response.success) {
+            dispatch({
+              type: "RENAME_CHAT",
+              payload: { chat_id, chat_name: response.chat_name },
+            });
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Chat renamed successfully!",
+              type: "success",
+            });
+            handleToggleModal();
+          }
         }
-      })
-      .catch((err) => {
-        console.error(err);
-        setIsLoading(false);
-      });
+      );
+    } else {
+      socket.emit(
+        "delete-chat",
+        {
+          chat_id,
+        },
+        (response) => {
+          setIsLoading(false);
+          if (response.success) {
+            dispatch({
+              type: "DELETE_CHAT",
+              payload: { chat_id: response.chat_id },
+            });
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Chat deleted successfully!",
+              type: "success",
+            });
+            handleToggleModal();
+          }
+        }
+      );
+    }
   };
 
   const handleToggleAlert = (payload) => {

@@ -48,6 +48,10 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("chat-renamed", (payload) => {
     dispatch({ type: "RENAME_CHAT", payload });
   });
+
+  socket.on("chat-deleted", (payload) => {
+    dispatch({ type: "DELETE_CHAT", payload });
+  });
 };
 
 export default chatSockets;

@@ -59,26 +59,4 @@ const updateAccessRight = ({ chat_id, user_id, passcode }) => {
   });
 };
 
-const renameChat = async (payload) => {
-  return new Promise((resolve, reject) => {
-    const url = `${APP_HOST}/api/chats/rename`;
-    fetch(url, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        console.error(error);
-        return reject(error);
-      });
-  });
-};
-
-export { createChat, uploadFile, updateAccessRight, renameChat };
+export { createChat, uploadFile, updateAccessRight };
