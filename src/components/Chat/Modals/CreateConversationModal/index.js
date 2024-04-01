@@ -6,7 +6,7 @@ import { useStateValue } from "store/stateProvider";
 import { generatePasscode } from "utils";
 
 export default function CreateConversationModal() {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [passcode, setPasscode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChatCreated, setIsChatCreated] = useState(false);

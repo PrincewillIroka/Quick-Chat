@@ -17,7 +17,7 @@ import { publish, unsubscribe, subscribe } from "custom-events";
 import NoBookmarks from "assets/Bookmarks.svg";
 
 export default function ChatList() {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [searchText, setSearchText] = useState("");
   const { chatUrlParam } = useParams();
   const {

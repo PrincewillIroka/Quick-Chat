@@ -8,7 +8,7 @@ export default function ChatInfo({
   selectedChat = {},
   selectChat = () => {},
 }) {
-  const { state } = useStateValue();
+  const { state = {} } = useStateValue();
   const { participants = [], chat_name = "", _id: chat_id } = chat || {};
   const { user = {}, notifications_count = {} } = state;
   const { isDarkMode = false } = user;

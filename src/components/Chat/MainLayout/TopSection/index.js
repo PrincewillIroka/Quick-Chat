@@ -18,7 +18,7 @@ import { useStateValue } from "store/stateProvider";
 import { addBookmark, deleteBookmark, updateDarkMode } from "services";
 
 function TopSection({ selectedChat }) {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
   const { participants = [], _id: selectChatId } = selectedChat || {};

@@ -4,7 +4,7 @@ import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
 
 export default function ConfirmationModal() {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [newChatName, setChatName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { user = {}, visibleModal = {}, selectedChat = {} } = state;

@@ -13,7 +13,7 @@ import { publish } from "custom-events";
 import { socket } from "sockets/socketHandler";
 
 export default function Chat() {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const { alert = {}, visibleModal = {}, user = {}, selectedChat = {} } = state;
   const {
     isAlertVisible = false,

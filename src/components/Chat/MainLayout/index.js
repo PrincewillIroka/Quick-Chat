@@ -18,7 +18,7 @@ import { useSetupAudioRecorder, useRecording } from "hooks";
 const SQUARES = ["1", "2", "3"];
 
 function MainLayout() {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [content, setContent] = useState("");
   const [isFileContainerOpen, setIsFileContainerOpen] = useState(false);
   const {
