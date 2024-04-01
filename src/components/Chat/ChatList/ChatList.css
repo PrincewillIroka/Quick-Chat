@@ -140,10 +140,11 @@
   border-radius: 20px;
 }
 
-.user-info-container {
+.chat-list-container {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  height: calc(100% - 200px);
 }
 
 .shimmer-row-1-container {

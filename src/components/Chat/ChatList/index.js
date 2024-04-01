@@ -206,43 +206,45 @@ export default function ChatList() {
           />
         </div>
       </div>
-      <div className="user-info-container">
-        {isChatLoading ? (
-          getShimmerLayout(5).map((sh, index) => (
-            <div key={index} className="shimmer-chat-info-container">
-              <div className="shimmer-chat-info-wrapper shimmerBG">
-                <div className="chat-info-photo-or-initial-wrapper">
-                  {getShimmerLayout(3).map((pt, index) => {
-                    return (
-                      <span
-                        className="chat-info-initial shimmer-info-initial"
-                        key={index}
-                      ></span>
-                    );
-                  })}
-                </div>
-                <div className="shimmer-chat-info-name-wrapper">
-                  <span className="shimmer-chat-info-name"></span>
-                  <span className="shimmer-chat-info-name-2"></span>
+      <div className="chat-list-container">
+        <div>
+          {isChatLoading ? (
+            getShimmerLayout(5).map((sh, index) => (
+              <div key={index} className="shimmer-chat-info-container">
+                <div className="shimmer-chat-info-wrapper shimmerBG">
+                  <div className="chat-info-photo-or-initial-wrapper">
+                    {getShimmerLayout(3).map((pt, index) => {
+                      return (
+                        <span
+                          className="chat-info-initial shimmer-info-initial"
+                          key={index}
+                        ></span>
+                      );
+                    })}
+                  </div>
+                  <div className="shimmer-chat-info-name-wrapper">
+                    <span className="shimmer-chat-info-name"></span>
+                    <span className="shimmer-chat-info-name-2"></span>
+                  </div>
                 </div>
               </div>
+            ))
+          ) : isViewingBookmarks && !chats.length ? (
+            <div className="no-bookmark-container">
+              <img src={NoBookmarks} className="no-bookmark-svg" alt="" />
+              <span>You haven't bookmarked any chat.</span>
             </div>
-          ))
-        ) : isViewingBookmarks && !chats.length ? (
-          <div className="no-bookmark-container">
-            <img src={NoBookmarks} className="no-bookmark-svg" alt="" />
-            <span>You haven't bookmarked any chat.</span>
-          </div>
-        ) : (
-          chats.map((chat, index) => (
-            <ChatInfo
-              chat={chat}
-              selectChat={(chat) => handleSelectChat(chat)}
-              selectedChat={selectedChat}
-              key={index}
-            />
-          ))
-        )}
+          ) : (
+            chats.map((chat, index) => (
+              <ChatInfo
+                chat={chat}
+                selectChat={(chat) => handleSelectChat(chat)}
+                selectedChat={selectedChat}
+                key={index}
+              />
+            ))
+          )}
+        </div>
       </div>
     </section>
   );
