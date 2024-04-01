@@ -56,7 +56,9 @@ const chatReducer = (state = {}, action) => {
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
-      if (!chatToBeUpdated) return;
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
 
       const messages = chatToBeUpdated.messages || [];
       chatToBeUpdated.messages = [].concat(messages, [newMessage]);
@@ -111,7 +113,9 @@ const chatReducer = (state = {}, action) => {
         chatsClone.find((chat) => chat._id === selectChatId)
       );
 
-      if (!chatFound) return;
+      if (!chatFound) {
+        return { ...state };
+      }
 
       if (searchText) {
         let messages = chatFound.messages;
@@ -130,12 +134,13 @@ const chatReducer = (state = {}, action) => {
     }
     case "ADD_PARTICIPANT_TO_CHAT": {
       let { chat_id, participant, newMessage = {} } = action.payload;
-      let { chats = [], chatsClone = [], selectedChat = {}, user = {} } = state;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
-      const participantIsCurrentUser = participant?._id === user?._id;
 
-      if (!chatToBeUpdated || participantIsCurrentUser) return;
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
 
       const { participants = [], messages = [] } = chatToBeUpdated;
 
@@ -191,7 +196,9 @@ const chatReducer = (state = {}, action) => {
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
-      if (!chatToBeUpdated) return;
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
 
       chats = chats.map((chat) => {
         if (chat._id === chat_id) {
@@ -217,8 +224,15 @@ const chatReducer = (state = {}, action) => {
       };
     }
     case "INCREASE_CHAT_NOTIFICATION_COUNT": {
-      let { notifications_count = {}, selectedChat = {} } = state;
-      const { chat_id } = action.payload;
+      let { notifications_count = {}, selectedChat = {}, user = {} } = state;
+      const { chat_id, participant = {} } = action.payload;
+
+      const { _id: participantId = "" } = participant;
+      const { _id: userId = "" } = user;
+
+      if (participantId === userId) {
+        return { ...state };
+      }
 
       const selectedChatId = selectedChat._id;
       if (chat_id !== selectedChatId) {
@@ -251,7 +265,9 @@ const chatReducer = (state = {}, action) => {
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
-      if (!chatToBeUpdated) return;
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
 
       if (chat_id === selectedChat._id) {
         selectedChat.chat_name = chat_name;
@@ -274,7 +290,9 @@ const chatReducer = (state = {}, action) => {
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
 
-      if (!chatToBeUpdated) return;
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
 
       chats = deleteChat(chats, chat_id);
       chatsClone = deleteChat(chatsClone, chat_id);
