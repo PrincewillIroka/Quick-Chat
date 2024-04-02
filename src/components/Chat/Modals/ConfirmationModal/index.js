@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { socket } from "sockets/socketHandler";
-import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
+import "./ConfirmationModal.css";
+import "../Modals.css";
 
 export default function ConfirmationModal() {
   const { state = {}, dispatch } = useStateValue();
