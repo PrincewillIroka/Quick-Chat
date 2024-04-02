@@ -180,7 +180,7 @@ function TopSection({ selectedChat }) {
         <div className="user-info-col-1">
           {/* <span className="user-info-name">{chat_name}</span> */}
           <div className="user-info-photo-or-initial-wrapper">
-            {participants.slice(0, 3).map((participant, index) => {
+            {participants.slice(0, 3).map((participant = {}, index) => {
               const checkSameSender = isSameSender(participant, user);
               participant = checkSameSender ? user : participant;
               const { name = "", photo = "" } = participant;
