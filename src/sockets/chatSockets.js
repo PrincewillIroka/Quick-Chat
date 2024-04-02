@@ -10,7 +10,7 @@ const chatSockets = (socket, state, dispatch) => {
         dispatch({ type: "INCREASE_CHAT_NOTIFICATION_COUNT", payload });
       }
       if (audio.paused) {
-        audio.play().catch(console.warn);
+        audio.play().catch(() => console.warn());
       }
     }
   });
@@ -31,9 +31,10 @@ const chatSockets = (socket, state, dispatch) => {
       type: "ADD_PARTICIPANT_TO_CHAT",
       payload,
     });
+
     dispatch({ type: "INCREASE_CHAT_NOTIFICATION_COUNT", payload });
     if (audio.paused) {
-      audio.play().catch(console.warn);
+      audio.play().catch(() => console.warn());
     }
   });
 
@@ -43,6 +44,14 @@ const chatSockets = (socket, state, dispatch) => {
 
   socket.on("participant-profile-updated", (payload) => {
     dispatch({ type: "UPDATE_PARTICIPANT_PROFILE", payload });
+  });
+
+  socket.on("chat-renamed", (payload) => {
+    dispatch({ type: "RENAME_CHAT", payload });
+  });
+
+  socket.on("chat-deleted", (payload) => {
+    dispatch({ type: "DELETE_CHAT", payload });
   });
 };
 

@@ -9,7 +9,7 @@ export default function UpdateUserModal() {
   const selectDisplayPicRef = useRef();
   const displayPhotoRef = useRef();
 
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUserName] = useState("");
   const [userPhoto, setPhoto] = useState("");
@@ -42,7 +42,7 @@ export default function UpdateUserModal() {
             handleToggleModal();
             handleToggleAlert({
               isAlertVisible: true,
-              content: "Username updated!",
+              content: "Username updated successfully!",
               type: "success",
             });
           }

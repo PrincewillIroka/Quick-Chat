@@ -140,10 +140,11 @@
   border-radius: 20px;
 }
 
-.user-info-container {
+.chat-list-container {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  height: calc(100% - 200px);
 }
 
 .shimmer-row-1-container {
@@ -185,6 +186,11 @@
   cursor: pointer;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
+}
+
+.shimmer-bg-dark {
+  background: #000 !important;
+  background: linear-gradient(to right, #272727 8%, #212121, 18%, #272727 33%) !important;
 }
 
 .shimmer-chat-info-wrapper {

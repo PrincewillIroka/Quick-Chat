@@ -18,18 +18,19 @@ import { useStateValue } from "store/stateProvider";
 import { addBookmark, deleteBookmark, updateDarkMode } from "services";
 
 function TopSection({ selectedChat }) {
-  const { state, dispatch } = useStateValue();
+  const { state = {}, dispatch } = useStateValue();
   const [isMoreItemsDropdownVisible, setIsMoreItemsDropdownVisible] =
     useState(false);
-  const { participants = [], _id: selectChatId } = selectedChat || {};
   const {
-    user = {},
-    bookmarks = [],
-    isDeleteAndRenameFeatureEnabled = true,
-  } = state;
+    participants = [],
+    _id: selectChatId,
+    creator_id = "",
+  } = selectedChat || {};
+  const { user = {}, bookmarks = [] } = state;
   let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const isChatCreator = creator_id === user_id;
 
   const bookmarkFound = useMemo(() => {
     return bookmarks.find((bookmark) => bookmark.chat_id === selectChatId);
@@ -277,7 +278,7 @@ function TopSection({ selectedChat }) {
               </span>
               <BsStar />
             </div>
-            {isDeleteAndRenameFeatureEnabled && (
+            {isChatCreator && (
               <>
                 <div
                   className="more-items-row"

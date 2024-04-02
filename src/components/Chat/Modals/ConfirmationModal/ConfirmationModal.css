@@ -40,10 +40,22 @@
   position: relative;
 }
 
+.modal-col-container {
+  height: 100%;
+}
+
 .modal-title {
   margin-left: auto;
   font-size: 20px;
   font-weight: 700;
+}
+
+.modal-subtitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  height: 30px;
+  text-align: center;
 }
 
 .close {
@@ -86,12 +98,13 @@
 }
 
 .update-username-input {
-  flex: 1;
   font-size: 17px;
-  padding: 7px 10px;
+  /* padding: 7px 10px; */
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-top: 5px;
+  height: 30px;
+  width: 100%;
+  margin: auto 0;
 }
 
 .update-username-input:focus {

@@ -5,7 +5,7 @@ import { useStateValue } from "store/stateProvider";
 import { getAttachmentIcon } from "constants/index";
 
 function Message({ message }) {
-  const { state } = useStateValue();
+  const { state = {} } = useStateValue();
   const { user = {} } = state;
   const { isDarkMode = false } = user;
   let {
