@@ -139,6 +139,8 @@ export default function CreateConversationModal() {
                 placeholder="E.g Close friends, Team members e.t.c"
                 className="conversation-title-input"
                 onChange={(e) => setChatName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                autoFocus={true}
               />
             </div>
             <div className="modal-passcode-row">
@@ -174,7 +176,7 @@ export default function CreateConversationModal() {
               </button>
               <button
                 className="create-button conversation-button"
-                onClick={handleCreateChat}
+                onClick={() => handleCreateChat()}
               >
                 Create
               </button>
