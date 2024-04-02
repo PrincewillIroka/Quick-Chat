@@ -120,7 +120,9 @@ function Message({ message }) {
       }`}
     >
       <span className="message-info-content">
-        {checkSameSender ? "You joined this chat." : content}
+        {checkSameSender && content.includes("joined")
+          ? "You joined this chat."
+          : content}
       </span>
       <span className="message-info-createdAt">{formatDate(createdAt)}</span>
     </div>

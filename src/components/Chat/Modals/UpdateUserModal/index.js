@@ -125,6 +125,8 @@ export default function UpdateUserModal() {
                 placeholder="Enter new username here"
                 className="update-username-input"
                 onChange={(e) => setUserName(e.target.value.trim())}
+                onKeyDown={(e) => e.key === "Enter" && handleUpdateUser()}
+                autoFocus={true}
               />
             </div>
             <div className="update-profile-pic-col-container">
@@ -157,7 +159,7 @@ export default function UpdateUserModal() {
                 type="file"
                 hidden
                 ref={selectDisplayPicRef}
-                onInput={handleSelectPhoto}
+                onInput={() => handleSelectPhoto()}
                 accept="image/*"
               />
             </div>
@@ -170,7 +172,7 @@ export default function UpdateUserModal() {
               </button>
               <button
                 className="create-button update-user-button"
-                onClick={handleUpdateUser}
+                onClick={() => handleUpdateUser()}
               >
                 Update
               </button>

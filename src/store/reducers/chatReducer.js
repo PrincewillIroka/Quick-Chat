@@ -308,6 +308,90 @@ const chatReducer = (state = {}, action) => {
         chatsClone,
       };
     }
+    case "REMOVE_CHAT_PARTICIPANT": {
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
+      const { chat_id, participant_id, newMessage } = action.payload;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
+
+      chats = removeChatParticipant(chats, {
+        chat_id,
+        participant_id,
+        newMessage,
+      });
+
+      chatsClone = removeChatParticipant(chatsClone, {
+        chat_id,
+        participant_id,
+        newMessage,
+      });
+
+      if (chat_id === selectedChat._id) {
+        selectedChat = removeChatParticipantFromSelectedChat({
+          selectedChat,
+          participant_id,
+          newMessage,
+        });
+      }
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
+        chatsClone,
+      };
+    }
+    case "CHAT_PARTICIPANT_REMOVED": {
+      let { chats = [], chatsClone = [], selectedChat = {}, user = {} } = state;
+      const { chat_id, participant_id, newMessage } = action.payload;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
+
+      const { _id: userId = "" } = user;
+
+      if (participant_id === userId) {
+        chats = deleteChat(chats, chat_id);
+        chatsClone = deleteChat(chatsClone, chat_id);
+
+        if (chat_id === selectedChat._id) {
+          selectedChat = chats[0];
+        }
+      } else {
+        chats = removeChatParticipant(chats, {
+          chat_id,
+          participant_id,
+          newMessage,
+        });
+        chatsClone = removeChatParticipant(chatsClone, {
+          chat_id,
+          participant_id,
+          newMessage,
+        });
+
+        if (chat_id === selectedChat._id) {
+          selectedChat = removeChatParticipantFromSelectedChat({
+            selectedChat,
+            participant_id,
+            newMessage,
+          });
+        }
+      }
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
+        chatsClone,
+      };
+    }
     default:
       return state;
   }
@@ -344,6 +428,52 @@ const renameChat = (chats, chat_id, chat_name) => {
 const deleteChat = (chats, chat_id) => {
   const updatedChats = chats.filter((chat) => chat_id !== chat._id);
   return updatedChats;
+};
+
+const removeChatParticipant = (
+  chats,
+  { chat_id, participant_id, newMessage }
+) => {
+  const updatedChats = chats.map((chat) => {
+    if (chat_id === chat._id) {
+      let { participants = [], access_rights = [], messages = [] } = chat;
+
+      participants = participants.filter(
+        (participant) => participant._id !== participant_id
+      );
+      access_rights = access_rights.filter(
+        (access_right) => access_right !== participant_id
+      );
+
+      chat.participants = participants;
+      chat.access_rights = access_rights;
+      chat.messages = [].concat(messages, [newMessage]);
+    }
+
+    return chat;
+  });
+  return updatedChats;
+};
+
+const removeChatParticipantFromSelectedChat = ({
+  selectedChat,
+  participant_id,
+  newMessage,
+}) => {
+  let { participants = [], access_rights = [], messages = [] } = selectedChat;
+
+  participants = participants.filter(
+    (participant) => participant._id !== participant_id
+  );
+  access_rights = access_rights.filter(
+    (access_right) => access_right !== participant_id
+  );
+
+  selectedChat.participants = participants;
+  selectedChat.access_rights = access_rights;
+  selectedChat.messages = [].concat(messages, [newMessage]);
+
+  return selectedChat;
 };
 
 export default chatReducer;

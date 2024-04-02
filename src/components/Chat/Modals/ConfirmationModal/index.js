@@ -8,25 +8,26 @@ export default function ConfirmationModal() {
   const [newChatName, setChatName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { user = {}, visibleModal = {}, selectedChat = {} } = state;
-  const { isDarkMode = false } = user;
-  const { title = "", subtitle = "" } = visibleModal;
+  const { isDarkMode = false, _id: sender_id } = user;
+  const { title = "", subtitle = "", participant = {} } = visibleModal;
   const { chat_name, _id: chat_id } = selectedChat;
+  const { name: participant_name, _id: participant_id } = participant;
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    if (title.includes("Rename")) {
+    if (title.includes("Rename Chat")) {
       socket.emit(
         "rename-chat",
         {
           chat_id,
           chat_name: newChatName,
         },
-        (response) => {
+        (ack) => {
           setIsLoading(false);
-          if (response.success) {
+          if (ack.success) {
             dispatch({
               type: "RENAME_CHAT",
-              payload: { chat_id, chat_name: response.chat_name },
+              payload: { chat_id, chat_name: ack.chat_name },
             });
             handleToggleAlert({
               isAlertVisible: true,
@@ -37,22 +38,43 @@ export default function ConfirmationModal() {
           }
         }
       );
-    } else {
+    } else if (title.includes("Delete Chat")) {
       socket.emit(
         "delete-chat",
         {
           chat_id,
         },
-        (response) => {
+        (ack) => {
           setIsLoading(false);
-          if (response.success) {
+          if (ack.success) {
             dispatch({
               type: "DELETE_CHAT",
-              payload: { chat_id: response.chat_id },
+              payload: { chat_id: ack.chat_id },
             });
             handleToggleAlert({
               isAlertVisible: true,
               content: "Chat deleted successfully!",
+              type: "success",
+            });
+            handleToggleModal();
+          }
+        }
+      );
+    } else if (title.includes("Remove Participant")) {
+      socket.emit(
+        "remove-participant",
+        { sender_id, chat_id, participant_id },
+        (ack) => {
+          setIsLoading(false);
+          if (ack.success) {
+            const { success, ...rest } = ack;
+            dispatch({
+              type: "REMOVE_CHAT_PARTICIPANT",
+              payload: rest,
+            });
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Participant removed successfully!",
               type: "success",
             });
             handleToggleModal();
@@ -96,14 +118,30 @@ export default function ConfirmationModal() {
           <div className="modal-body">
             <div className="modal-col-container">
               <div className="modal-subtitle">{subtitle}</div>
-              <input
-                type="text"
-                placeholder={chat_name}
-                className="update-username-input"
-                onChange={(e) => setChatName(e.target.value.trim())}
-                value={newChatName}
-                disabled={title.includes("Delete")}
-              />
+              {title.includes("Chat") && (
+                <input
+                  type="text"
+                  placeholder={chat_name}
+                  className={`confirmation-input ${
+                    isDarkMode ? "confirmation-input-dark" : ""
+                  }`}
+                  onChange={(e) => setChatName(e.target.value.trim())}
+                  value={newChatName}
+                  disabled={title.includes("Delete")}
+                />
+              )}
+              {title.includes("Participant") && (
+                <input
+                  type="text"
+                  placeholder={participant_name}
+                  className={`confirmation-input ${
+                    isDarkMode ? "confirmation-input-dark" : ""
+                  }`}
+                  value={participant_name}
+                  disabled={true}
+                  onClick={() => handleSubmit()}
+                />
+              )}
             </div>
             <div className="action-buttons">
               <button

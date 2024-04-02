@@ -22,6 +22,10 @@
   background-color: #f7f7f7;
 }
 
+.chat-participant-single-wrapper-dark:hover {
+  background-color: #272727;
+}
+
 .chat-participant-initial {
   height: 40px;
   width: 40px;

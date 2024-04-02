@@ -152,7 +152,7 @@ function TopSection({ selectedChat }) {
       });
   };
 
-  const handleDeleteChat = (payload) => {
+  const handleDeleteChat = () => {
     dispatch({
       type: "TOGGLE_MODAL",
       payload: {
@@ -163,7 +163,7 @@ function TopSection({ selectedChat }) {
     });
   };
 
-  const handleRenameChat = (payload) => {
+  const handleRenameChat = () => {
     dispatch({
       type: "TOGGLE_MODAL",
       payload: {
