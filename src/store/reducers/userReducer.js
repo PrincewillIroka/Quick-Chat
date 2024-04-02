@@ -177,22 +177,15 @@ const userReducer = (state, action) => {
       const userId = user?._id;
 
       if (updatedParticipantId !== userId) {
-        chats = updateParticipantDetailsInChat(
-          chats,
-          updatedParticipant,
-          updatedParticipantId
-        );
-        chatsClone = updateParticipantDetailsInChat(
+        chatsClone = updateParticipantDetailsInChat({
           chatsClone,
           updatedParticipant,
-          updatedParticipantId
+          updatedParticipantId,
+        });
+        chats = chatsClone.filter((cl) =>
+          chats.find((ch) => ch._id === cl._id)
         );
-        selectedChat = updateParticipantDetailsInChat(
-          [selectedChat], //We passed an array containing only selectedChat
-          updatedParticipant,
-          updatedParticipantId
-        );
-        selectedChat = selectedChat[0]; // We retrieve only the first item (index 0) from the array result
+        selectedChat = chats.find((ch) => ch._id === selectedChat._id);
       }
 
       return {
@@ -207,12 +200,12 @@ const userReducer = (state, action) => {
   }
 };
 
-const updateParticipantDetailsInChat = (
-  chats,
+const updateParticipantDetailsInChat = ({
+  chatsClone,
   updatedParticipant,
-  updatedParticipantId
-) => {
-  const updatedChats = chats.map((chat) => {
+  updatedParticipantId,
+}) => {
+  const updatedChats = chatsClone.map((chat) => {
     let { participants = [], messages = [] } = chat;
 
     const isChatParticipant = participants.find(

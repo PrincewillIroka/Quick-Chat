@@ -63,8 +63,8 @@ const chatReducer = (state = {}, action) => {
       const messages = chatToBeUpdated.messages || [];
       chatToBeUpdated.messages = [].concat(messages, [newMessage]);
 
-      chats = updateChat(chats, chat_id, chatToBeUpdated);
-      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
+      chatsClone = updateChat({ chatsClone, chat_id, chatToBeUpdated });
+      chats = getUpdatedChats({ chats, chatsClone });
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
@@ -150,8 +150,8 @@ const chatReducer = (state = {}, action) => {
         chatToBeUpdated.messages = [].concat(messages, [newMessage]);
       }
 
-      chats = updateChat(chats, chat_id, chatToBeUpdated);
-      chatsClone = updateChat(chatsClone, chat_id, chatToBeUpdated);
+      chatsClone = updateChat({ chatsClone, chat_id, chatToBeUpdated });
+      chats = getUpdatedChats({ chats, chatsClone });
 
       selectedChat =
         selectedChat._id === chat_id ? chatToBeUpdated : selectedChat;
@@ -273,9 +273,8 @@ const chatReducer = (state = {}, action) => {
         selectedChat.chat_name = chat_name;
       }
 
-      chats = renameChat(chats, chat_id, chat_name);
-
-      chatsClone = renameChat(chatsClone, chat_id, chat_name);
+      chatsClone = renameChat({ chatsClone, chat_id, chat_name });
+      chats = getUpdatedChats({ chats, chatsClone });
 
       return {
         ...state,
@@ -294,8 +293,8 @@ const chatReducer = (state = {}, action) => {
         return { ...state };
       }
 
-      chats = deleteChat(chats, chat_id);
-      chatsClone = deleteChat(chatsClone, chat_id);
+      chatsClone = deleteChat({ chatsClone, chat_id });
+      chats = getUpdatedChats({ chats, chatsClone });
 
       if (chat_id === selectedChat._id) {
         selectedChat = chats[0];
@@ -318,24 +317,16 @@ const chatReducer = (state = {}, action) => {
         return { ...state };
       }
 
-      chats = removeChatParticipant(chats, {
+      chatsClone = removeChatParticipant({
+        chatsClone,
         chat_id,
         participant_id,
         newMessage,
       });
-
-      chatsClone = removeChatParticipant(chatsClone, {
-        chat_id,
-        participant_id,
-        newMessage,
-      });
+      chats = getUpdatedChats({ chats, chatsClone });
 
       if (chat_id === selectedChat._id) {
-        selectedChat = removeChatParticipantFromSelectedChat({
-          selectedChat,
-          participant_id,
-          newMessage,
-        });
+        selectedChat = chatsClone.find((cl) => cl._id === selectedChat._id);
       }
 
       return {
@@ -358,30 +349,23 @@ const chatReducer = (state = {}, action) => {
       const { _id: userId = "" } = user;
 
       if (participant_id === userId) {
-        chats = deleteChat(chats, chat_id);
-        chatsClone = deleteChat(chatsClone, chat_id);
+        chatsClone = deleteChat({ chatsClone, chat_id });
+        chats = getUpdatedChats({ chats, chatsClone });
 
         if (chat_id === selectedChat._id) {
           selectedChat = chats[0];
         }
       } else {
-        chats = removeChatParticipant(chats, {
+        chatsClone = removeChatParticipant({
+          chatsClone,
           chat_id,
           participant_id,
           newMessage,
         });
-        chatsClone = removeChatParticipant(chatsClone, {
-          chat_id,
-          participant_id,
-          newMessage,
-        });
+        chats = getUpdatedChats({ chats, chatsClone });
 
         if (chat_id === selectedChat._id) {
-          selectedChat = removeChatParticipantFromSelectedChat({
-            selectedChat,
-            participant_id,
-            newMessage,
-          });
+          selectedChat = chatsClone.find((cl) => cl._id === selectedChat._id);
         }
       }
 
@@ -405,8 +389,8 @@ const updateBrowserUrl = (selectedChat) => {
   }
 };
 
-const updateChat = (chats, chat_id, chatToBeUpdated) => {
-  const updatedChats = chats.map((chat) => {
+const updateChat = ({ chatsClone, chat_id, chatToBeUpdated }) => {
+  const updatedChats = chatsClone.map((chat) => {
     if (chat._id === chat_id) {
       chat = chatToBeUpdated;
     }
@@ -415,8 +399,8 @@ const updateChat = (chats, chat_id, chatToBeUpdated) => {
   return updatedChats;
 };
 
-const renameChat = (chats, chat_id, chat_name) => {
-  const updatedChats = chats.map((chat) => {
+const renameChat = ({ chatsClone, chat_id, chat_name }) => {
+  const updatedChats = chatsClone.map((chat) => {
     if (chat_id === chat._id) {
       chat.chat_name = chat_name;
     }
@@ -425,16 +409,18 @@ const renameChat = (chats, chat_id, chat_name) => {
   return updatedChats;
 };
 
-const deleteChat = (chats, chat_id) => {
-  const updatedChats = chats.filter((chat) => chat_id !== chat._id);
+const deleteChat = ({ chatsClone, chat_id }) => {
+  const updatedChats = chatsClone.filter((chat) => chat_id !== chat._id);
   return updatedChats;
 };
 
-const removeChatParticipant = (
-  chats,
-  { chat_id, participant_id, newMessage }
-) => {
-  const updatedChats = chats.map((chat) => {
+const removeChatParticipant = ({
+  chatsClone,
+  chat_id,
+  participant_id,
+  newMessage,
+}) => {
+  const updatedChats = chatsClone.map((chat) => {
     if (chat_id === chat._id) {
       let { participants = [], access_rights = [], messages = [] } = chat;
 
@@ -455,25 +441,11 @@ const removeChatParticipant = (
   return updatedChats;
 };
 
-const removeChatParticipantFromSelectedChat = ({
-  selectedChat,
-  participant_id,
-  newMessage,
-}) => {
-  let { participants = [], access_rights = [], messages = [] } = selectedChat;
-
-  participants = participants.filter(
-    (participant) => participant._id !== participant_id
+const getUpdatedChats = ({ chatsClone, chats }) => {
+  const updatedChats = chatsClone.filter((cl) =>
+    chats.find((ch) => ch._id === cl._id)
   );
-  access_rights = access_rights.filter(
-    (access_right) => access_right !== participant_id
-  );
-
-  selectedChat.participants = participants;
-  selectedChat.access_rights = access_rights;
-  selectedChat.messages = [].concat(messages, [newMessage]);
-
-  return selectedChat;
+  return updatedChats;
 };
 
 export default chatReducer;
