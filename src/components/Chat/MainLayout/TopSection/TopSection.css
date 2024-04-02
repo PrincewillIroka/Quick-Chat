@@ -165,7 +165,12 @@
 }
 
 .more-items-row:hover {
-  background-color: #f7f7f7;
+  background-color: #f0f0f0;
+}
+
+.more-items-row-dark:hover {
+  background-color: #000;
+  color: #fff;
 }
 
 .more-items-row:not(:nth-child(4)) {
@@ -174,8 +179,4 @@
 
 .more-items-dropdown-dark > .more-items-row:nth-child(1) {
   border-bottom: 1px solid #555;
-}
-
-.more-items-row:hover {
-  opacity: 0.7;
 }

@@ -268,11 +268,21 @@ function TopSection({ selectedChat }) {
               isDarkMode ? "more-items-dropdown-dark" : ""
             }`}
           >
-            <div className="more-items-row" onClick={() => handleGetChatLink()}>
+            <div
+              className={`more-items-row ${
+                isDarkMode ? "more-items-row-dark" : ""
+              }`}
+              onClick={() => handleGetChatLink()}
+            >
               <span>Get chat link</span>
               <MdOutlineContentCopy />
             </div>
-            <div className="more-items-row" onClick={() => handleAddBookmark()}>
+            <div
+              className={`more-items-row ${
+                isDarkMode ? "more-items-row-dark" : ""
+              }`}
+              onClick={() => handleAddBookmark()}
+            >
               <span>
                 {isBookmarkFound ? "Remove Bookmark" : "Bookmark chat"}
               </span>
@@ -281,14 +291,18 @@ function TopSection({ selectedChat }) {
             {isChatCreator && (
               <>
                 <div
-                  className="more-items-row"
+                  className={`more-items-row ${
+                    isDarkMode ? "more-items-row-dark" : ""
+                  }`}
                   onClick={() => handleRenameChat()}
                 >
                   <span>Rename chat</span>
                   <AiTwotoneEdit />
                 </div>
                 <div
-                  className="more-items-row"
+                  className={`more-items-row ${
+                    isDarkMode ? "more-items-row-dark" : ""
+                  }`}
                   onClick={() => handleDeleteChat()}
                 >
                   <span>Delete chat</span>
