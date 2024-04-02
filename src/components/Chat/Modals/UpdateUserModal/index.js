@@ -159,7 +159,7 @@ export default function UpdateUserModal() {
                 type="file"
                 hidden
                 ref={selectDisplayPicRef}
-                onInput={() => handleSelectPhoto()}
+                onInput={(e) => handleSelectPhoto(e)}
                 accept="image/*"
               />
             </div>
