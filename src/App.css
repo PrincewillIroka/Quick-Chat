@@ -19,7 +19,7 @@ input:focus {
   outline: none;
 }
 
-.shimmerBG {
+.shimmer-bg {
   animation-duration: 2.2s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;

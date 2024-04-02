@@ -135,7 +135,7 @@ export default function ChatList() {
     >
       {isUserLoading ? (
         <div className="shimmer-row-1-container">
-          <div className="shimmer-row-1-wrapper shimmerBG">
+          <div className="shimmer-row-1-wrapper shimmer-bg">
             <span className="shimmer-profile-photo"></span>
             <div className="shimmer-start-convo"></div>
           </div>
@@ -211,7 +211,11 @@ export default function ChatList() {
           {isChatLoading ? (
             getShimmerLayout(5).map((sh, index) => (
               <div key={index} className="shimmer-chat-info-container">
-                <div className="shimmer-chat-info-wrapper shimmerBG">
+                <div
+                  className={`shimmer-chat-info-wrapper shimmer-bg ${
+                    isDarkMode ? "shimmer-bg-dark" : ""
+                  }`}
+                >
                   <div className="chat-info-photo-or-initial-wrapper">
                     {getShimmerLayout(3).map((pt, index) => {
                       return (
