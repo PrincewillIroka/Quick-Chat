@@ -53,6 +53,14 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("chat-deleted", (payload) => {
     dispatch({ type: "DELETE_CHAT", payload });
   });
+
+  socket.on("participant-removed", (payload) => {
+    dispatch({ type: "CHAT_PARTICIPANT_REMOVED", payload });
+
+    if (audio.paused) {
+      audio.play().catch(() => console.warn());
+    }
+  });
 };
 
 export default chatSockets;

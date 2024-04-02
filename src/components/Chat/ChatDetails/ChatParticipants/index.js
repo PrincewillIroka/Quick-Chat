@@ -2,24 +2,29 @@ import React from "react";
 import { useStateValue } from "store/stateProvider";
 import "./ChatParticipants.css";
 import { generateInitials, isSameSender } from "utils";
-import { IoVolumeMuteOutline } from "react-icons/io5";
+// import { IoVolumeMuteOutline } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 
 function ChatParticipants() {
-  const { state = {} } = useStateValue();
-  const {
-    selectedChat = {},
-    user = {},
-    isMuteAndRemoveFeatureEnabled = false,
-  } = state;
-  const { participants = [], _id: chat_id = "" } = selectedChat;
-  const { isDarkMode = false } = user;
+  const { state = {}, dispatch } = useStateValue();
+  const { selectedChat = {}, user = {} } = state;
+  const { participants = [], creator_id = "" } = selectedChat;
+  const { _id: user_id, isDarkMode = false } = user;
+  const isChatCreator = creator_id === user_id;
 
-  const handleMuteParticipant = (participant) => {
-    console.log(chat_id);
+  // const handleMuteParticipant = (participant) => {};
+
+  const handleRemoveParticipant = (participant) => {
+    dispatch({
+      type: "TOGGLE_MODAL",
+      payload: {
+        type: "ConfirmationModal",
+        title: "Remove Participant",
+        subtitle: "Are you sure you want to remove this participant ?",
+        participant,
+      },
+    });
   };
-
-  const handleRemoveParticipant = (participant) => {};
 
   return (
     <div className="chat-participant-container">
@@ -27,10 +32,15 @@ function ChatParticipants() {
         {participants.map((participant, index) => {
           const checkSameSender = isSameSender(participant, user);
           participant = checkSameSender ? user : participant;
-          const { name = "", photo = "" } = participant;
+          const { name = "", photo = "", isChatBot = false } = participant;
 
           return (
-            <div className="chat-participant-single-wrapper" key={index}>
+            <div
+              className={`chat-participant-single-wrapper ${
+                isDarkMode && "chat-participant-single-wrapper-dark"
+              }`}
+              key={index}
+            >
               {photo ? (
                 <img
                   src={photo}
@@ -53,13 +63,13 @@ function ChatParticipants() {
                   <span className="chat-participant-you">(You)</span>
                 )}
               </div>
-              {isMuteAndRemoveFeatureEnabled ? (
+              {isChatCreator && !isChatBot && !checkSameSender ? (
                 <div className="chat-participant-access-wrapper">
-                  <IoVolumeMuteOutline
+                  {/* <IoVolumeMuteOutline
                     title={`Mute this user - They can only see messages sent to this chat`}
                     className="chat-participant-icon"
                     onClick={() => handleMuteParticipant(participant)}
-                  />
+                  /> */}
                   <MdDeleteOutline
                     title={`Remove - They would be removed entirely from this chat`}
                     className="chat-participant-icon"

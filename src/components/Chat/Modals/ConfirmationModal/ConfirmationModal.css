@@ -52,7 +52,7 @@
 
 .modal-subtitle {
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 18px;
   height: 30px;
   text-align: center;
@@ -97,7 +97,7 @@
   margin-left: 5px;
 }
 
-.update-username-input {
+.confirmation-input {
   font-size: 17px;
   /* padding: 7px 10px; */
   border: 1px solid #ccc;
@@ -105,9 +105,18 @@
   height: 30px;
   width: 100%;
   margin: auto 0;
+  color: #fff !important;
 }
 
-.update-username-input:focus {
+input:disabled {
+  color: #fff;
+}
+
+.confirmation-input-dark {
+  color: #fff !important;
+}
+
+.confirmation-input:focus {
   outline: none;
 }
 
