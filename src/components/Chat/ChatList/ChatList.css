@@ -189,8 +189,8 @@
 }
 
 .shimmer-bg-dark {
-  background: #000 !important;
-  background: linear-gradient(to right, #272727 8%, #212121, 18%, #272727 33%) !important;
+  background: #000;
+  background: linear-gradient(to right, #272727 8%, #212121, 18%, #272727 33%);
 }
 
 .shimmer-chat-info-wrapper {
@@ -239,6 +239,10 @@
   width: 150px;
 }
 
+.profile-row-close-btn {
+  display: none;
+}
+
 @media (max-width: 1400px) {
   .sidebar-row-1 {
     padding: 0 10px;
@@ -261,7 +265,7 @@
   }
 
   .profile-photo {
-    display: none;
+    /* display: none; */
   }
 }
 
@@ -278,5 +282,26 @@
 @media (max-width: 768px) {
   .sidebar-container {
     display: none;
+  }
+
+  .sidebar-menu {
+    width: 100%;
+    z-index: 3;
+    display: flex;
+    position: fixed;
+    height: 100%;
+    flex-direction: column;
+    background-color: #000;
+  }
+
+  .sidebar-row-1-justify {
+    justify-content: space-between;
+  }
+
+  .profile-row-close-btn {
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    display: block;
   }
 }

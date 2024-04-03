@@ -315,7 +315,11 @@ function MainLayout() {
           </div>
         )}
         {filesUploading[chat_id] && isFileContainerOpen && (
-          <div className="files-list-container">
+          <div
+            className={`files-list-container ${
+              isDarkMode ? "files-list-container-dark" : ""
+            }`}
+          >
             <IoMdClose
               className="files-list-close-button"
               onClick={() => handleRemoveAllFiles(false)}
@@ -324,7 +328,13 @@ function MainLayout() {
               {filesUploading[chat_id].map(({ attachment }, index) => {
                 const { name = "", size = 0 } = attachment;
                 return (
-                  <div className="file-list-item" key={index} title={name}>
+                  <div
+                    className={`file-list-item ${
+                      isDarkMode ? "file-list-item-dark" : ""
+                    }`}
+                    key={index}
+                    title={name}
+                  >
                     <IoMdClose
                       className="file-item-close-button"
                       title={name}

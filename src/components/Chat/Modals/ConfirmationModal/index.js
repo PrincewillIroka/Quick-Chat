@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { socket } from "sockets/socketHandler";
-import "./ConfirmationModal.css";
 import { useStateValue } from "store/stateProvider";
+import "./ConfirmationModal.css";
+import "../Modals.css";
 
 export default function ConfirmationModal() {
   const { state = {}, dispatch } = useStateValue();
@@ -13,7 +14,7 @@ export default function ConfirmationModal() {
   const { chat_name, _id: chat_id } = selectedChat;
   const { name: participant_name, _id: participant_id } = participant;
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setIsLoading(true);
     if (title.includes("Rename Chat")) {
       socket.emit(
@@ -126,7 +127,7 @@ export default function ConfirmationModal() {
                     isDarkMode ? "confirmation-input-dark" : ""
                   }`}
                   onChange={(e) => setChatName(e.target.value.trim())}
-                  value={newChatName}
+                  value={title.includes("Delete") ? chat_name : newChatName}
                   disabled={title.includes("Delete")}
                 />
               )}

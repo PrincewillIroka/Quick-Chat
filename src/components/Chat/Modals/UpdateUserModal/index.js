@@ -1,9 +1,10 @@
 import React, { useState, useRef } from "react";
 import { updateUser } from "services";
-import "./UpdateUserModal.css";
 import { useStateValue } from "store/stateProvider";
 import { generateInitials } from "utils";
 import { AiOutlineVideoCamera } from "react-icons/ai";
+import "./UpdateUserModal.css";
+import "../Modals.css";
 
 export default function UpdateUserModal() {
   const selectDisplayPicRef = useRef();

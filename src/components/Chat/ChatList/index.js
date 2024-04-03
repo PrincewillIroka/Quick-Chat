@@ -1,11 +1,10 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import { BsPlusCircle, BsStar } from "react-icons/bs";
-// import { GoChevronDown } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { BiMessageEdit } from "react-icons/bi";
 import { FaCaretDown } from "react-icons/fa6";
-
+import { IoMdClose } from "react-icons/io";
 import ChatInfo from "./ChatInfo";
 import "./ChatList.css";
 import { useStateValue } from "store/stateProvider";
@@ -27,6 +26,7 @@ export default function ChatList() {
     isViewingBookmarks = false,
     isUserLoading,
     isChatLoading,
+    isLeftSidebarVisible = false,
   } = state;
   const { isDarkMode = false } = user;
 
@@ -122,16 +122,22 @@ export default function ChatList() {
   };
 
   const handleToggleBookmarks = (value) => {
-    dispatch({ type: "TOOGLED_BOOKMARKS", payload: value });
+    dispatch({ type: "TOGGLED_BOOKMARKS", payload: value });
   };
 
   const getShimmerLayout = (num) => new Array(num).fill("");
+
+  const handleDisplaySidebar = () => {
+    dispatch({
+      type: "TOGGLE_LEFT_SIDEBAR",
+    });
+  };
 
   return (
     <section
       className={`sidebar-container ${
         isDarkMode ? "sidebar-container-dark" : ""
-      }`}
+      } ${isLeftSidebarVisible ? "sidebar-menu" : ""}`}
     >
       {isUserLoading ? (
         <div className="shimmer-row-1-container">
@@ -142,7 +148,9 @@ export default function ChatList() {
         </div>
       ) : (
         <div
-          className={`sidebar-row-1 ${isDarkMode ? "sidebar-row-1-dark" : ""}`}
+          className={`sidebar-row-1 ${isDarkMode ? "sidebar-row-1-dark" : ""} ${
+            isLeftSidebarVisible ? "sidebar-row-1-justify" : ""
+          }`}
         >
           <div
             className="profile-photo-wrapper"
@@ -173,6 +181,10 @@ export default function ChatList() {
             <span className="btn-start-convo-text">Start new conversation</span>
             <BsPlusCircle className="plus-circle-icon" />
           </button>
+          <IoMdClose
+            className="profile-row-close-btn"
+            onClick={() => handleDisplaySidebar()}
+          />
         </div>
       )}
       <div className="sidebar-row-2">

@@ -104,7 +104,7 @@ const userReducer = (state, action) => {
         bookmarks,
       };
     }
-    case "TOOGLED_BOOKMARKS": {
+    case "TOGGLED_BOOKMARKS": {
       const value = action.payload;
       let {
         chats,
@@ -193,6 +193,14 @@ const userReducer = (state, action) => {
         chats,
         chatsClone,
         selectedChat,
+      };
+    }
+    case "TOGGLE_LEFT_SIDEBAR": {
+      const { isLeftSidebarVisible = false } = state;
+
+      return {
+        ...state,
+        isLeftSidebarVisible: !isLeftSidebarVisible,
       };
     }
     default:
