@@ -1,4 +1,4 @@
-// import Cookies from "js-cookie";
+import { getCookie } from "utils";
 
 const APP_HOST = process.env.REACT_APP_HOST;
 
@@ -25,8 +25,7 @@ const getChats = ({ bs_token, chatUrlParam }) => {
 };
 
 const authenticateUser = () => {
-  // const bs_token = Cookies.get("bs_token");
-  const bs_token = window.localStorage.getItem("bs_token") || "";
+  const bs_token = getCookie();
   return new Promise((resolve, reject) => {
     const url = `${APP_HOST}/api/users/authenticateUser`;
 

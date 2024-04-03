@@ -14,6 +14,7 @@ import { socket } from "sockets/socketHandler";
 import { generateInitials } from "utils";
 import { publish, unsubscribe, subscribe } from "custom-events";
 import NoBookmarks from "assets/Bookmarks.svg";
+import { getCookie } from "utils";
 
 export default function ChatList() {
   const { state = {}, dispatch } = useStateValue();
@@ -45,7 +46,8 @@ export default function ChatList() {
 
   const handleGetChats = useCallback(
     async ({ detail: userDetail }) => {
-      const bs_token = window.localStorage.getItem("bs_token");
+      const bs_token = getCookie();
+
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
           if (response.success) {
