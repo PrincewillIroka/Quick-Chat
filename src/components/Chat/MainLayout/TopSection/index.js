@@ -177,8 +177,13 @@ function TopSection({ selectedChat }) {
 
   const handleDisplaySidebar = () => {
     dispatch({
-      type: "TOGGLE_SIDEBAR",
+      type: "TOGGLE_LEFT_SIDEBAR",
     });
+  };
+
+  const hasChatBot = () => {
+    const result = participants.find((participant) => participant?.isChatBot);
+    return result;
   };
 
   return (
@@ -256,75 +261,79 @@ function TopSection({ selectedChat }) {
         </div>
       )}
 
-      <div className="icons-container">
-        {isSearchVisible ? (
-          <IoMdClose
+      {selectChatId && (
+        <div className="icons-container">
+          {isSearchVisible ? (
+            <IoMdClose
+              className="control-icon"
+              onClick={() => handleClearSearchField()}
+            />
+          ) : (
+            <CgSearch
+              className="control-icon"
+              onClick={() => setIsSearchVisible(true)}
+            />
+          )}
+          <CgMore
             className="control-icon"
-            onClick={() => handleClearSearchField()}
+            onClick={() =>
+              setIsMoreItemsDropdownVisible(!isMoreItemsDropdownVisible)
+            }
           />
-        ) : (
-          <CgSearch
-            className="control-icon"
-            onClick={() => setIsSearchVisible(true)}
-          />
-        )}
-        <CgMore
-          className="control-icon"
-          onClick={() =>
-            setIsMoreItemsDropdownVisible(!isMoreItemsDropdownVisible)
-          }
-        />
-        {isMoreItemsDropdownVisible && (
-          <div
-            className={`more-items-dropdown ${
-              isDarkMode ? "more-items-dropdown-dark" : ""
-            }`}
-          >
+          {isMoreItemsDropdownVisible && (
             <div
-              className={`more-items-row ${
-                isDarkMode ? "more-items-row-dark" : ""
+              className={`more-items-dropdown ${
+                isDarkMode ? "more-items-dropdown-dark" : ""
               }`}
-              onClick={() => handleGetChatLink()}
             >
-              <span>Get chat link</span>
-              <MdOutlineContentCopy />
+              <div
+                className={`more-items-row ${
+                  isDarkMode ? "more-items-row-dark" : ""
+                }`}
+                onClick={() => handleGetChatLink()}
+              >
+                <span>Get chat link</span>
+                <MdOutlineContentCopy />
+              </div>
+              <div
+                className={`more-items-row ${
+                  isDarkMode ? "more-items-row-dark" : ""
+                }`}
+                onClick={() => handleAddBookmark()}
+              >
+                <span>
+                  {isBookmarkFound ? "Remove Bookmark" : "Bookmark chat"}
+                </span>
+                <BsStar />
+              </div>
+              {isChatCreator && (
+                <>
+                  <div
+                    className={`more-items-row ${
+                      isDarkMode ? "more-items-row-dark" : ""
+                    }`}
+                    onClick={() => handleRenameChat()}
+                  >
+                    <span>Rename chat</span>
+                    <AiTwotoneEdit />
+                  </div>
+                  {!hasChatBot() && (
+                    <div
+                      className={`more-items-row ${
+                        isDarkMode ? "more-items-row-dark" : ""
+                      }`}
+                      onClick={() => handleDeleteChat()}
+                    >
+                      <span>Delete chat</span>
+                      <MdDeleteOutline />
+                    </div>
+                  )}
+                </>
+              )}
             </div>
-            <div
-              className={`more-items-row ${
-                isDarkMode ? "more-items-row-dark" : ""
-              }`}
-              onClick={() => handleAddBookmark()}
-            >
-              <span>
-                {isBookmarkFound ? "Remove Bookmark" : "Bookmark chat"}
-              </span>
-              <BsStar />
-            </div>
-            {isChatCreator && (
-              <>
-                <div
-                  className={`more-items-row ${
-                    isDarkMode ? "more-items-row-dark" : ""
-                  }`}
-                  onClick={() => handleRenameChat()}
-                >
-                  <span>Rename chat</span>
-                  <AiTwotoneEdit />
-                </div>
-                <div
-                  className={`more-items-row ${
-                    isDarkMode ? "more-items-row-dark" : ""
-                  }`}
-                  onClick={() => handleDeleteChat()}
-                >
-                  <span>Delete chat</span>
-                  <MdDeleteOutline />
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

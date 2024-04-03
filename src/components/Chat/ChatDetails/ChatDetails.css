@@ -4,13 +4,14 @@
 }
 
 .chat-details-header {
-  height: 10%;
+  height: 75px;
   display: flex;
   background-color: #f8f8f8;
   align-items: center;
   padding-left: 40px;
   font-weight: 500;
   font-size: 15px;
+  border-bottom: 1px solid #ccc;
 }
 
 .chat-details-header-dark {
@@ -18,7 +19,7 @@
 }
 
 .chat-details-body {
-  height: 90%;
+  height: calc(100% - 75px);
   padding: 0 15px;
 }
 
