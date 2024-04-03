@@ -150,7 +150,8 @@ export default function Chat() {
       <ChatList />
       {checkPasscode() ? (
         <>
-          <MainLayout /> <ChatDetails isDarkMode={isDarkMode} />
+          <MainLayout />
+          <ChatDetails isDarkMode={isDarkMode} />
         </>
       ) : isLoadingPasscode ? (
         <div className="check-passcode-container">Please wait....</div>

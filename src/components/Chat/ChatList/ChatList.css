@@ -12,9 +12,10 @@
   display: flex;
   background-color: #f8f8f8;
   justify-content: space-between;
-  height: 10%;
+  height: 75px;
   align-items: center;
   padding: 0 15px;
+  border-bottom: 1px solid #ccc;
 }
 
 .sidebar-row-1-dark {
@@ -33,7 +34,7 @@
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
-  border: 1px solid #000;
+  border: 1px solid #aaa;
 }
 
 .profile-initial {
@@ -43,6 +44,10 @@
   background-color: #ececec;
   cursor: pointer;
   color: #272727;
+}
+
+.profile-claret-down {
+  color: #353535;
 }
 
 .sidebar-row-1-dark > .profile-initial {
@@ -156,7 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 10px;
 }
 
 .shimmer-profile-photo {
@@ -175,7 +180,7 @@
   align-items: center;
   height: 40px;
   padding: 0 15px;
-  width: 70%;
+  width: 60%;
 }
 
 .shimmer-chat-info-container {
@@ -291,6 +296,10 @@
     position: fixed;
     height: 100%;
     flex-direction: column;
+    background-color: #fff;
+  }
+
+  .sidebar-menu-dark {
     background-color: #000;
   }
 
@@ -303,5 +312,6 @@
     width: 25px;
     cursor: pointer;
     display: block;
+    color: #aaa;
   }
 }

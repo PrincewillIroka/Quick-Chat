@@ -1,7 +1,7 @@
 .top-section {
   display: flex;
   align-items: center;
-  height: 10%;
+  height: 75px;
   padding: 0 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
@@ -127,7 +127,6 @@
   width: 20px;
   cursor: pointer;
   color: #f76e11;
-  margin-right: 20px;
 }
 
 .control-icon {

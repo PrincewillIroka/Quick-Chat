@@ -137,15 +137,19 @@ export default function ChatList() {
 
   return (
     <section
-      className={`sidebar-container ${
-        isDarkMode ? "sidebar-container-dark" : ""
-      } ${isLeftSidebarVisible ? "sidebar-menu" : ""}`}
+      className={`sidebar-container ${isDarkMode && "sidebar-container-dark"} ${
+        isLeftSidebarVisible && "sidebar-menu"
+      } ${isDarkMode && "sidebar-menu-dark"}`}
     >
       {isUserLoading ? (
         <div className="shimmer-row-1-container">
           <div className="shimmer-row-1-wrapper shimmer-bg">
             <span className="shimmer-profile-photo"></span>
             <div className="shimmer-start-convo"></div>
+            <IoMdClose
+              className="profile-row-close-btn"
+              onClick={() => handleDisplaySidebar()}
+            />
           </div>
         </div>
       ) : (
@@ -174,7 +178,7 @@ export default function ChatList() {
                 {generateInitials(user.name)}
               </span>
             )}
-            <FaCaretDown />
+            <FaCaretDown className="profile-claret-down"/>
           </div>
           <button
             className="btn-start-convo"
