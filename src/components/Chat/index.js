@@ -43,7 +43,7 @@ export default function Chat() {
             _id = "",
           } = user;
           socket.emit("join", { user_id: _id });
-          localStorage.setItem("bs_token", bs_token);
+          window.localStorage.setItem("bs_token", bs_token);
           dispatch({ type: "GET_USER_SUCCESS", payload: user });
           publish("userDetailsFetched", user);
           if (!hasUpdatedUsername) {

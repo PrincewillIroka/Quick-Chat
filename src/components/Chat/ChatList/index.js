@@ -45,7 +45,7 @@ export default function ChatList() {
 
   const handleGetChats = useCallback(
     async ({ detail: userDetail }) => {
-      const bs_token = localStorage.getItem("bs_token");
+      const bs_token = window.localStorage.getItem("bs_token");
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
           if (response.success) {
