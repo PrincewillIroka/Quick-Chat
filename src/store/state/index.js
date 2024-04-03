@@ -16,6 +16,7 @@ const initialState = {
   participantsTypingInChat: {},
   notifications: [],
   notifications_count: {},
+  isLeftSidebarVisible: false,
 };
 
 export default initialState;

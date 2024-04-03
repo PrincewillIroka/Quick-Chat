@@ -11,6 +11,7 @@ import {
 import { BsStar } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { AiTwotoneEdit } from "react-icons/ai";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
@@ -174,8 +175,19 @@ function TopSection({ selectedChat }) {
     });
   };
 
+  const handleDisplaySidebar = () => {
+    dispatch({
+      type: "TOGGLE_SIDEBAR",
+    });
+  };
+
   return (
     <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
+      <RxHamburgerMenu
+        className="hamburger-menu"
+        onClick={() => handleDisplaySidebar()}
+      />
+
       <div className="row">
         <div className="user-info-col-1">
           {/* <span className="user-info-name">{chat_name}</span> */}
