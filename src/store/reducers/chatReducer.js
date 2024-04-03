@@ -178,12 +178,6 @@ const chatReducer = (state = {}, action) => {
       const { chats } = state;
 
       const selectedChat = chats.find((chat) => chat._id === chat_id);
-      const { chat_url = "" } = selectedChat || {};
-
-      if (chat_url) {
-        const newUrl = window.location.origin + `/chat/${chat_url}`;
-        window.history.replaceState(null, null, newUrl);
-      }
 
       return {
         ...state,
@@ -298,6 +292,7 @@ const chatReducer = (state = {}, action) => {
 
       if (chat_id === selectedChat._id) {
         selectedChat = chats[0];
+        updateBrowserUrl(selectedChat);
       }
 
       return {
@@ -354,6 +349,7 @@ const chatReducer = (state = {}, action) => {
 
         if (chat_id === selectedChat._id) {
           selectedChat = chats[0];
+          updateBrowserUrl(selectedChat);
         }
       } else {
         chatsClone = removeChatParticipant({
