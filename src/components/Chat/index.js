@@ -11,6 +11,7 @@ import { useStateValue } from "store/stateProvider";
 import { authenticateUser, updateAccessRight } from "services";
 import { publish } from "custom-events";
 import { socket } from "sockets/socketHandler";
+import { getCookie } from "utils";
 
 export default function Chat() {
   const { state = {}, dispatch } = useStateValue();
@@ -31,6 +32,23 @@ export default function Chat() {
   const [isLoadingPasscode, setIsLoadingPasscode] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const setCookie = (bs_token) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 400 * 24 * 60 * 60 * 1000);
+    document.cookie = `bs_token=${bs_token};expires=${expires};path=/`;
+  };
+
+  const handleCookie = useCallback(() => {
+    const bs_token = getCookie();
+    if (bs_token) {
+      setCookie(bs_token);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleCookie();
+  }, [handleCookie]);
+
   useEffect(() => {
     authenticateUser()
       .then((response) => {
@@ -43,7 +61,7 @@ export default function Chat() {
             _id = "",
           } = user;
           socket.emit("join", { user_id: _id });
-          window.localStorage.setItem("bs_token", bs_token);
+          setCookie(bs_token);
           dispatch({ type: "GET_USER_SUCCESS", payload: user });
           publish("userDetailsFetched", user);
           if (!hasUpdatedUsername) {

@@ -2,6 +2,13 @@ import crypto from "crypto";
 
 const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
+export const getCookie = () => {
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let result = decodedCookie.split(";")[0];
+  const bs_token = result.includes("bs_token") ? result.split("=")[1] : "";
+  return bs_token;
+};
+
 export const generateInitials = (name) => {
   const arr = name?.split(" ");
   if (arr) {
