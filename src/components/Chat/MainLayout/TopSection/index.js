@@ -13,8 +13,10 @@ import { IoMdClose } from "react-icons/io";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbListDetails } from "react-icons/tb";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { FaRegEnvelope } from "react-icons/fa6";
 import { subscribe, unsubscribe } from "custom-events";
-import { generateInitials, isSameSender } from "utils";
+import { generateInitials, isSameSender, decryptData } from "utils";
 import "./TopSection.css";
 import { useStateValue } from "store/stateProvider";
 import { addBookmark, deleteBookmark, updateDarkMode } from "services";
@@ -28,8 +30,14 @@ function TopSection({ selectedChat }) {
     _id: selectChatId,
     creator_id = "",
     chat_name = "",
+    passcode = "",
   } = selectedChat || {};
-  const { user = {}, bookmarks = [], isRightSidebarVisible } = state;
+  const {
+    user = {},
+    bookmarks = [],
+    isRightSidebarVisible = false,
+    inviteOthersFeatureEnabled = false,
+  } = state;
   let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -60,19 +68,27 @@ function TopSection({ selectedChat }) {
       });
   }
 
-  const handleGetChatLink = async () => {
-    const chatLink = `${window.location.origin}/chat/${selectedChat.chat_url}`;
+  const handleGetChatLink = async (param) => {
+    let value, content;
 
     if (!navigator?.clipboard) {
       checkClipboardPermission();
     } else {
-      await navigator.clipboard.writeText(chatLink);
+      if (param === "chatLink") {
+        value = `${window.location.origin}/chat/${selectedChat.chat_url}`;
+        content = "Link copied!";
+      } else if (param === "passcode") {
+        value = decryptData(passcode);
+        content = "Passcode copied!";
+      }
+
+      await navigator.clipboard.writeText(value);
 
       dispatch({
         type: "TOGGLE_ALERT",
         payload: {
           isAlertVisible: true,
-          content: "Link Copied!",
+          content,
           type: "success",
         },
       });
@@ -229,6 +245,17 @@ function TopSection({ selectedChat }) {
     };
   }, [handleDisplayChatDetails, isRightSidebarVisible]);
 
+  const handleDisplayInvite = useCallback(() => {
+    dispatch({
+      type: "TOGGLE_MODAL",
+      payload: {
+        type: "ConfirmationModal",
+        title: "Invite User",
+        subtitle: "Send invitation to user",
+      },
+    });
+  }, [dispatch]);
+
   return (
     <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
       <RxHamburgerMenu
@@ -328,15 +355,37 @@ function TopSection({ selectedChat }) {
                 isDarkMode ? "more-items-dropdown-dark" : ""
               }`}
             >
+              {isChatCreator && inviteOthersFeatureEnabled && (
+                <div
+                  className={`more-items-row ${
+                    isDarkMode ? "more-items-row-dark" : ""
+                  }`}
+                  onClick={() => handleDisplayInvite()}
+                >
+                  <span>Invite others to chat</span>
+                  <FaRegEnvelope />
+                </div>
+              )}
               <div
                 className={`more-items-row ${
                   isDarkMode ? "more-items-row-dark" : ""
                 }`}
-                onClick={() => handleGetChatLink()}
+                onClick={() => handleGetChatLink("chatLink")}
               >
                 <span>Get chat link</span>
                 <MdOutlineContentCopy />
               </div>
+              {isChatCreator && passcode && (
+                <div
+                  className={`more-items-row ${
+                    isDarkMode ? "more-items-row-dark" : ""
+                  }`}
+                  onClick={() => handleGetChatLink("passcode")}
+                >
+                  <span>Copy passcode</span>
+                  <RiLockPasswordLine />
+                </div>
+              )}
               <div
                 className={`more-items-row ${
                   isDarkMode ? "more-items-row-dark" : ""

@@ -60,10 +60,25 @@ export const encryptData = (content) => {
   } = process.env;
 
   const cipher = crypto.createCipheriv(algorithm, securityKey, initVector);
-  let encryptedData = cipher.update(content, "utf-8", "hex");
+  let encryptedData = cipher.update(content, "utf8", "hex");
   encryptedData += cipher.final("hex");
 
   return encryptedData;
+};
+
+export const decryptData = (content) => {
+  const {
+    REACT_APP_ENCRYPTION_ALGORITHM: algorithm,
+    REACT_APP_ENCRYPTION_INIT_VECTOR: initVector,
+    REACT_APP_ENCRYPTION_SECURITY_KEY: securityKey,
+  } = process.env;
+
+  const decipher = crypto.createDecipheriv(algorithm, securityKey, initVector);
+
+  let decryptedData = decipher.update(content, "hex", "utf8");
+  decryptedData += decipher.final("utf8");
+
+  return decryptedData;
 };
 
 export function debounce(func, timeout = 500) {
