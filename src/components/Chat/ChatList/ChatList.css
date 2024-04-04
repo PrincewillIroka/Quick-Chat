@@ -193,11 +193,6 @@
   border-bottom: 1px solid #eee;
 }
 
-.shimmer-bg-dark {
-  background: #000;
-  background: linear-gradient(to right, #272727 8%, #212121, 18%, #272727 33%);
-}
-
 .shimmer-chat-info-wrapper {
   height: 100%;
   width: 100%;
