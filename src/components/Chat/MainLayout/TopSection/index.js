@@ -39,7 +39,7 @@ function TopSection({ selectedChat }) {
     return bookmarks.find((bookmark) => bookmark.chat_id === selectChatId);
   }, [selectChatId, bookmarks]);
 
-  const isBookmarkFound = bookmarkFound && Object.entries(bookmarkFound);
+  const isBookmarkFound = bookmarkFound && Object.keys(bookmarkFound).length;
 
   useEffect(() => {
     setIsMoreItemsDropdownVisible(false);
