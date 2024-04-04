@@ -161,6 +161,7 @@
   padding: 10px;
   font-size: 14px;
   z-index: 2;
+  user-select: none;
 }
 
 .more-items-row:hover {

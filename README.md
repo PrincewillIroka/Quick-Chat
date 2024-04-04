@@ -5,6 +5,6 @@ You don't have to create an account. Just create a chat and send the link to oth
 - Backend API: https://github.com/PrincewillIroka/Quick-Chat-Backend
 - UI Mockup: https://dribbble.com/shots/18324922--edamessage-Messenger-Dashboard-Web-App
 ### Live
-https://quick-chat1.netlify.app/
+https://quick-chatt.netlify.app
 ### Screenshot
 ![Screenshot](https://i.imgur.com/afyuT1Y.png)

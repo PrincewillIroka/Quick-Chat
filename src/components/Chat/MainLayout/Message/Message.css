@@ -1,6 +1,7 @@
 .message-container {
   display: flex;
   margin-bottom: 40px;
+  min-width: 40%;
   width: 40%;
 }
 
@@ -193,4 +194,25 @@
 
 .message-info-createdAt {
   font-size: 12px;
+}
+
+@media (max-width: 969px) {
+  .message-container {
+    min-width: 45%;
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .message-container {
+    min-width: 50%;
+    width: 50%;
+  }
+}
+
+@media (max-width: 640px) {
+  .message-container {
+    min-width: 80%;
+    width: 80%;
+  }
 }

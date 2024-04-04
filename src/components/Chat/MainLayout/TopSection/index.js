@@ -43,17 +43,38 @@ function TopSection({ selectedChat }) {
     setIsMoreItemsDropdownVisible(false);
   }, [selectChatId]);
 
-  const handleGetChatLink = () => {
+  function checkClipboardPermission() {
+    navigator.permissions
+      .query({
+        name: "clipboard-write",
+      })
+      .then((result) => {
+        if (result.state === "granted") {
+          handleGetChatLink();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  const handleGetChatLink = async () => {
     const chatLink = `${window.location.origin}/chat/${selectedChat.chat_url}`;
-    navigator.clipboard.writeText(chatLink);
-    dispatch({
-      type: "TOGGLE_ALERT",
-      payload: {
-        isAlertVisible: true,
-        content: "Link Copied!",
-        type: "success",
-      },
-    });
+
+    if (!navigator?.clipboard) {
+      checkClipboardPermission();
+    } else {
+      await navigator.clipboard.writeText(chatLink);
+
+      dispatch({
+        type: "TOGGLE_ALERT",
+        payload: {
+          isAlertVisible: true,
+          content: "Link Copied!",
+          type: "success",
+        },
+      });
+    }
   };
 
   const handleSearchMessages = useCallback(
