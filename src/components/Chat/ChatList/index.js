@@ -106,6 +106,7 @@ export default function ChatList() {
     publish("toggledSelectedChat");
     dispatch({ type: "TOGGLE_SELECTED_CHAT", payload: chat });
     dispatch({ type: "CLEAR_CHAT_NOTIFICATION_COUNT", payload: { chat_id } });
+    dispatch({ type: "TOGGLE_LEFT_SIDEBAR", payload: "closeSidebar" });
     socket.emit("participant-join-selected-chat", {
       chat_url,
       user_id: user._id,

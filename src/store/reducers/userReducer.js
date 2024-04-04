@@ -196,11 +196,18 @@ const userReducer = (state, action) => {
       };
     }
     case "TOGGLE_LEFT_SIDEBAR": {
-      const { isLeftSidebarVisible = false } = state;
+      let { isLeftSidebarVisible = false } = state;
+      const value = action.payload;
+
+      if (value === "closeSidebar") {
+        isLeftSidebarVisible = false;
+      } else {
+        isLeftSidebarVisible = !isLeftSidebarVisible;
+      }
 
       return {
         ...state,
-        isLeftSidebarVisible: !isLeftSidebarVisible,
+        isLeftSidebarVisible,
       };
     }
     case "TOGGLE_RIGHT_SIDEBAR": {
