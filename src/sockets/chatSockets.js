@@ -1,4 +1,4 @@
-import NotificationTone from "static/media/mixkit-bubble-pop-up-alert-notification-2357.wav";
+import NotificationTone from "static/media/notification-sound.mp3";
 
 const audio = new Audio(NotificationTone);
 

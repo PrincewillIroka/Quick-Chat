@@ -8,10 +8,11 @@ export default function ConfirmationModal() {
   const { state = {}, dispatch } = useStateValue();
   const [newChatName, setChatName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const { user = {}, visibleModal = {}, selectedChat = {} } = state;
-  const { isDarkMode = false, _id: sender_id } = user;
+  const { isDarkMode = false, _id: sender_id, name: senderName } = user;
   const { title = "", subtitle = "", participant = {} } = visibleModal;
-  const { chat_name, _id: chat_id } = selectedChat;
+  const { chat_name, _id: chat_id, chat_url } = selectedChat;
   const { name: participant_name, _id: participant_id } = participant;
 
   const handleSubmit = () => {
@@ -82,6 +83,14 @@ export default function ConfirmationModal() {
           }
         }
       );
+    } else if (title.includes("Invite User")) {
+      socket.emit(
+        "invite-user",
+        { senderName, chat_id, chat_url, email },
+        (ack) => {
+          setIsLoading(false);
+        }
+      );
     }
   };
 
@@ -141,6 +150,17 @@ export default function ConfirmationModal() {
                   value={participant_name}
                   disabled={true}
                   onClick={() => handleSubmit()}
+                />
+              )}
+              {title.includes("Invite") && (
+                <input
+                  type="text"
+                  placeholder="Type email here"
+                  className={`confirmation-input ${
+                    isDarkMode ? "confirmation-input-dark" : ""
+                  }`}
+                  onChange={(e) => setEmail(e.target.value.trim())}
+                  value={email}
                 />
               )}
             </div>
