@@ -12,7 +12,13 @@ import NoChat from "assets/NoChat.svg";
 import { useStateValue } from "store/stateProvider";
 import { socket } from "sockets/socketHandler";
 import { uploadFile } from "services";
-import { formatBytes, formatTime, encryptData, debounce } from "utils";
+import {
+  formatBytes,
+  formatTime,
+  encryptData,
+  debounce,
+  createArrayItems,
+} from "utils";
 import { useSetupAudioRecorder, useRecording } from "hooks";
 
 const SQUARES = ["1", "2", "3"];
@@ -251,7 +257,33 @@ function MainLayout() {
     >
       <>
         <TopSection selectedChat={selectedChat} />
-        {!messages.length ? (
+        {isChatLoading ? (
+          <div
+            className={`body-section ${isDarkMode ? "body-section-dark" : ""}`}
+          >
+            {createArrayItems(6).map((sh, index) => (
+              <div
+                key={index}
+                className={`message-container ${
+                  index % 2
+                    ? "message-container-align-right"
+                    : "message-container-align-left"
+                }`}
+              >
+                <span
+                  className={`message-sender-photo message-sender-initial ${
+                    isDarkMode ? "message-sender-initial-dark" : ""
+                  } `}
+                ></span>
+                <div
+                  className={`message-details message-shimmer-details shimmer-bg ${
+                    isDarkMode ? "shimmer-bg-dark" : ""
+                  }`}
+                ></div>
+              </div>
+            ))}
+          </div>
+        ) : !messages.length ? (
           <div className="no-chat-section">
             <img src={NoChat} className="no-chat-svg" alt="" />
             <span>No message here</span>
@@ -367,7 +399,7 @@ function MainLayout() {
                 className={`input-field ${
                   isDarkMode ? "input-field-dark" : ""
                 }`}
-                onChange={handleTyping}
+                onChange={(e) => handleTyping(e)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 value={content}
               />
@@ -377,7 +409,7 @@ function MainLayout() {
                   {isEmojiPickerVisible && (
                     <div className="emoji-picker-wrapper">
                       <EmojiPicker
-                        onEmojiClick={handleEmojiClick}
+                        onEmojiClick={(e) => handleEmojiClick(e)}
                         className="emoji-picker"
                       />
                     </div>

@@ -11,7 +11,7 @@ import { useStateValue } from "store/stateProvider";
 import { getChats, getNotifications } from "services/userServices";
 import { getBookmarks } from "services/bookmarkServices";
 import { socket } from "sockets/socketHandler";
-import { generateInitials } from "utils";
+import { generateInitials, createArrayItems } from "utils";
 import { publish, unsubscribe, subscribe } from "custom-events";
 import NoBookmarks from "assets/Bookmarks.svg";
 import { getCookie } from "utils";
@@ -127,8 +127,6 @@ export default function ChatList() {
     dispatch({ type: "TOGGLED_BOOKMARKS", payload: value });
   };
 
-  const getShimmerLayout = (num) => new Array(num).fill("");
-
   const handleDisplaySidebar = () => {
     dispatch({
       type: "TOGGLE_LEFT_SIDEBAR",
@@ -178,7 +176,7 @@ export default function ChatList() {
                 {generateInitials(user.name)}
               </span>
             )}
-            <FaCaretDown className="profile-claret-down"/>
+            <FaCaretDown className="profile-claret-down" />
           </div>
           <button
             className="btn-start-convo"
@@ -220,14 +218,14 @@ export default function ChatList() {
           <input
             placeholder="Search here..."
             className="search-input"
-            onChange={handleSearchChats}
+            onChange={(e) => handleSearchChats(e)}
           />
         </div>
       </div>
       <div className="chat-list-container">
         <div>
           {isChatLoading ? (
-            getShimmerLayout(5).map((sh, index) => (
+            createArrayItems(7).map((ca, index) => (
               <div key={index} className="shimmer-chat-info-container">
                 <div
                   className={`shimmer-chat-info-wrapper shimmer-bg ${
@@ -235,7 +233,7 @@ export default function ChatList() {
                   }`}
                 >
                   <div className="chat-info-photo-or-initial-wrapper">
-                    {getShimmerLayout(3).map((pt, index) => {
+                    {createArrayItems(3).map((ca, index) => {
                       return (
                         <span
                           className="chat-info-initial shimmer-info-initial"

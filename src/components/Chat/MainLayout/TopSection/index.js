@@ -12,6 +12,7 @@ import { BsStar } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { TbListDetails } from "react-icons/tb";
 import { subscribe, unsubscribe } from "custom-events";
 import { generateInitials, isSameSender } from "utils";
 import "./TopSection.css";
@@ -26,8 +27,9 @@ function TopSection({ selectedChat }) {
     participants = [],
     _id: selectChatId,
     creator_id = "",
+    chat_name = "",
   } = selectedChat || {};
-  const { user = {}, bookmarks = [] } = state;
+  const { user = {}, bookmarks = [], isRightSidebarVisible } = state;
   let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -207,16 +209,35 @@ function TopSection({ selectedChat }) {
     return result;
   };
 
+  const handleDisplayChatDetails = useCallback(() => {
+    dispatch({
+      type: "TOGGLE_RIGHT_SIDEBAR",
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth && isRightSidebarVisible) {
+        handleDisplayChatDetails();
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleDisplayChatDetails, isRightSidebarVisible]);
+
   return (
     <div className={`top-section ${isDarkMode ? "top-section-dark" : ""}`}>
       <RxHamburgerMenu
         className="hamburger-menu"
         onClick={() => handleDisplaySidebar()}
       />
-
-      <div className="row">
+      <span className="user-info-name">{chat_name}</span>
+      <div className="user-info-row">
         <div className="user-info-col-1">
-          {/* <span className="user-info-name">{chat_name}</span> */}
           <div className="user-info-photo-or-initial-wrapper">
             {participants.slice(0, 3).map((participant = {}, index) => {
               const checkSameSender = isSameSender(participant, user);
@@ -351,6 +372,15 @@ function TopSection({ selectedChat }) {
                   )}
                 </>
               )}
+              <div
+                className={`more-items-row chat-details-mobile-view ${
+                  isDarkMode ? "more-items-row-dark" : ""
+                }`}
+                onClick={() => handleDisplayChatDetails()}
+              >
+                <span>Chat Details</span>
+                <TbListDetails />
+              </div>
             </div>
           )}
         </div>
