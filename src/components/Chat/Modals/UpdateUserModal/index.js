@@ -38,7 +38,7 @@ export default function UpdateUserModal() {
       .then(async (response) => {
         if (response.success) {
           const { updatedUser = {} } = response;
-          if (Object.entries(updatedUser)) {
+          if (Object.keys(updatedUser).length) {
             dispatch({ type: "GET_USER_SUCCESS", payload: updatedUser });
             handleToggleModal();
             handleToggleAlert({

@@ -176,7 +176,11 @@ export default function ChatList() {
                 {generateInitials(user.name)}
               </span>
             )}
-            <FaCaretDown className="profile-claret-down" />
+            <FaCaretDown
+              className={`profile-claret-down ${
+                isDarkMode ? "profile-claret-down-dark" : ""
+              }`}
+            />
           </div>
           <button
             className="btn-start-convo"

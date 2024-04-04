@@ -47,7 +47,11 @@
 }
 
 .profile-claret-down {
-  color: #353535;
+  color: #272727;
+}
+
+.profile-claret-down-dark {
+  color: #ccc;
 }
 
 .sidebar-row-1-dark > .profile-initial {
