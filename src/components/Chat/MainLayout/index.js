@@ -294,7 +294,7 @@ function MainLayout() {
           >
             {messages.map((message, index) => {
               const { content = "", attachments = [], sender = {} } = message;
-              const { isChatBot = false } = sender;
+              const isChatBot = sender?.isChatBot;
               return content || (attachments.length && !isChatBot) ? (
                 <Message message={message} key={index} />
               ) : (
