@@ -35,7 +35,7 @@
 
 .modal-body {
   padding: 0 40px;
-  margin-top: 50px;
+  margin-top: 60px;
   flex: 1;
   position: relative;
 }
@@ -44,6 +44,12 @@
   margin-left: auto;
   font-size: 20px;
   font-weight: 700;
+}
+
+.modal-subtitle {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 18px;
 }
 
 .close {

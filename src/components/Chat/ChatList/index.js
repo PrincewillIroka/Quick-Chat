@@ -184,7 +184,7 @@ export default function ChatList() {
             className="btn-start-convo"
             onClick={() => handleToggleModal("CreateConversation")}
           >
-            <span className="btn-start-convo-text">Start new conversation</span>
+            <span className="btn-start-convo-text">Create new chat</span>
             <BsPlusCircle className="plus-circle-icon" />
           </button>
           <IoMdClose
