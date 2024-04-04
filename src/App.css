@@ -31,6 +31,11 @@ input:focus {
   height: 100%;
 }
 
+.shimmer-bg-dark {
+  background: #000;
+  background: linear-gradient(to right, #272727 8%, #212121, 18%, #272727 33%);
+}
+
 @-webkit-keyframes shimmer {
   0% {
     background-position: -100% 0;
