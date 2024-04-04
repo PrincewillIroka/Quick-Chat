@@ -10,7 +10,7 @@
 
 .sidebar-row-1 {
   display: flex;
-  background-color: #f8f8f8;
+  background-color: #fff;
   justify-content: space-between;
   height: 75px;
   align-items: center;
@@ -19,7 +19,7 @@
 }
 
 .sidebar-row-1-dark {
-  background-color: #272727;
+  background-color: #000;
 }
 
 .profile-photo-wrapper {

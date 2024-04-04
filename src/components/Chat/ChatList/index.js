@@ -218,7 +218,7 @@ export default function ChatList() {
           <input
             placeholder="Search here..."
             className="search-input"
-            onChange={handleSearchChats}
+            onChange={(e) => handleSearchChats(e)}
           />
         </div>
       </div>

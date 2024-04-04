@@ -1,28 +1,52 @@
 import React, { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsPeople, BsInfoCircle } from "react-icons/bs";
+import { IoMdClose } from "react-icons/io";
 import "./ChatDetails.css";
 import ChatMedia from "./ChatMedia";
 import ChatParticipants from "./ChatParticipants";
 import ChatNotifications from "./ChatNotifications";
+import { useStateValue } from "store/stateProvider";
 
-export default function ChatDetails({ isDarkMode }) {
+export default function ChatDetails({ isDarkMode, chat_name }) {
   const [activeDetail, setActiveDetail] = useState("ChatMedia");
+  const { state = {}, dispatch } = useStateValue();
+  const { isRightSidebarVisible = false } = state;
 
   const getActiveDetail = (value) => {
     return activeDetail === value;
   };
 
+  const handleDisplayChatDetails = () => {
+    dispatch({
+      type: "TOGGLE_RIGHT_SIDEBAR",
+    });
+  };
+
   return (
-    <div className="chat-details-container">
+    <div
+      className={`chat-details-container ${
+        isRightSidebarVisible ? "chat-details-sidebar" : ""
+      }`}
+    >
       <div
         className={`chat-details-header ${
           isDarkMode ? "chat-details-header-dark" : ""
         }`}
       >
-        Chat Details
+        <span className={`${isRightSidebarVisible ? "chat-details-name" : ""}`}>
+          {isRightSidebarVisible && chat_name ? chat_name : "Chat Details"}
+        </span>
+        <IoMdClose
+          className="chat-details-close-btn"
+          onClick={() => handleDisplayChatDetails()}
+        />
       </div>
-      <div className="chat-details-body">
+      <div
+        className={`chat-details-body ${
+          isRightSidebarVisible && isDarkMode ? "chat-details-body-dark" : ""
+        }`}
+      >
         <div className="chat-details-body-top-row">
           <div
             className={`chat-details-icon-container ${
@@ -65,18 +89,18 @@ export default function ChatDetails({ isDarkMode }) {
             />
           </div>
         </div>
-        {getActiveDetail("ChatParticipants") && (
-          <div className="chat-detai-single-wrapper">
-            <ChatParticipants />
-          </div>
-        )}
         {getActiveDetail("ChatMedia") && (
-          <div className="chat-detai-single-wrapper">
+          <div className="chat-detail-single-wrapper">
             <ChatMedia />
           </div>
         )}
+        {getActiveDetail("ChatParticipants") && (
+          <div className="chat-detail-single-wrapper">
+            <ChatParticipants />
+          </div>
+        )}
         {getActiveDetail("ChatNotifications") && (
-          <div className="chat-detai-single-wrapper">
+          <div className="chat-detail-single-wrapper">
             <ChatNotifications />
           </div>
         )}

@@ -17,6 +17,7 @@ const initialState = {
   notifications: [],
   notifications_count: {},
   isLeftSidebarVisible: false,
+  isRightSidebarVisible: false,
 };
 
 export default initialState;

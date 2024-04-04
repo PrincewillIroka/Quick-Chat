@@ -5,6 +5,7 @@
 .notification-wrapper {
   height: 98%;
   overflow-y: auto;
+  padding: 0 15px;
 }
 
 .notification-single-wrapper {

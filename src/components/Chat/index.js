@@ -27,6 +27,7 @@ export default function Chat() {
     passcode = "",
     creator_id = "",
     access_rights = [],
+    chat_name,
   } = selectedChat;
   const [passcodeInput, setPasscodeInput] = useState("");
   const [isLoadingPasscode, setIsLoadingPasscode] = useState(false);
@@ -151,7 +152,7 @@ export default function Chat() {
       {checkPasscode() ? (
         <>
           <MainLayout />
-          <ChatDetails isDarkMode={isDarkMode} />
+          <ChatDetails isDarkMode={isDarkMode} chat_name={chat_name} />
         </>
       ) : isLoadingPasscode ? (
         <div className="check-passcode-container">Please wait....</div>

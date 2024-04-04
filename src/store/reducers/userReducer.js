@@ -203,6 +203,14 @@ const userReducer = (state, action) => {
         isLeftSidebarVisible: !isLeftSidebarVisible,
       };
     }
+    case "TOGGLE_RIGHT_SIDEBAR": {
+      const { isRightSidebarVisible = false } = state;
+
+      return {
+        ...state,
+        isRightSidebarVisible: !isRightSidebarVisible,
+      };
+    }
     default:
       return state;
   }
