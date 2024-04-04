@@ -78,3 +78,5 @@ export function debounce(func, timeout = 500) {
     }, timeout);
   };
 }
+
+export const createArrayItems = (num) => new Array(num).fill("");
