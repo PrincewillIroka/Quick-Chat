@@ -7,4 +7,4 @@ You don't have to create an account. Just create a chat and send the link to oth
 ### Live
 https://quick-chatt.netlify.app
 ### Screenshot
-![Screenshot](https://i.imgur.com/afyuT1Y.png)
+![Screenshot](https://i.imgur.com/U1dBg5W.png)
