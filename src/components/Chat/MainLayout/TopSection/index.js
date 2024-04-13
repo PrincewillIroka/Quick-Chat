@@ -41,6 +41,7 @@ function TopSection({ selectedChat }) {
   let { _id: user_id, isDarkMode = false } = user;
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [isTopSectionInfoVisible, setIsTopSectionInfoVisible] = useState(true);
   const isChatCreator = creator_id === user_id;
 
   const bookmarkFound = useMemo(() => {
@@ -432,6 +433,15 @@ function TopSection({ selectedChat }) {
               </div>
             </div>
           )}
+        </div>
+      )}
+      {isTopSectionInfoVisible && (
+        <div className="top-section-info">
+          Chats are secured with end-to-end encryption.
+          <IoMdClose
+            className="top-section-info-icon"
+            onClick={() => setIsTopSectionInfoVisible(false)}
+          />
         </div>
       )}
     </div>

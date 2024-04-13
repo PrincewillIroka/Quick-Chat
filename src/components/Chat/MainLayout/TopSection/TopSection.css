@@ -7,12 +7,37 @@
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
   justify-content: space-between;
   margin-bottom: 2px;
+  position: relative;
 }
 
 .top-section-dark {
   box-shadow: rgba(256, 256, 256, 0.2) 0px 4px 6px -1px,
     rgba(256, 256, 256, 0.025) 0px 2px 4px -1px;
   background-color: #090909;
+}
+
+.top-section-info {
+  top: 0;
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(247, 110, 17, 0.9);
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.top-section-info-icon {
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
 }
 
 .user-info-row {
