@@ -16,12 +16,13 @@
   background-color: #090909;
 }
 
-.top-section-info {
+.top-section-alert {
   top: 0;
   height: 20px;
   width: 100%;
   position: absolute;
-  background-color: rgba(247, 110, 17, 0.9);
+  /* background-color: rgba(247, 110, 17, 0.9); */
+  background-color: #555;
   left: 0;
   display: flex;
   justify-content: center;
@@ -29,15 +30,22 @@
   font-size: 13px;
   color: #fff;
   font-weight: bold;
+  z-index: 3;
 }
 
-.top-section-info-icon {
+.top-section-alert-close-icon {
   position: absolute;
   right: 0;
   margin-right: 10px;
-  height: 15px;
-  width: 15px;
+  height: 16px;
+  width: 16px;
   cursor: pointer;
+}
+
+.top-section-alert-info-icon {
+  margin-right: 10px;
+  height: 13px;
+  width: 13px;
 }
 
 .user-info-row {

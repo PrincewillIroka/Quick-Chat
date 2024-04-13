@@ -8,7 +8,7 @@ import {
   MdOutlineLightMode,
   MdDeleteOutline,
 } from "react-icons/md";
-import { BsStar } from "react-icons/bs";
+import { BsStar, BsInfoCircle } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -436,10 +436,11 @@ function TopSection({ selectedChat }) {
         </div>
       )}
       {isTopSectionInfoVisible && (
-        <div className="top-section-info">
-          Chats are secured with end-to-end encryption.
+        <div className="top-section-alert">
+          <BsInfoCircle className="top-section-alert-info-icon" />
+          <span>Chats are secured with end-to-end encryption.</span>
           <IoMdClose
-            className="top-section-info-icon"
+            className="top-section-alert-close-icon"
             onClick={() => setIsTopSectionInfoVisible(false)}
           />
         </div>
