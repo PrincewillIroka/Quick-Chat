@@ -36,6 +36,7 @@ export default function Home() {
             &#10003; Just create a conversation, and share the link to anyone
             you want to chat with.
           </li>
+          <li>&#10003; Messages are secured with end-to-end encryption.</li>
         </ul>
         <button
           className="btn-start-now"
