@@ -100,6 +100,18 @@ export default function Chat() {
     return () => clearTimeout(alertTimeout);
   }, [closeAlert, isAlertVisible, alertType]);
 
+  useEffect(() => {
+    function changeStatus() {
+      // console.log(navigator.onLine);
+    }
+    window.addEventListener("online", changeStatus);
+    window.addEventListener("offline", changeStatus);
+    return () => {
+      window.removeEventListener("online", changeStatus);
+      window.removeEventListener("offline", changeStatus);
+    };
+  }, []);
+
   const handleClick = (event) => {
     event.preventDefault();
     if (event.target.id === "alert-click-here-btn") {

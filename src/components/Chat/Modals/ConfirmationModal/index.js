@@ -91,6 +91,28 @@ export default function ConfirmationModal() {
           setIsLoading(false);
         }
       );
+    } else if (title.includes("Clear Chat")) {
+      socket.emit(
+        "clear-chat",
+        {
+          chat_id,
+        },
+        ({ success, chat_id, messages }) => {
+          setIsLoading(false);
+          if (success) {
+            dispatch({
+              type: "CLEAR_CHAT",
+              payload: { chat_id: chat_id, messages },
+            });
+            handleToggleAlert({
+              isAlertVisible: true,
+              content: "Chat cleared successfully!",
+              type: "success",
+            });
+            handleToggleModal();
+          }
+        }
+      );
     }
   };
 

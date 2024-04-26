@@ -61,6 +61,10 @@ const chatSockets = (socket, state, dispatch) => {
       audio.play().catch(() => console.warn());
     }
   });
+
+  socket.on("chat-cleared", (payload) => {
+    dispatch({ type: "CLEAR_CHAT", payload });
+  });
 };
 
 export default chatSockets;

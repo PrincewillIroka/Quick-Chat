@@ -370,6 +370,31 @@ const chatReducer = (state = {}, action) => {
         chatsClone,
       };
     }
+    case "CLEAR_CHAT": {
+      let { chats = [], chatsClone = [], selectedChat = {}, user = {} } = state;
+      const { chat_id, messages } = action.payload;
+
+      const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
+
+      if (!chatToBeUpdated) {
+        return { ...state };
+      }
+
+      chatsClone = clearChatMessages({
+        chatsClone,
+        chat_id,
+        messages,
+      });
+      chats = getUpdatedChats({ chats, chatsClone });
+      selectedChat.messages = messages;
+
+      return {
+        ...state,
+        selectedChat,
+        chats,
+        chatsClone,
+      };
+    }
     default:
       return state;
   }
@@ -472,6 +497,17 @@ const addNewMessageToChat = ({
   }
 
   return chatToBeUpdated;
+};
+
+const clearChatMessages = ({ chatsClone = [], chat_id, messages }) => {
+  const updatedChats = chatsClone.map((chat) => {
+    if (chat_id === chat._id) {
+      chat.messages = messages;
+    }
+
+    return chat;
+  });
+  return updatedChats;
 };
 
 export default chatReducer;

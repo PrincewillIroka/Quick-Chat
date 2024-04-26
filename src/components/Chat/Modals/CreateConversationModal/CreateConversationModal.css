@@ -1,15 +1,21 @@
+.modal-conversation-body {
+  padding: 0 40px;
+  margin-top: 40px;
+  flex: 1;
+  position: relative;
+}
+
 .conversation-title-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .conversation-title-input {
   flex: 1;
   font-size: 17px;
   padding: 7px 10px;
-  margin-bottom: 30px;
   border: 1px solid #ccc;
   border-radius: 3px;
   margin-top: 5px;
@@ -17,6 +23,10 @@
 
 .conversation-title-input:focus {
   outline: none;
+}
+
+.conversation-error {
+  border: 2px solid red;
 }
 
 .optional-tag {
@@ -27,18 +37,18 @@
 .modal-passcode-row {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .modal-passcode-row-1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .modal-passcode-info {
   font-size: 13px;
+  margin-top: 5px;
 }
 
 .switch {
