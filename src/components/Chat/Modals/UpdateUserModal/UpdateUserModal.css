@@ -87,12 +87,6 @@
   color: #f76e11;
 }
 
-.modal-passcode-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
-}
-
 .switch {
   position: relative;
   display: inline-block;
