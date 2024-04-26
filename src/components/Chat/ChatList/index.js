@@ -48,6 +48,10 @@ export default function ChatList() {
     async ({ detail: userDetail }) => {
       const bs_token = getCookie();
 
+      if (!bs_token) {
+        return;
+      }
+
       await getChats({ bs_token, chatUrlParam })
         .then(async (response) => {
           if (response.success) {
