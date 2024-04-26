@@ -13,12 +13,26 @@ export default function CreateConversationModal() {
   const [isChatCreated, setIsChatCreated] = useState(false);
   const [chatName, setChatName] = useState("");
   const [chatLink, setChatLink] = useState("");
+  const [hasAddedBot, setHasAddedBot] = useState(false);
+  const [botName, setBotName] = useState("");
+  const [botPrompt, setBotPrompt] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { user = {} } = state;
   const { isDarkMode = false } = user;
 
   const handleCreateChat = async () => {
+    setIsSubmitting(true);
+    if (hasAddedBot && !botName) {
+      return;
+    }
     setIsLoading(true);
-    await createChat({ creator_id: user._id, passcode, chat_name: chatName })
+    await createChat({
+      creator_id: user._id,
+      passcode,
+      chat_name: chatName,
+      botName,
+      botPrompt,
+    })
       .then(async (response) => {
         const { success, newChat } = response || {};
         if (success && newChat) {
@@ -129,7 +143,7 @@ export default function CreateConversationModal() {
             </div>
           </div>
         ) : (
-          <div className="modal-body">
+          <div className="modal-conversation-body">
             <div className="conversation-title-container">
               <div>
                 Conversation title:
@@ -147,8 +161,59 @@ export default function CreateConversationModal() {
             <div className="modal-passcode-row">
               <div className="modal-passcode-row-1">
                 <div>
+                  Add a Bot to this chat:
+                </div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={hasAddedBot}
+                    onChange={() => setHasAddedBot(!hasAddedBot)}
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            </div>
+            {hasAddedBot && (
+              <>
+                <div className="conversation-title-container">
+                  <div>
+                    Bot name:
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="E.g My personal assistant"
+                    className={`conversation-title-input ${
+                      isSubmitting && hasAddedBot && !botName
+                        ? "conversation-error"
+                        : ""
+                    }`}
+                    onChange={(e) => {
+                      setIsSubmitting(false);
+                      setBotName(e.target.value);
+                    }}
+                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                  />
+                </div>
+                <div className="conversation-title-container">
+                  <div>
+                    Bot prompt:
+                    <span className="optional-tag">(Optional)</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="E.g You help me with office tasks"
+                    className="conversation-title-input"
+                    onChange={(e) => setBotPrompt(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                  />
+                </div>
+              </>
+            )}
+            <div className="modal-passcode-row">
+              <div className="modal-passcode-row-1">
+                <div>
                   Set a passcode:
-                  <span className="optional-tag">(Optional)</span>
+                  {/* <span className="optional-tag">(Optional)</span> */}
                 </div>
                 <label className="switch">
                   <input

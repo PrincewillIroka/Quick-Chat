@@ -221,8 +221,10 @@ function TopSection({ selectedChat }) {
     });
   };
 
-  const hasChatBot = () => {
-    const result = participants.find((participant) => participant?.isChatBot);
+  const checkIfParticipantIsSystemBot = () => {
+    const result = participants.find((participant) => {
+      return participant?.isChatBot && !participant?.chatBotDetails?.isUserBot;
+    });
     return result;
   };
 
@@ -409,7 +411,7 @@ function TopSection({ selectedChat }) {
                     <span>Rename chat</span>
                     <AiTwotoneEdit />
                   </div>
-                  {!hasChatBot() && (
+                  {!checkIfParticipantIsSystemBot() && (
                     <div
                       className={`more-items-row ${
                         isDarkMode ? "more-items-row-dark" : ""
