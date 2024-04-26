@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import { BsStar, BsInfoCircle } from "react-icons/bs";
 import { IoMdClose } from "react-icons/io";
-import { AiTwotoneEdit } from "react-icons/ai";
+import { AiTwotoneEdit, AiOutlineClear } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbListDetails } from "react-icons/tb";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -31,6 +31,7 @@ function TopSection({ selectedChat }) {
     creator_id = "",
     chat_name = "",
     passcode = "",
+    messages = [],
   } = selectedChat || {};
   const {
     user = {},
@@ -211,6 +212,17 @@ function TopSection({ selectedChat }) {
         type: "ConfirmationModal",
         title: "Rename Chat",
         subtitle: "Are you sure you want to rename this chat ?",
+      },
+    });
+  };
+
+  const handleClearChat = () => {
+    dispatch({
+      type: "TOGGLE_MODAL",
+      payload: {
+        type: "ConfirmationModal",
+        title: "Clear Chat",
+        subtitle: "Are you sure you want to clear this chat ?",
       },
     });
   };
@@ -421,6 +433,19 @@ function TopSection({ selectedChat }) {
                       <span>Delete chat</span>
                       <MdDeleteOutline />
                     </div>
+                  )}
+                  {messages.length ? (
+                    <div
+                      className={`more-items-row ${
+                        isDarkMode ? "more-items-row-dark" : ""
+                      }`}
+                      onClick={() => handleClearChat()}
+                    >
+                      <span>Clear chat</span>
+                      <AiOutlineClear />
+                    </div>
+                  ) : (
+                    ""
                   )}
                 </>
               )}
