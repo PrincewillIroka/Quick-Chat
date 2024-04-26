@@ -371,7 +371,7 @@ const chatReducer = (state = {}, action) => {
       };
     }
     case "CLEAR_CHAT": {
-      let { chats = [], chatsClone = [], selectedChat = {}, user = {} } = state;
+      let { chats = [], chatsClone = [], selectedChat = {} } = state;
       const { chat_id, messages } = action.payload;
 
       const chatToBeUpdated = chatsClone.find((chat) => chat._id === chat_id);
