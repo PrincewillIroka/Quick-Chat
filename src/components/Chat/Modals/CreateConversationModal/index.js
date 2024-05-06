@@ -20,7 +20,8 @@ export default function CreateConversationModal() {
   const { user = {} } = state;
   const { isDarkMode = false } = user;
 
-  const handleCreateChat = async () => {
+  const handleCreateChat = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
     if (hasAddedBot && !botName) {
       return;
@@ -154,15 +155,13 @@ export default function CreateConversationModal() {
                 placeholder="E.g Close friends, Team members e.t.c"
                 className="conversation-title-input"
                 onChange={(e) => setChatName(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                onKeyDown={(e) => e.key === "Enter" && handleCreateChat(e)}
                 autoFocus={true}
               />
             </div>
             <div className="modal-passcode-row">
               <div className="modal-passcode-row-1">
-                <div>
-                  Add a Bot to this chat:
-                </div>
+                <div>Add a Bot to this chat:</div>
                 <label className="switch">
                   <input
                     type="checkbox"
@@ -176,9 +175,7 @@ export default function CreateConversationModal() {
             {hasAddedBot && (
               <>
                 <div className="conversation-title-container">
-                  <div>
-                    Bot name:
-                  </div>
+                  <div>Bot name:</div>
                   <input
                     type="text"
                     placeholder="E.g My personal assistant"
@@ -191,7 +188,7 @@ export default function CreateConversationModal() {
                       setIsSubmitting(false);
                       setBotName(e.target.value);
                     }}
-                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat(e)}
                   />
                 </div>
                 <div className="conversation-title-container">
@@ -204,7 +201,7 @@ export default function CreateConversationModal() {
                     placeholder="E.g You help me with office tasks"
                     className="conversation-title-input"
                     onChange={(e) => setBotPrompt(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat()}
+                    onKeyDown={(e) => e.key === "Enter" && handleCreateChat(e)}
                   />
                 </div>
               </>
@@ -242,7 +239,7 @@ export default function CreateConversationModal() {
               </button>
               <button
                 className="create-button conversation-button"
-                onClick={() => handleCreateChat()}
+                onClick={(e) => handleCreateChat(e)}
               >
                 Create
               </button>
