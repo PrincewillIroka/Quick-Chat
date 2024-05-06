@@ -251,7 +251,7 @@ const chatReducer = (state = {}, action) => {
         notifications_count,
       };
     }
-    case "RENAME_CHAT": {
+    case "EDIT_CHAT": {
       let { chats = [], chatsClone = [], selectedChat = {} } = state;
       const { chat_id, chat_name } = action.payload;
 
@@ -265,7 +265,7 @@ const chatReducer = (state = {}, action) => {
         selectedChat.chat_name = chat_name;
       }
 
-      chatsClone = renameChat({ chatsClone, chat_id, chat_name });
+      chatsClone = editChat({ chatsClone, chat_id, chat_name });
       chats = getUpdatedChats({ chats, chatsClone });
 
       return {
@@ -422,7 +422,7 @@ const updateChat = ({
   return updatedChats;
 };
 
-const renameChat = ({ chatsClone = [], chat_id = "", chat_name = "" }) => {
+const editChat = ({ chatsClone = [], chat_id = "", chat_name = "" }) => {
   const updatedChats = chatsClone.map((chat) => {
     if (chat_id === chat._id) {
       chat.chat_name = chat_name;

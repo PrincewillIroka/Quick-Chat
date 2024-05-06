@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { socket } from "sockets/socketHandler";
 import { useStateValue } from "store/stateProvider";
+import { encryptData } from "utils";
 import "./ConfirmationModal.css";
 import "../Modals.css";
 
@@ -9,31 +10,36 @@ export default function ConfirmationModal() {
   const [newChatName, setChatName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [passcode, setPasscode] = useState("");
+  const [passcodeToggle, setPasscodeToggle] = useState(false);
   const { user = {}, visibleModal = {}, selectedChat = {} } = state;
   const { isDarkMode = false, _id: sender_id, name: senderName } = user;
   const { title = "", subtitle = "", participant = {} } = visibleModal;
   const { chat_name, _id: chat_id, chat_url } = selectedChat;
   const { name: participant_name, _id: participant_id } = participant;
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setIsLoading(true);
-    if (title.includes("Rename Chat")) {
+    if (title.includes("Edit Chat")) {
+      const encryptedPasscode = encryptData(passcode);
       socket.emit(
-        "rename-chat",
+        "edit-chat",
         {
           chat_id,
           chat_name: newChatName,
+          encryptedPasscode,
         },
         (ack) => {
           setIsLoading(false);
           if (ack.success) {
             dispatch({
-              type: "RENAME_CHAT",
+              type: "EDIT_CHAT",
               payload: { chat_id, chat_name: ack.chat_name },
             });
             handleToggleAlert({
               isAlertVisible: true,
-              content: "Chat renamed successfully!",
+              content: "Chat edited successfully!",
               type: "success",
             });
             handleToggleModal();
@@ -151,16 +157,46 @@ export default function ConfirmationModal() {
             <div className="modal-col-container">
               <div className="modal-subtitle">{subtitle}</div>
               {title.includes("Chat") && (
-                <input
-                  type="text"
-                  placeholder={chat_name}
-                  className={`confirmation-input ${
-                    isDarkMode ? "confirmation-input-dark" : ""
-                  }`}
-                  onChange={(e) => setChatName(e.target.value.trim())}
-                  value={title.includes("Delete") ? chat_name : newChatName}
-                  disabled={title.includes("Delete")}
-                />
+                <>
+                  <input
+                    type="text"
+                    placeholder={chat_name || "Enter chat name here"}
+                    className={`confirmation-input ${
+                      isDarkMode ? "confirmation-input-dark" : ""
+                    }`}
+                    onChange={(e) => setChatName(e.target.value.trim())}
+                    value={title.includes("Delete") ? chat_name : newChatName}
+                    disabled={title.includes("Delete")}
+                  />
+                  {title.includes("Edit") && (
+                    <>
+                      <div className="modal-passcode-section">
+                        <div>
+                          Set a passcode:
+                          <span className="optional-tag">(Optional)</span>
+                        </div>
+                        <label className="switch">
+                          <input
+                            type="checkbox"
+                            checked={passcodeToggle}
+                            onChange={() => setPasscodeToggle(!passcodeToggle)}
+                          />
+                          <span className="slider round"></span>
+                        </label>
+                      </div>
+                      {passcodeToggle && (
+                        <input
+                          type="password"
+                          placeholder="Enter new passcode here"
+                          className={`confirmation-input confirmation-pwd ${
+                            isDarkMode ? "confirmation-input-dark" : ""
+                          }`}
+                          onChange={(e) => setPasscode(e.target.value.trim())}
+                        />
+                      )}
+                    </>
+                  )}
+                </>
               )}
               {title.includes("Participant") && (
                 <input
@@ -171,7 +207,7 @@ export default function ConfirmationModal() {
                   }`}
                   value={participant_name}
                   disabled={true}
-                  onClick={() => handleSubmit()}
+                  onClick={(e) => handleSubmit(e)}
                 />
               )}
               {title.includes("Invite") && (
@@ -195,7 +231,7 @@ export default function ConfirmationModal() {
               </button>
               <button
                 className="create-button update-user-button"
-                onClick={() => handleSubmit()}
+                onClick={(e) => handleSubmit(e)}
               >
                 Continue
               </button>
