@@ -135,7 +135,8 @@ export default function Chat() {
     return access_rights.find((aId) => aId === user_id);
   };
 
-  const handleUpdateAccessRight = () => {
+  const handleUpdateAccessRight = (e) => {
+    e.preventDefault();
     setIsLoadingPasscode(true);
     updateAccessRight({ user_id, chat_id, passcode: passcodeInput })
       .then((response) => {
@@ -180,13 +181,13 @@ export default function Chat() {
             onFocus={() => setErrorMessage("")}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleUpdateAccessRight();
+                handleUpdateAccessRight(e);
               }
             }}
           />
           <button
             className="submit-passcode-btn"
-            onClick={() => handleUpdateAccessRight()}
+            onClick={(e) => handleUpdateAccessRight(e)}
           >
             Submit
           </button>
