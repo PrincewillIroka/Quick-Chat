@@ -92,7 +92,7 @@ export default function Chat() {
 
   useEffect(() => {
     let alertTimeout;
-    if (isAlertVisible && alertType !== "info") {
+    if (isAlertVisible && !["info"].includes(alertType)) {
       alertTimeout = setTimeout(() => {
         closeAlert();
       }, 3000);
@@ -112,9 +112,9 @@ export default function Chat() {
     };
   }, []);
 
-  const handleClick = (event) => {
-    event.preventDefault();
-    if (event.target.id === "alert-click-here-btn") {
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (e.target.id === "alert-click-here-btn") {
       closeAlert();
       dispatch({ type: "TOGGLE_MODAL", payload: { type: "UpdateUserModal" } });
     }
@@ -206,7 +206,7 @@ export default function Chat() {
             <div
               className="alert-content"
               dangerouslySetInnerHTML={{ __html: alertContent }}
-              onClick={handleClick}
+              onClick={(e) => handleClick(e)}
             ></div>
             <IoMdClose className="alert-close" onClick={() => closeAlert()} />
           </div>

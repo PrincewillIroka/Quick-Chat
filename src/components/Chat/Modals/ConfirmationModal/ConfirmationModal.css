@@ -25,7 +25,7 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   width: 100%;
-  margin: auto 0;
+  margin: auto 0 20px 0;
   color: #000;
 }
 
@@ -94,4 +94,14 @@ input:checked + .slider:before {
   background-color: #f76e11;
   color: #fff;
   border: none;
+}
+
+.confirmation-pwd {
+  margin-top: 10px;
+}
+
+.modal-passcode-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

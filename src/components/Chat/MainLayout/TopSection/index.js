@@ -205,13 +205,13 @@ function TopSection({ selectedChat }) {
     });
   };
 
-  const handleRenameChat = () => {
+  const handleEditChat = () => {
     dispatch({
       type: "TOGGLE_MODAL",
       payload: {
         type: "ConfirmationModal",
-        title: "Rename Chat",
-        subtitle: "Are you sure you want to rename this chat ?",
+        title: "Edit Chat",
+        subtitle: "Are you sure you want to edit this chat ?",
       },
     });
   };
@@ -418,9 +418,9 @@ function TopSection({ selectedChat }) {
                     className={`more-items-row ${
                       isDarkMode ? "more-items-row-dark" : ""
                     }`}
-                    onClick={() => handleRenameChat()}
+                    onClick={() => handleEditChat()}
                   >
-                    <span>Rename chat</span>
+                    <span>Edit chat</span>
                     <AiTwotoneEdit />
                   </div>
                   {!checkIfParticipantIsSystemBot() && (
