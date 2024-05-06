@@ -18,7 +18,8 @@ export default function UpdateUserModal() {
   const { user = {} } = state;
   const { _id: user_id, name = "", photo = "", isDarkMode = false } = user;
 
-  const handleUpdateUser = async () => {
+  const handleUpdateUser = async (e) => {
+    e.preventDefault();
     if (!userPhoto && !username) {
       return;
     }
@@ -126,7 +127,7 @@ export default function UpdateUserModal() {
                 placeholder="Enter new username here"
                 className="update-username-input"
                 onChange={(e) => setUserName(e.target.value.trim())}
-                onKeyDown={(e) => e.key === "Enter" && handleUpdateUser()}
+                onKeyDown={(e) => e.key === "Enter" && handleUpdateUser(e)}
                 autoFocus={true}
               />
             </div>
@@ -173,7 +174,7 @@ export default function UpdateUserModal() {
               </button>
               <button
                 className="create-button update-user-button"
-                onClick={() => handleUpdateUser()}
+                onClick={(e) => handleUpdateUser(e)}
               >
                 Update
               </button>

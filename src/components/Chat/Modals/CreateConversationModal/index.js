@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { createChat } from "services";
 import { useStateValue } from "store/stateProvider";
-import { generatePasscode } from "utils";
+import { encryptData, generatePasscode } from "utils";
 import "./CreateConversationModal.css";
 import "../Modals.css";
 
@@ -27,9 +27,11 @@ export default function CreateConversationModal() {
       return;
     }
     setIsLoading(true);
+
+    const encryptedPasscode = encryptData(passcode);
     await createChat({
       creator_id: user._id,
-      passcode,
+      encryptedPasscode,
       chat_name: chatName,
       botName,
       botPrompt,
