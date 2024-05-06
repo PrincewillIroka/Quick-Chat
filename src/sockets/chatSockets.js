@@ -65,6 +65,19 @@ const chatSockets = (socket, state, dispatch) => {
   socket.on("chat-cleared", (payload) => {
     dispatch({ type: "CLEAR_CHAT", payload });
   });
+
+  socket.on("warning-exceeded-gpt-messages", ({ message }) => {
+    dispatch({
+      type: "TOGGLE_ALERT",
+      payload: {
+        isAlertVisible: true,
+        content: `<div class="alert-nested-wrapper"><span>${message}.</span>
+      <!-- <span class="alert-click-here-btn" id="alert-click-here-btn">Subscribe now.</span> -->
+      </div>`,
+        type: "info",
+      },
+    });
+  });
 };
 
 export default chatSockets;
