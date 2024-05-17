@@ -1,11 +1,16 @@
 import crypto from "crypto";
+import Cookies from "js-cookie";
 
 const SIZES = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
+export const setCookie = (bs_token) => {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + 400 * 24 * 60 * 60 * 1000);
+  document.cookie = `bs_token=${bs_token};expires=${expires};path=/`;
+};
+
 export const getCookie = () => {
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let result = decodedCookie.split(";")[0];
-  const bs_token = result.includes("bs_token") ? result.split("=")[1] : "";
+  const bs_token = Cookies.get("bs_token");
   return bs_token;
 };
 
