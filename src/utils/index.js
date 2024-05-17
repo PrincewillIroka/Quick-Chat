@@ -17,9 +17,13 @@ export const getCookie = () => {
 export const generateInitials = (name) => {
   const arr = name?.split(" ");
   if (arr) {
-    const firstName = arr[0]?.charAt(0);
-    const lastName = arr[1]?.charAt(0);
-    return `${firstName}${lastName ? lastName : ""}`;
+    const firstNameFirstCharacter = arr[0]?.charAt(0);
+    const lastNameFirstCharacter = arr[1]?.charAt(0);
+    const firstNameSecondCharacter = arr[0]?.charAt(1);
+
+    return `${firstNameFirstCharacter}${
+      lastNameFirstCharacter ? lastNameFirstCharacter : firstNameSecondCharacter
+    }`.toUpperCase();
   }
   return "";
 };

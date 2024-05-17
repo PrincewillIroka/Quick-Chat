@@ -32,7 +32,17 @@ function ChatParticipants() {
         {participants.map((participant, index) => {
           const checkSameSender = isSameSender(participant, user);
           participant = checkSameSender ? user : participant;
-          const { name = "", photo = "", isChatBot = false } = participant;
+          const {
+            name = "",
+            photo = "",
+            isChatBot = false,
+            chatBotDetails = {},
+          } = participant;
+          const {
+            botPrompt = "",
+            isUserBot = false,
+            isSystemBot = false,
+          } = chatBotDetails;
 
           return (
             <div
@@ -59,8 +69,16 @@ function ChatParticipants() {
               )}
               <div className="chat-participant-col">
                 <span>{name}</span>
-                {checkSameSender && (
+                {checkSameSender ? (
                   <span className="chat-participant-you">(You)</span>
+                ) : isUserBot ? (
+                  <span className="chat-participant-you">{`(Bot) ${
+                    botPrompt ? `- ${botPrompt}` : ""
+                  }`}</span>
+                ) : isSystemBot ? (
+                  <span className="chat-participant-you">(System Bot)</span>
+                ) : (
+                  ""
                 )}
               </div>
               {isChatCreator && !isChatBot && !checkSameSender ? (
