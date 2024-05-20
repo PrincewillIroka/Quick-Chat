@@ -189,8 +189,7 @@ input:checked + .slider:before {
 .action-buttons {
   position: absolute;
   bottom: 0;
-  display: flex;
-  width: calc(100% - 40px);
+  right: 0;
 }
 
 .update-user-button {
