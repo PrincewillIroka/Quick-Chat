@@ -1,5 +1,4 @@
 .modal-conversation-body {
-  padding: 0 40px;
   margin-top: 40px;
   flex: 1;
   position: relative;
@@ -153,8 +152,7 @@ input:checked + .slider:before {
 .action-buttons {
   position: absolute;
   bottom: 0;
-  display: flex;
-  width: calc(100% - 40px);
+  right: 0;
 }
 
 .conversation-button {
